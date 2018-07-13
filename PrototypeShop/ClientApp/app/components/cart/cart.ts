@@ -33,24 +33,31 @@ export class Cart {
 
     }
 
-    public async addNewProduct(http: Http, baseUrl: string, requestProduct: Product) {
+    public async addProduct(http: Http, baseUrl: string, requestProduct: Product) {
         http.get(baseUrl + 'api/SampleData/GetProduct/' + requestProduct.id).subscribe(
             result => {
                 let newProduct = result.json() as Product;
                 newProduct.quantity = requestProduct.quantity;
                 this.products.push(newProduct);
+                this.total = this.calculateCartTotal();
             },
             error => console.error(error)
         )
-        this.total = this.calculateCartTotal();
     }
 
-    public addProduct(product: Product) {
+    private discardProduct(product: Product) {
+        let index: number = this.products.indexOf(product, 0);
+        if (index > -1) {
+            this.products.splice(index, 1);
+        }
+    }
+
+    public increaseProductQuantity(product: Product) {
         product.quantity++;
         this.total = this.calculateCartTotal();
     }
 
-    public removeProduct(product: Product) {
+    public decreaseProductQuantity(product: Product) {
         if (product.quantity == 1) {
             if (window.confirm(`Do you really want to discard ${product.name} (${product.id}) from your cart?`)) {
                 this.discardProduct(product);
@@ -59,12 +66,5 @@ export class Cart {
             product.quantity--;
         }
         this.total = this.calculateCartTotal();
-    }
-
-    private discardProduct(product: Product) {
-        let index: number = this.products.indexOf(product, 0);
-        if (index > -1) {
-            this.products.splice(index, 1);
-        }
     }
 }

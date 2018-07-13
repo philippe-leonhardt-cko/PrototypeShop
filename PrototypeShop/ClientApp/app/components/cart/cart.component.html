@@ -17,23 +17,23 @@
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td></td>
-                    <td class="text-right">{{ product.price | currency }}</td>
+                    <td class="text-right">{{ product.price / 100 | currency:'EUR':true }}</td>
                     <td *ngIf="!cart.editable" class="text-center">{{ product.quantity }}</td>
                     <td *ngIf="cart.editable" class="text-center">
                         <form class="form-inline">
                             <div class="input-group spinner">
-                                <button class="input-group-addon" (click)="cart.removeProduct(product)">-</button>
+                                <button class="input-group-addon" (click)="cart.decreaseProductQuantity(product)">-</button>
                                 <span class="input-group-addon">{{ product.quantity }}</span>
-                                <button class="input-group-addon" (click)="cart.addProduct(product)">+</button>
+                                <button class="input-group-addon" (click)="cart.increaseProductQuantity(product)">+</button>
                             </div>
                         </form>
                     </td>
-                    <td class="text-right">{{ product.price * product.quantity | currency }}</td>
+                    <td class="text-right">{{ product.price * product.quantity / 100 | currency:'EUR':true }}</td>
                 </tr>
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="6" class="text-right">{{ cart.total | currency }} Total</th>
+                    <th colspan="6" class="text-right">{{ cart.total / 100 | currency:'EUR':true }} Total</th>
                 </tr>
             </tfoot>
         </table>
