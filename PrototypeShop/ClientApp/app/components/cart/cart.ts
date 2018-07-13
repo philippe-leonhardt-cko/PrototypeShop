@@ -24,7 +24,6 @@ export class Cart {
         if (this.products.length < 1) {
             return 0;
         } else {
-            console.log(this.products);
             let prices = this.products.map(product => product.price);
             let quantities = this.products.map(product => product.quantity);
             let totals = prices.map((price, index) => price * quantities[index]);

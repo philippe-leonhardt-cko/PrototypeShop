@@ -14,12 +14,12 @@
             </thead>
             <tbody *ngIf="cart.products">
                 <tr *ngFor="let product of cart.products">
-                    <td>{{ product.id }}</td>
-                    <td>{{ product.name }}</td>
-                    <td></td>
-                    <td class="text-right">{{ product.price / 100 | currency:'EUR':true }}</td>
-                    <td *ngIf="!cart.editable" class="text-center">{{ product.quantity }}</td>
-                    <td *ngIf="cart.editable" class="text-center">
+                    <td style="vertical-align:middle">{{ product.id }}</td>
+                    <td style="vertical-align:middle">{{ product.name }}</td>
+                    <td class="text-center col-md-3" style="vertical-align:middle"><img src="#" style="max-width:60%" title="{{ product.name }} ({{ product.id }})" /></td>
+                    <td class="text-right" style="vertical-align:middle">{{ product.price / 100 | currency:'EUR':true }}</td>
+                    <td *ngIf="!cart.editable" class="text-center" style="vertical-align:middle">{{ product.quantity }}</td>
+                    <td *ngIf="cart.editable" class="text-center" style="vertical-align:middle">
                         <form class="form-inline">
                             <div class="input-group spinner">
                                 <button class="input-group-addon" (click)="cart.decreaseProductQuantity(product)">-</button>
@@ -28,7 +28,7 @@
                             </div>
                         </form>
                     </td>
-                    <td class="text-right">{{ product.price * product.quantity / 100 | currency:'EUR':true }}</td>
+                    <td class="text-right" style="vertical-align:middle">{{ product.price * product.quantity / 100 | currency:'EUR':true }}</td>
                 </tr>
             </tbody>
             <tfoot>

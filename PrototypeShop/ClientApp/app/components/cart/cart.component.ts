@@ -21,8 +21,8 @@ export class CartComponent {
     }
 
     private async addMockProductsAsync() {
-        this.cart.addProduct(this.http, this.baseUrl, new Product("100.200.300", 1));
-        this.cart.addProduct(this.http, this.baseUrl, new Product("010.500.200", 1));
-        this.cart.addProduct(this.http, this.baseUrl, new Product("500.000.100", 3));
+        this.cart.addProduct(this.http, this.baseUrl, new Product("100.100.023", 1));
+        this.cart.addProduct(this.http, this.baseUrl, new Product("200.090.070", 1));
+        this.cart.addProduct(this.http, this.baseUrl, new Product("300.250.011", 1));
     }
 }

@@ -9,44 +9,27 @@ namespace PrototypeShop.Controllers
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private static string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
         private static IEnumerable<Product> Products = new List<Product>
         {
             new Product()
             {
-                Id = "100.200.300",
+                Id = "100.100.023",
+                Name = "Watch",
+                Price = 24999
+            },
+            new Product()
+            {
+                Id = "200.090.070",
+                Name = "Wool Coat (brown)",
+                Price = 31995
+            },
+            new Product()
+            {
+                Id = "300.250.011",
                 Name = "Shoes",
-                Price = 14900
-            },
-            new Product()
-            {
-                Id = "010.500.200",
-                Name = "Wool Coat",
-                Price = 34999
-            },
-            new Product()
-            {
-                Id = "500.000.100",
-                Name = "White Shirt",
-                Price = 2466
+                Price = 17066
             }
         };
-
-        [HttpGet("[action]")]
-        public IEnumerable<WeatherForecast> WeatherForecasts()
-        {
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                DateFormatted = DateTime.Now.AddDays(index).ToString("d"),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            });
-        }
 
         [HttpGet("[action]/{id}")]
         public Product GetProduct(string id)
