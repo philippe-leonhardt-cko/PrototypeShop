@@ -14,17 +14,17 @@
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/cart']">
-                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart
+                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart ({{ cartTotal / 100 | currency:'EUR':true}})
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/customer']">
-                        <span class='glyphicon glyphicon-user'></span> Your Details
+                        <span class='glyphicon glyphicon-user'></span> {{ customerFullName || "Customer Details" }}
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/fetch-data']">
-                        <span class='glyphicon glyphicon-th-list'></span> Fetch data
+                        <span class='glyphicon glyphicon-gift'></span> Place Order
                     </a>
                 </li>
             </ul>

@@ -3,6 +3,8 @@ import { Customer } from '../customer/customer';
 import { Http, Response } from '@angular/http';
 import { Subscription } from 'rxjs/Subscription';
 import { Observable } from 'rxjs/Observable';
+import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
+import { Input } from '@angular/core';
 
 export class Cart {
     id: string;
@@ -10,6 +12,7 @@ export class Cart {
     products: Product[] = [];
     customer: Customer;
     total: number;
+    @Input() checkoutSummaryService: CheckoutSummaryService;
 
     constructor(editable?: boolean) {
         this.id = "1122334455";
@@ -27,12 +30,18 @@ export class Cart {
             let prices = this.products.map(product => product.price);
             let quantities = this.products.map(product => product.quantity);
             let totals = prices.map((price, index) => price * quantities[index]);
-            return totals.reduce((a, b) => a + b);
+            let total = totals.reduce((a, b) => a + b);
+            try {
+                this.checkoutSummaryService.updateCartTotal(total);
+            } catch (e) {
+
+            }
+            return total;
         }
 
     }
 
-    public async addProduct(http: Http, baseUrl: string, requestProduct: Product) {
+    public addProduct(http: Http, baseUrl: string, checkoutSummaryService: CheckoutSummaryService, requestProduct: Product) {
         http.get(baseUrl + 'api/SampleData/GetProduct/' + requestProduct.id).subscribe(
             result => {
                 let newProduct = result.json() as Product;

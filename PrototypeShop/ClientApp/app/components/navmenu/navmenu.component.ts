@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'nav-menu',
@@ -7,6 +7,8 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
     public shop: IShop;
+    @Input() cartTotal: number;
+    @Input() customerFullName: string;
 
     constructor() {
         this.shop = {

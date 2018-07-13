@@ -25,6 +25,7 @@
     <None Remove="ClientApp\app\components\cart\cart.ts" />
     <None Remove="ClientApp\app\components\customer\customer.ts" />
     <None Remove="ClientApp\app\components\product\product.ts" />
+    <None Remove="ClientApp\app\services\checkoutsummary.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +33,7 @@
     <TypeScriptCompile Include="ClientApp\app\components\cart\cart.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\customer\customer.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\product\product.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\checkoutsummary.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
