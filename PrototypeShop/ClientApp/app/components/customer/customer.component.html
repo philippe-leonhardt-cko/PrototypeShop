@@ -6,58 +6,77 @@
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label for="email">Your Email*</label>
-                        <input type="email" class="form-control" id="email" placeholder="your@email.com" required 
-                               (keyup)="customer.email=$event.target.value" />
+                        <input type="email" class="form-control" id="email" placeholder="your@email.com" required
+                               (keyup.enter)="customer.email=$event.target.value"
+                               (blur)="customer.email=$event.target.value " />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-5">
                         <label for="firstname">Your First Name*</label>
                         <input type="text" class="form-control" id="firstname" placeholder="John" required
-                               (keyup)="customer.firstName=$event.target.value" />
+                               (keyup.enter)="customer.firstName=$event.target.value"
+                               (blur)="customer.firstName=$event.target.value " />
                     </div>
                     <div class="col-md-7">
                         <label for="lastname">Your Last Name*</label>
                         <input type="text" class="form-control" id="lastname" placeholder="Doe" required
-                               (keyup)="customer.lastName=$event.target.value" />
+                               (keyup.enter)="customer.lastName=$event.target.value"
+                               (blur)="customer.lastName=$event.target.value" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-12">
                         <label for="companyname">Company Name</label>
-                        <input type="text" class="form-control" id="companyname" placeholder="Company Name" />
+                        <input type="text" class="form-control" id="companyname" placeholder="Company Name"
+                               (keyup.enter)="customer.billingAddress.companyName=$event.target.value"
+                               (blur)="customer.billingAddress.companyName=$event.target.value" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-8">
                         <label for="streetname">Street Name*</label>
-                        <input type="text" class="form-control" id="streetname" placeholder="Street Name" required />
+                        <input type="text" class="form-control" id="streetname" placeholder="Street Name" required
+                               (keyup.enter)="customer.billingAddress.streetName=$event.target.value"
+                               (blur)="customer.billingAddress.streetName=$event.target.value" />
                     </div>
                     <div class="col-md-4">
                         <label for="housenumber">House Number*</label>
-                        <input type="text" class="form-control" id="housenumber" placeholder="House Number" required />
+                        <input type="text" class="form-control" id="housenumber" placeholder="House Number" required
+                               (keyup.enter)="customer.billingAddress.houseNumber=$event.target.value"
+                               (blur)="customer.billingAddress.houseNumber=$event.target.value" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-4">
                         <label for="zip">ZIP*</label>
-                        <input type="text" class="form-control" id="zip" placeholder="ZIP" required />
+                        <input type="text" class="form-control" id="zip" placeholder="ZIP" required
+                               (keyup.enter)="customer.billingAddress.zip=$event.target.value"
+                               (blur)="customer.billingAddress.zip=$event.target.value" />
                     </div>
                     <div class="col-md-8">
                         <label for="city">City*</label>
-                        <input type="text" class="form-control" id="city" placeholder="City" required />
+                        <input type="text" class="form-control" id="city" placeholder="City" required
+                               (keyup.enter)="customer.billingAddress.city=$event.target.value"
+                               (blur)="customer.billingAddress.city=$event.target.value" />
                     </div>
                 </div>
                 <div class="form-group row">
                     <div class="col-md-8">
                         <label for="country">Country*</label>
-                        <input type="text" class="form-control" id="country" placeholder="Country" required />
+                        <input type="text" class="form-control" id="country" placeholder="Country" required
+                               (keyup.enter)="customer.billingAddress.country=$event.target.value"
+                               (blur)="customer.billingAddress.country=$event.target.value" />
                     </div>
                 </div>
             </form>
-            <div>
-                {{ customer.fullName }}
-            </div>
+            <p *ngIf="customer.email">{{ customer.email }}</p>
+            <p *ngIf="customer.firstName && customer.lastName">{{ customer.firstName }} {{ customer.lastName }}</p>
+            <br />
+            <p *ngIf="customer.billingAddress.companyName"><strong>{{ customer.billingAddress.companyName }}</strong></p>
+            <p *ngIf="customer.billingAddress.streetName && customer.billingAddress.houseNumber">{{ customer.billingAddress.streetName }} {{ customer.billingAddress.houseNumber }}</p>
+            <p *ngIf="customer.billingAddress.zip && customer.billingAddress.city">{{ customer.billingAddress.zip }} {{ customer.billingAddress.city }}</p>
+            <p *ngIf="customer.billingAddress.country">{{ customer.billingAddress.country | uppercase }}</p>
         </div>
     </div>
 </div>

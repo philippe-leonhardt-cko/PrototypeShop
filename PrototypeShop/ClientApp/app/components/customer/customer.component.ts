@@ -6,5 +6,5 @@ import { Customer } from './customer';
     templateUrl: './customer.component.html'
 })
 export class CustomerComponent {
-    public customer: Customer;
+    public customer: Customer = new Customer();
 }
