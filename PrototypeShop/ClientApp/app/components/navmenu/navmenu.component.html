@@ -14,7 +14,7 @@
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/cart']">
-                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart ({{ cartTotal / 100 | currency:'EUR':true}})
+                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart {{ cartTotal / 100 | currency:'EUR':true }}
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">

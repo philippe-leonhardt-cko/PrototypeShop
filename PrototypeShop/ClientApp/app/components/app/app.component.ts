@@ -8,8 +8,8 @@ import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
     providers: [ CheckoutSummaryService ]
 })
 export class AppComponent {
-    public cartTotal: number = 20000;
-    public customerFullName: string = 'Lieschen Meier';
+    public cartTotal: number|null;
+    public customerFullName: string|null;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) {
         checkoutSummaryService.cartTotal$.subscribe(

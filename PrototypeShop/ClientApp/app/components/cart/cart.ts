@@ -11,7 +11,7 @@ export class Cart {
     editable: boolean = false;
     products: Product[] = [];
     customer: Customer;
-    total: number;
+    total: number = 0;
     @Input() checkoutSummaryService: CheckoutSummaryService;
 
     constructor(editable?: boolean) {
