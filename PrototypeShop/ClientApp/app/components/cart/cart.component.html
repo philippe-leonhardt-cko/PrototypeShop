@@ -15,7 +15,7 @@
                 <tr *ngFor="let product of cart.products">
                     <td style="vertical-align:middle">{{ product.id }}</td>
                     <td style="vertical-align:middle">{{ product.name }}</td>
-                    <td class="text-center col-md-3" style="vertical-align:middle"><img src="#" style="max-width:60%" title="{{ product.name }} ({{ product.id }})" /></td>
+                    <td class="text-center col-md-3" style="vertical-align:middle"><img src="#" style="max-width:60%" title="{{ product.name }} ({{ product.id }})" alt="*" /></td>
                     <td class="text-right" style="vertical-align:middle">{{ product.price / 100 | currency:'EUR':true }}</td>
                     <td *ngIf="!cart.editable" class="text-center" style="vertical-align:middle">{{ product.quantity }}</td>
                     <td *ngIf="cart.editable" class="text-center" style="vertical-align:middle">
@@ -32,7 +32,7 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="6" class="text-right">{{ cart.total / 100 | currency:'EUR':true }} Total</th>
+                    <th colspan="6" class="text-right cart-total">{{ cart.total / 100 | currency:'EUR':true }}</th>
                 </tr>
             </tfoot>
         </table>

@@ -7,16 +7,18 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './components/app/app.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { FetchDataComponent } from './components/fetchdata/fetchdata.component';
+import { OrderComponent } from './components/order/order.component';
 import { CartComponent } from './components/cart/cart.component';
+import { CheckoutJsComponent } from './components/cko-js/cko-js.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         NavMenuComponent,
         CartComponent,
-        FetchDataComponent,
-        CustomerComponent
+        OrderComponent,
+        CustomerComponent,
+        CheckoutJsComponent
     ],
     imports: [
         CommonModule,
@@ -26,7 +28,7 @@ import { CartComponent } from './components/cart/cart.component';
             { path: '', redirectTo: 'home', pathMatch: 'full' },
             { path: 'customer', component: CustomerComponent },
             { path: 'cart', component: CartComponent },
-            { path: 'fetch-data', component: FetchDataComponent },
+            { path: 'order', component: OrderComponent },
             { path: '**', redirectTo: 'home' }
         ])
     ]

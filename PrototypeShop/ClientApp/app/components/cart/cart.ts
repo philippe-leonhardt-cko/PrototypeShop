@@ -12,9 +12,8 @@ export class Cart {
     products: Product[] = [];
     customer: Customer;
     total: number = 0;
-    @Input() checkoutSummaryService: CheckoutSummaryService;
 
-    constructor(editable?: boolean) {
+    constructor(private checkoutSummaryService: CheckoutSummaryService, editable?: boolean) {
         this.id = "1122334455";
         this.customer = new Customer();
         this.total = this.calculateCartTotal();
@@ -24,21 +23,23 @@ export class Cart {
     }
 
     private calculateCartTotal(): number {
+        let cartTotal: number;
         if (this.products.length < 1) {
-            return 0;
+            cartTotal = 0;
         } else {
             let prices = this.products.map(product => product.price);
             let quantities = this.products.map(product => product.quantity);
             let totals = prices.map((price, index) => price * quantities[index]);
-            let total = totals.reduce((a, b) => a + b);
-            try {
-                this.checkoutSummaryService.updateCartTotal(total);
-            } catch (e) {
+            cartTotal = totals.reduce((a, b) => a + b);
 
-            }
-            return total;
         }
-
+        try {
+            this.checkoutSummaryService.updateCartTotal(cartTotal);
+        } catch (e) {
+            console.log(e);
+        }
+        
+        return cartTotal;
     }
 
     public addProduct(http: Http, baseUrl: string, checkoutSummaryService: CheckoutSummaryService, requestProduct: Product) {

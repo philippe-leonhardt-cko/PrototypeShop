@@ -7,18 +7,23 @@ import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 
 @Component({
     selector: 'cart',
-    templateUrl: './cart.component.html'
+    templateUrl: './cart.component.html',
+    styleUrls: ['./cart.component.css']
 })
 
 export class CartComponent {
-    public cart: Cart = new Cart(true);
+    public cart: Cart;
     private http: Http;
     private baseUrl: string;
+    public isEditable: boolean = true;
 
     constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
+        this.cart = this.cart || new Cart(this.checkoutSummaryService, this.isEditable);
         this.http = http;
         this.baseUrl = baseUrl;
-        this.addMockProductsAsync();
+        if (this.cart.products.length < 1) {
+            this.addMockProductsAsync();
+        }
     }
 
     private addProduct(product: Product) {
