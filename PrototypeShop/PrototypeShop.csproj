@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Checkout.APIClient" Version="2.2.4" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
 
@@ -23,6 +24,7 @@
   <ItemGroup>
     <None Remove="ClientApp\app\components\address\address.ts" />
     <None Remove="ClientApp\app\components\cart\cart.ts" />
+    <None Remove="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <None Remove="ClientApp\app\components\customer\customer.ts" />
     <None Remove="ClientApp\app\components\product\product.ts" />
     <None Remove="ClientApp\app\services\checkoutsummary.service.ts" />
@@ -31,6 +33,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\address\address.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cart\cart.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\customer\customer.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\product\product.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\checkoutsummary.service.ts" />
