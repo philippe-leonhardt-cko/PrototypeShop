@@ -1,19 +1,42 @@
 ﻿import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, ReplaySubject } from 'rxjs';
+import { Cart } from '../components/cart/cart';
 
 @Injectable()
 export class CheckoutSummaryService {
-    private cartTotalSource = new Subject<number>();
-    private customerFullNameSource = new Subject<string>();
+    // Subjects
+    private cartSource = new ReplaySubject<Cart>();
 
-    cartTotal$ = this.cartTotalSource.asObservable();
-    customerFullName$ = this.customerFullNameSource.asObservable();
+    private cartCurrencySource = new Subject<string>();
 
-    updateCartTotal(cartTotal: number) {
-        this.cartTotalSource.next(cartTotal);
+    private customerEmailSource = new Subject<string>();
+
+    private paymentTokenSource = new ReplaySubject<string>();
+
+    // Observables
+    cart$ = this.cartSource.asObservable();
+
+    cartCurrency$ = this.cartCurrencySource.asObservable();
+
+    customerEmail$ = this.customerEmailSource.asObservable();
+
+    paymentToken$ = this.paymentTokenSource.asObservable();
+
+    // Methods
+    setCart(cart: Cart) {
+        this.cartSource.next(cart);
+        console.log('New Cart created\n', cart);
     }
 
-    updateCustomerFullName(customerFullName: string) {
-        this.customerFullNameSource.next(customerFullName);
+    updateCartCurrency(cartCurrency: string) {
+        this.cartCurrencySource.next(cartCurrency);
+    }
+
+    updateCustomerEmail(customerEmail: string) {
+        this.customerEmailSource.next(customerEmail);
+    }
+
+    updatePaymentToken(paymentToken: string) {
+        this.paymentTokenSource.next(paymentToken);
     }
 }

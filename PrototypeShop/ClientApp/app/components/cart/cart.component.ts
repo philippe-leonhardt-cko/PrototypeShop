@@ -1,8 +1,7 @@
-import { Component, Inject } from '@angular/core';
-import { Http } from '@angular/http';
-import { Cart } from './cart';
-import { Product } from '../product/product';
+import { Component, Input, Inject, OnDestroy } from '@angular/core';
+import { Http, RequestOptions, Headers } from '@angular/http';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
+import { Cart } from '../cart/cart';
 
 
 @Component({
@@ -11,28 +10,38 @@ import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
     styleUrls: ['./cart.component.css']
 })
 
-export class CartComponent {
-    public cart: Cart;
-    private http: Http;
-    private baseUrl: string;
-    public isEditable: boolean = true;
+export class CartComponent implements OnDestroy {
+    public cart: Cart | undefined;
+    @Input() isSummary: boolean = true;
 
-    constructor(http: Http, @Inject('BASE_URL') baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
-        this.cart = this.cart || new Cart(this.checkoutSummaryService, this.isEditable);
-        this.http = http;
-        this.baseUrl = baseUrl;
-        if (this.cart.products.length < 1) {
-            this.addMockProductsAsync();
+    constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
+        this.makeSubscriptions();
+    }
+
+    ngOnDestroy() {
+        let cart = this.cart as Cart
+        let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+        let requestOptions: RequestOptions = new RequestOptions();
+        requestOptions.headers = headers;
+        let payload = {
+            "value": cart.total,
+            "currency": cart.currency
         }
+        this.http.post(this.baseUrl + 'api/Checkout/GetPaymentToken', payload, requestOptions).subscribe(
+            result => {
+                let paymentToken = result.text() as string;
+                console.log(paymentToken);
+                this.checkoutSummaryService.updatePaymentToken(paymentToken);
+            },
+            error => console.error(error)
+        );
     }
 
-    private addProduct(product: Product) {
-        this.cart.addProduct(this.http, this.baseUrl, this.checkoutSummaryService, product);
-    }
-
-    private async addMockProductsAsync() {
-        this.addProduct(new Product("100.100.023", 1));
-        this.addProduct(new Product("200.090.070", 1));
-        this.addProduct(new Product("300.250.011", 1));
+    private makeSubscriptions() {
+        this.checkoutSummaryService.cart$.subscribe(
+            cart => {
+                this.cart = cart;
+            }
+        )
     }
 }
