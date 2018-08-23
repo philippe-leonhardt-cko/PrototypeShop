@@ -10,6 +10,7 @@ import { CustomerComponent } from './components/customer/customer.component';
 import { OrderComponent } from './components/order/order.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CheckoutJsComponent } from './components/cko-js/cko-js.component';
+import { SummaryDirective } from './directives/summary.directive';
 
 @NgModule({
     declarations: [
@@ -18,20 +19,22 @@ import { CheckoutJsComponent } from './components/cko-js/cko-js.component';
         CartComponent,
         OrderComponent,
         CustomerComponent,
-        CheckoutJsComponent
+        CheckoutJsComponent,
+        SummaryDirective
     ],
     imports: [
         CommonModule,
         HttpModule,
         FormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: 'home', pathMatch: 'full' },
-            { path: 'customer', component: CustomerComponent },
+            { path: '', redirectTo: 'cart', pathMatch: 'full' },
             { path: 'cart', component: CartComponent },
+            { path: 'customer', component: CustomerComponent },
             { path: 'order', component: OrderComponent },
-            { path: '**', redirectTo: 'home' }
+            { path: '**', redirectTo: 'cart' }
         ])
-    ]
+    ],
+    exports: [SummaryDirective]
 })
 export class AppModuleShared {
 }
