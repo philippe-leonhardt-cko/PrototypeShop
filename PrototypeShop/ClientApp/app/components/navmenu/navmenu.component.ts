@@ -8,11 +8,10 @@ import { Component, Input } from '@angular/core';
 export class NavMenuComponent {
     public shop: IShop;
     @Input() cartTotal: number;
-    @Input() customerFullName: string;
 
     constructor() {
         this.shop = {
-            name: "Best Secret"
+            name: "Checkout.com Shop"
         } as IShop;
     }
 }
