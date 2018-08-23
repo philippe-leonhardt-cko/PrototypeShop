@@ -1,9 +1,23 @@
 <div class="container-fluid">
     <div class="col-md-6">
-        <cart class="col-md-12"></cart>
-        <customer class="col-md-12"></customer>
+        <cart class="col-md-12" [isSummary]="isSummary"></cart>
+        <customer class="col-md-12" [isSummary]="isSummary"></customer>
     </div>
     <div class="col-md-6">
-        <cko-js></cko-js>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">Payment Solution</h4>
+            </div>
+            <div class="panel-body">
+                <ul class="nav nav-tabs">
+                    <li role="presentation"><a href="#">Frames</a></li>
+                    <li role="presentation" class="active"><a href="#">Checkout.js</a></li>
+                </ul>
+                <br />
+                <div class="well">
+                    <cko-js></cko-js>
+                </div>
+            </div>
+        </div>
     </div>    
 </div>
