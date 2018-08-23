@@ -14,20 +14,20 @@ namespace PrototypeShop.Controllers
             new Product()
             {
                 Id = "100.100.023",
-                Name = "Watch",
+                Name = "Microscope",
                 Price = 24999
             },
             new Product()
             {
                 Id = "200.090.070",
-                Name = "Wool Coat (brown)",
-                Price = 31995
+                Name = "Swiss Knife",
+                Price = 3595
             },
             new Product()
             {
                 Id = "300.250.011",
-                Name = "Shoes",
-                Price = 17066
+                Name = "Wooden Puzzle",
+                Price = 1466
             }
         };
 

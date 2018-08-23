@@ -35,6 +35,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\assets\img\100.100.023.jpg" />
+    <None Include="wwwroot\assets\img\200.090.070.jpg" />
+    <None Include="wwwroot\assets\img\300.250.011.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="ClientApp\app\components\address\BaseAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\address\BillingAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\address\ShippingAddress.ts" />
