@@ -23,12 +23,12 @@ namespace PrototypeShop.Controllers
         ApiClientAsync CheckoutClient = new ApiClientAsync(configuration);
 
         [HttpPost("[action]")]
-        public async Task<string> GetPaymentToken([FromBody] string value)
+        public async Task<string> GetPaymentToken([FromBody] Cart cart)
         {
             PaymentTokenCreate paymentTokenCreate = new PaymentTokenCreate()
             {
-                Value = "300",
-                Currency = "GBP",
+                Value = cart.Value,
+                Currency = cart.Currency,
                 TrackId = Guid.NewGuid().ToString(),
                 SuccessUrl = "https://www.checkout.com/checkout?order=success",
                 FailUrl = "https://www.checkout.com/checkout?order=fail"
@@ -37,5 +37,11 @@ namespace PrototypeShop.Controllers
             PaymentToken paymentToken = paymentTokenResponse.Model;
             return paymentToken.Id;
         }
+    }
+
+    public class Cart
+    {
+        public string Value { get; set; }
+        public string Currency { get; set; }
     }
 }
