@@ -22,21 +22,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\app\components\address\address.ts" />
+    <None Remove="ClientApp\app\components\address\BaseAddress.ts" />
+    <None Remove="ClientApp\app\components\address\BillingAddress.ts" />
+    <None Remove="ClientApp\app\components\address\ShippingAddress.ts" />
     <None Remove="ClientApp\app\components\cart\cart.ts" />
     <None Remove="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <None Remove="ClientApp\app\components\customer\customer.ts" />
     <None Remove="ClientApp\app\components\product\product.ts" />
+    <None Remove="ClientApp\app\directives\summary.directive.ts" />
     <None Remove="ClientApp\app\services\checkoutsummary.service.ts" />
+    <None Remove="ClientApp\app\services\dynamicscriptloader.service.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\app\components\address\address.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\address\BaseAddress.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\address\BillingAddress.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\address\ShippingAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cart\cart.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\customer\customer.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\product\product.ts" />
+    <TypeScriptCompile Include="ClientApp\app\directives\summary.directive.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\checkoutsummary.service.ts" />
+    <TypeScriptCompile Include="ClientApp\app\services\dynamicscriptloader.service.ts" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
