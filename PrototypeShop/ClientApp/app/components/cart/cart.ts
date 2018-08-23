@@ -1,25 +1,30 @@
 ﻿import { Product } from '../product/product';
 import { Customer } from '../customer/customer';
-import { Http, Response } from '@angular/http';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Http } from '@angular/http';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
-import { Input } from '@angular/core';
 
 export class Cart {
-    id: string;
-    editable: boolean = false;
-    products: Product[] = [];
-    customer: Customer;
-    total: number = 0;
+    public id: string;
+    public products: Product[] = [];
+    public customer: Customer;
+    public currency: string = 'GBP';
+    public total: number = 0;
 
-    constructor(private checkoutSummaryService: CheckoutSummaryService, editable?: boolean) {
-        this.id = "1122334455";
-        this.customer = new Customer();
+
+    constructor(private checkoutSummaryService: CheckoutSummaryService) {
+        this.id = '12345';
+        this.customer = this.customer || new Customer(this.checkoutSummaryService);
+        this.currency = this.updateCartCurrency(this.currency);
         this.total = this.calculateCartTotal();
-        if (editable) {
-            this.editable = editable;
+    }
+
+    private updateCartCurrency(currency: string): string {
+        try {
+            this.checkoutSummaryService.updateCartCurrency(currency);
+        } catch (e) {
+            console.log(e);
         }
+        return currency;
     }
 
     private calculateCartTotal(): number {
@@ -32,13 +37,7 @@ export class Cart {
             let totals = prices.map((price, index) => price * quantities[index]);
             cartTotal = totals.reduce((a, b) => a + b);
 
-        }
-        try {
-            this.checkoutSummaryService.updateCartTotal(cartTotal);
-        } catch (e) {
-            console.log(e);
-        }
-        
+        }        
         return cartTotal;
     }
 
