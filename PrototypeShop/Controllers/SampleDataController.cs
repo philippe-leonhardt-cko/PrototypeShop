@@ -20,7 +20,7 @@ namespace PrototypeShop.Controllers
             new Product()
             {
                 Id = "200.090.070",
-                Name = "Swiss Knife",
+                Name = "Swiss Pocket Knife",
                 Price = 3595
             },
             new Product()

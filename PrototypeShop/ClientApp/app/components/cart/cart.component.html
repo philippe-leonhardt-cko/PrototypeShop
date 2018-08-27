@@ -22,7 +22,7 @@
                                 <td style="vertical-align:middle">{{ product.id }}</td>
                                 <td style="vertical-align:middle">{{ product.name }}</td>
                                 <td class="text-center col-md-3" style="vertical-align:middle">
-                                    <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-width:70%"/>
+                                    <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-width:80%; max-height:20%"/>
                                 </td>
                                 <td class="text-right" style="vertical-align:middle">{{ product.price / 100 | currency:'EUR':true }}</td>
                                 <td *ngIf="!isSummary" class="text-center" style="vertical-align:middle"><span class="badge">{{ product.quantity }}</span></td>
@@ -47,6 +47,13 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div *ngIf="isSummary" class="col-md-12">
+        <ul *ngIf="true" class="pager">
+            <li>
+                <a [routerLink]="['/customer']"><div class="glyphicon glyphicon-menu-right"></div></a>
+            </li>
+        </ul>
     </div>
 </div>
 
