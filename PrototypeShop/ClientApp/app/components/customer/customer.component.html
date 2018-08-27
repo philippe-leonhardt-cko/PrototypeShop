@@ -1,166 +1,172 @@
 <div class="container-fluid">
-        <div *ngIf="isSummary" class="col-md-12">
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Billing Details</h4>
-                    </div>
-                    <div class="panel-body">
-                        <form>
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="email">Email*</label>
-                                    <input type="email" class="form-control" id="email" placeholder="your@email.com" value="{{ customer.email }}" required
-                                           (keyup.enter)="customer.email=$event.target.value"
-                                           (blur)="customer.email=$event.target.value " />
-                                </div>
+    <div *ngIf="isSummary" class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Billing Details</h4>
+                </div>
+                <div class="panel-body">
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="email">Email*</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="your@email.com" value="{{ customer.email }}" required
+                                       [(ngModel)]="customer.email"
+                                       #email="ngModel" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-5">
-                                    <label for="firstname">First Name*</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="John" value="{{ customer.firstName }}" required
-                                           (keyup.enter)="customer.firstName=$event.target.value"
-                                           (blur)="customer.firstName=$event.target.value " />
-                                </div>
-                                <div class="col-md-7">
-                                    <label for="lastname">Last Name*</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Doe" value="{{ customer.lastName }}" required
-                                           (keyup.enter)="customer.lastName=$event.target.value"
-                                           (blur)="customer.lastName=$event.target.value" />
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <label for="firstname">First Name*</label>
+                                <input type="text" class="form-control" id="firstname" name="firstname" placeholder="John" value="{{ customer.firstName }}" required
+                                       [(ngModel)]="customer._firstName"
+                                       #firstName="ngModel"/>
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="companyname">Company Name</label>
-                                    <input type="text" class="form-control" id="companyname" placeholder="Company Name" value="{{ customer.billingAddress.companyName }}"
-                                           (keyup.enter)="customer.billingAddress.companyName=$event.target.value"
-                                           (blur)="customer.billingAddress.companyName=$event.target.value" />
-                                </div>
+                            <div class="col-md-7">
+                                <label for="lastname">Last Name*</label>
+                                <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Doe" value="{{ customer.lastName }}" required
+                                       [(ngModel)]="customer.lastName"
+                                       #lastName="ngModel" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-8">
-                                    <label for="streetname">Street Name*</label>
-                                    <input type="text" class="form-control" id="streetname" placeholder="Street Name" value="{{ customer.billingAddress.streetName }}" required
-                                           (keyup.enter)="customer.billingAddress.streetName=$event.target.value"
-                                           (blur)="customer.billingAddress.streetName=$event.target.value" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="housenumber">House Number*</label>
-                                    <input type="text" class="form-control" id="housenumber" placeholder="House Number" value="{{ customer.billingAddress.houseNumber }}" required
-                                           (keyup.enter)="customer.billingAddress.houseNumber=$event.target.value"
-                                           (blur)="customer.billingAddress.houseNumber=$event.target.value" />
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-12">
+                                <label for="companyname">Company Name</label>
+                                <input type="text" class="form-control" id="companyname" name="companyname" placeholder="Company Name" value="{{ customer.billingAddress.companyName }}"
+                                       [(ngModel)]="customer.billingAddress.companyName"
+                                       #companyName="ngModel" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="zip">ZIP*</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="ZIP" value="{{ customer.billingAddress.zip }}" required
-                                           (keyup.enter)="customer.billingAddress.zip=$event.target.value"
-                                           (blur)="customer.billingAddress.zip=$event.target.value" />
-                                </div>
-                                <div class="col-md-8">
-                                    <label for="city">City*</label>
-                                    <input type="text" class="form-control" id="city" placeholder="City" value="{{ customer.billingAddress.city }}" required
-                                           (keyup.enter)="customer.billingAddress.city=$event.target.value"
-                                           (blur)="customer.billingAddress.city=$event.target.value" />
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <label for="streetname">Street Name*</label>
+                                <input type="text" class="form-control" id="streetname" name="streetname" placeholder="Street Name" value="{{ customer.billingAddress.streetName }}" required
+                                       [(ngModel)]="customer.billingAddress.streetName"
+                                       #streetName="ngModel" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-8">
-                                    <label for="country">Country*</label>
-                                    <input type="text" class="form-control" id="country" placeholder="Country" value="{{ customer.billingAddress.country }}" required
-                                           (keyup.enter)="customer.billingAddress.country=$event.target.value"
-                                           (blur)="customer.billingAddress.country=$event.target.value" />
-                                </div>
+                            <div class="col-md-4">
+                                <label for="housenumber">House Number*</label>
+                                <input type="text" class="form-control" id="housenumber" name="housenumber" placeholder="House Number" value="{{ customer.billingAddress.houseNumber }}" required
+                                       [(ngModel)]="customer.billingAddress.houseNumber"
+                                       #houseNumber="ngModel" />
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="zip">ZIP*</label>
+                                <input type="text" class="form-control" id="zip" name="zip" placeholder="ZIP" value="{{ customer.billingAddress.zip }}" required
+                                       [(ngModel)]="customer.billingAddress.zip"
+                                       #zip="ngModel"/>
+                            </div>
+                            <div class="col-md-8">
+                                <label for="city">City*</label>
+                                <input type="text" class="form-control" id="city" name="city" placeholder="City" value="{{ customer.billingAddress.city }}" required
+                                       [(ngModel)]="customer.billingAddress.city"
+                                       #city="ngModel"/>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <label for="country">Country*</label>
+                                <input type="text" class="form-control" id="country" name="country" placeholder="Country" value="{{ customer.billingAddress.country }}" required
+                                       [(ngModel)]="customer.billingAddress.country"
+                                       #country="ngModel"/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h4 class="panel-title">Shipping Address</h4>
-                    </div>
-                    <div *ngIf="customer.shippingToBillingAddress" class="panel-body">
-                        <p class="badge">Shipping to Billing Address</p>
-                        <br />
-                        <button class="btn btn-info" (click)="customer.shippingToBillingAddress=false" title="Add additional Shipping Address&#013;in case it is different from the Billing Address.">Add Shipping Address</button>
-                    </div>
-                    <div *ngIf="!customer.shippingToBillingAddress" class="panel-body">
-                        <form>
-                            <div class="form-group row">
-                                <div class="col-md-5">
-                                    <label for="firstname">First Name*</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="John" value="{{ customer.shippingAddress.firstName }}" required
-                                           (keyup.enter)="customer.shippingAddress.firstName=$event.target.value"
-                                           (blur)="customer.shippingAddress.firstName=$event.target.value " />
-                                </div>
-                                <div class="col-md-7">
-                                    <label for="lastname">Last Name*</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Doe" value="{{ customer.shippingAddress.lastName }}" required
-                                           (keyup.enter)="customer.shippingAddress.lastName=$event.target.value"
-                                           (blur)="customer.shippingAddress.lastName=$event.target.value" />
-                                </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Shipping Address</h4>
+                </div>
+                <div *ngIf="customer.shippingToBillingAddress" class="panel-body">
+                    <p class="badge">Shipping to Billing Address</p>
+                    <br />
+                    <button class="btn btn-info" (click)="customer.shippingToBillingAddress=false" title="Add additional Shipping Address&#013;in case it is different from the Billing Address.">Add Shipping Address</button>
+                </div>
+                <div *ngIf="!customer.shippingToBillingAddress" class="panel-body">
+                    <form>
+                        <div class="form-group row">
+                            <div class="col-md-5">
+                                <label for="firstname">First Name*</label>
+                                <input type="text" class="form-control" id="firstname" placeholder="John" value="{{ customer.shippingAddress.firstName }}" required
+                                       (keyup.enter)="customer.shippingAddress.firstName=$event.target.value"
+                                       (blur)="customer.shippingAddress.firstName=$event.target.value " />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-12">
-                                    <label for="companyname">Company Name</label>
-                                    <input type="text" class="form-control" id="companyname" placeholder="Company Name" value="{{ customer.shippingAddress.companyName }}"
-                                           (keyup.enter)="customer.shippingAddress.companyName=$event.target.value"
-                                           (blur)="customer.shippingAddress.companyName=$event.target.value" />
-                                </div>
+                            <div class="col-md-7">
+                                <label for="lastname">Last Name*</label>
+                                <input type="text" class="form-control" id="lastname" placeholder="Doe" value="{{ customer.shippingAddress.lastName }}" required
+                                       (keyup.enter)="customer.shippingAddress.lastName=$event.target.value"
+                                       (blur)="customer.shippingAddress.lastName=$event.target.value" />
                             </div>
-                            <div class="form-group row">
-                                <div class="col-md-8">
-                                    <label for="streetname">Street Name*</label>
-                                    <input type="text" class="form-control" id="streetname" placeholder="Street Name" value="{{ customer.shippingAddress.streetName }}" required
-                                           (keyup.enter)="customer.shippingAddress.streetName=$event.target.value"
-                                           (blur)="customer.shippingAddress.streetName=$event.target.value" />
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="housenumber">House Number*</label>
-                                    <input type="text" class="form-control" id="housenumber" placeholder="House Number" value="{{ customer.shippingAddress.houseNumber }}" required
-                                           (keyup.enter)="customer.shippingAddress.houseNumber=$event.target.value"
-                                           (blur)="customer.shippingAddress.houseNumber=$event.target.value" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4">
-                                    <label for="zip">ZIP*</label>
-                                    <input type="text" class="form-control" id="zip" placeholder="ZIP" value="{{ customer.shippingAddress.zip }}" required
-                                           (keyup.enter)="customer.shippingAddress.zip=$event.target.value"
-                                           (blur)="customer.shippingAddress.zip=$event.target.value" />
-                                </div>
-                                <div class="col-md-8">
-                                    <label for="city">City*</label>
-                                    <input type="text" class="form-control" id="city" placeholder="City" value="{{ customer.shippingAddress.city }}" required
-                                           (keyup.enter)="customer.shippingAddress.city=$event.target.value"
-                                           (blur)="customer.shippingAddress.city=$event.target.value" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-8">
-                                    <label for="country">Country*</label>
-                                    <input type="text" class="form-control" id="country" placeholder="Country" value="{{ customer.shippingAddress.country }}" required
-                                           (keyup.enter)="customer.shippingAddress.country=$event.target.value"
-                                           (blur)="customer.shippingAddress.country=$event.target.value" />
-                                </div>
-                            </div>
-                        </form>
-                        <br />
-                        <br />
-                        <div class="row">
+                        </div>
+                        <div class="form-group row">
                             <div class="col-md-12">
-                                <button class="btn btn-danger" (click)="customer.shippingToBillingAddress=true" title="Remove additional Shipping Address.&#013;Ship to Billing Address instead.">
-                                    <div class="glyphicon glyphicon-trash"></div>
-                                </button>
+                                <label for="companyname">Company Name</label>
+                                <input type="text" class="form-control" id="companyname" placeholder="Company Name" value="{{ customer.shippingAddress.companyName }}"
+                                       (keyup.enter)="customer.shippingAddress.companyName=$event.target.value"
+                                       (blur)="customer.shippingAddress.companyName=$event.target.value" />
                             </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <label for="streetname">Street Name*</label>
+                                <input type="text" class="form-control" id="streetname" placeholder="Street Name" value="{{ customer.shippingAddress.streetName }}" required
+                                       (keyup.enter)="customer.shippingAddress.streetName=$event.target.value"
+                                       (blur)="customer.shippingAddress.streetName=$event.target.value" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="housenumber">House Number*</label>
+                                <input type="text" class="form-control" id="housenumber" placeholder="House Number" value="{{ customer.shippingAddress.houseNumber }}" required
+                                       (keyup.enter)="customer.shippingAddress.houseNumber=$event.target.value"
+                                       (blur)="customer.shippingAddress.houseNumber=$event.target.value" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-4">
+                                <label for="zip">ZIP*</label>
+                                <input type="text" class="form-control" id="zip" placeholder="ZIP" value="{{ customer.shippingAddress.zip }}" required
+                                       (keyup.enter)="customer.shippingAddress.zip=$event.target.value"
+                                       (blur)="customer.shippingAddress.zip=$event.target.value" />
+                            </div>
+                            <div class="col-md-8">
+                                <label for="city">City*</label>
+                                <input type="text" class="form-control" id="city" placeholder="City" value="{{ customer.shippingAddress.city }}" required
+                                       (keyup.enter)="customer.shippingAddress.city=$event.target.value"
+                                       (blur)="customer.shippingAddress.city=$event.target.value" />
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <div class="col-md-8">
+                                <label for="country">Country*</label>
+                                <input type="text" class="form-control" id="country" placeholder="Country" value="{{ customer.shippingAddress.country }}" required
+                                       (keyup.enter)="customer.shippingAddress.country=$event.target.value"
+                                       (blur)="customer.shippingAddress.country=$event.target.value" />
+                            </div>
+                        </div>
+                    </form>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button class="btn btn-danger" (click)="customer.shippingToBillingAddress=true" title="Remove additional Shipping Address.&#013;Ship to Billing Address instead.">
+                                <div class="glyphicon glyphicon-trash"></div>
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <ul class="pager">
+                <li><a [routerLink]="['/cart']"><div class="glyphicon glyphicon-menu-left"></div></a></li>
+                <li><a [routerLink]="['/order']"><div class="glyphicon glyphicon-menu-right"></div></a></li>
+            </ul>
+        </div>
+    </div>
         <div *ngIf="!isSummary" class="col-md-12">
             <div class="col-md-6">
                 <div class="panel panel-default">
