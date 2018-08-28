@@ -19,7 +19,6 @@ export class CheckoutJsComponent implements OnDestroy {
 
     constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private checkoutSummaryService: CheckoutSummaryService) {
         this.loadResources();
-
     }
 
     ngOnDestroy() {
@@ -51,10 +50,8 @@ export class CheckoutJsComponent implements OnDestroy {
         let paymentTokenSubscription = await this.checkoutSummaryService.paymentToken$.subscribe(
             paymentToken => {
                 this.paymentToken = paymentToken;
-                console.log('Got token', this.paymentToken);
             }
         );
-
         this.subscriptions.push(cartSubscription, paymentTokenSubscription);
     }
 
@@ -73,6 +70,4 @@ export class CheckoutJsComponent implements OnDestroy {
             }
         });
     }
-
-
 }
