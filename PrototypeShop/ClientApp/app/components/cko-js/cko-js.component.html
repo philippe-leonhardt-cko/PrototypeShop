@@ -3,7 +3,7 @@
         <div class="col-md-12">
             <ul class="list-group">
                 <li class="list-group-item">
-                    <span class="badge">{{ cart.total / 100 | currency:'EUR':true }}</span>
+                    <span class="badge">{{ cart.total / 100 | currency:cart.currency:true }}</span>
                     Shopping Cart Total
                 </li>
                 <li class="list-group-item">

@@ -7,4 +7,5 @@ import { Component, Input } from '@angular/core';
 })
 export class NavMenuComponent {
     @Input() cartTotal: number;
+    @Input() cartCurrency: string;
 }

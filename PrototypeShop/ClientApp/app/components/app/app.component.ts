@@ -14,7 +14,8 @@ import { Product } from '../product/product';
 export class AppComponent implements OnInit {
     private cart: Cart = new Cart(this.checkoutSummaryService);
 
-    public cartTotal: number | null;
+    public cartTotal: number | undefined;
+    public cartCurrency: string | undefined;
 
     private  mockupProducts: Product[] = [
         new Product("100.100.023", 1),
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit {
         checkoutSummaryService.cart$.subscribe(
             cart => {
                 this.cartTotal = cart.total;
+                this.cartCurrency = cart.currency;
             }
         );
     }
