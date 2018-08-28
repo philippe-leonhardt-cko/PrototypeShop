@@ -26,6 +26,7 @@
     <None Remove="ClientApp\app\components\address\BillingAddress.ts" />
     <None Remove="ClientApp\app\components\address\ShippingAddress.ts" />
     <None Remove="ClientApp\app\components\cart\cart.ts" />
+    <None Remove="ClientApp\app\components\cko-frames\cko-frames.component.ts" />
     <None Remove="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <None Remove="ClientApp\app\components\customer\customer.ts" />
     <None Remove="ClientApp\app\components\product\product.ts" />
@@ -45,6 +46,7 @@
     <TypeScriptCompile Include="ClientApp\app\components\address\BillingAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\address\ShippingAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cart\cart.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\cko-frames\cko-frames.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-js\cko-js.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\customer\customer.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\product\product.ts" />

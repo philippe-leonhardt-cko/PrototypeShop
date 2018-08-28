@@ -11,6 +11,7 @@ import { CustomerSummaryComponent } from './components/customer/customerSummary.
 import { OrderComponent } from './components/order/order.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CheckoutJsComponent } from './components/cko-js/cko-js.component';
+import { CheckoutFramesComponent } from './components/cko-frames/cko-frames.component';
 import { SummaryDirective } from './directives/summary.directive';
 
 @NgModule({
@@ -22,6 +23,7 @@ import { SummaryDirective } from './directives/summary.directive';
         CustomerComponent,
         CustomerSummaryComponent,
         CheckoutJsComponent,
+        CheckoutFramesComponent,
         SummaryDirective
     ],
     imports: [

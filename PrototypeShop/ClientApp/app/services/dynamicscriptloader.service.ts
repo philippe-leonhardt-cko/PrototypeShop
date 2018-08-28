@@ -6,7 +6,8 @@ interface Scripts {
 }
 
 export const ScriptStore: Scripts[] = [
-    { name: 'checkout.js', src: 'https://cdn.checkout.com/sandbox/js/checkout.js' }
+    { name: 'checkout.js', src: 'https://cdn.checkout.com/sandbox/js/checkout.js' },
+    { name: 'frames', src: 'https://cdn.checkout.com/js/frames.js' }
 ];
 
 declare var document: any;
