@@ -4,10 +4,17 @@ import { ShippingAddress } from '../address/ShippingAddress';
 
 export class Customer {
     private _shippingToBillingAddress: boolean = true;
+    private _billingAddress: BillingAddress = new BillingAddress();
+    private _shippingAddress: ShippingAddress = new ShippingAddress();
 
-    constructor(private checkoutSummaryService: CheckoutSummaryService, private _email?: string, private _firstName?: string, private _lastName?: string, private _billingAddress?: BillingAddress, private _shippingAddress?: ShippingAddress) {
-        this.billingAddress = new BillingAddress();
-        this.shippingAddress = new ShippingAddress();
+
+    constructor(private checkoutSummaryService: CheckoutSummaryService, private _email?: string, billingAddress?: BillingAddress, shippingAddress?: ShippingAddress) {
+        if (billingAddress) {
+            this.billingAddress = billingAddress;
+        }
+        if (shippingAddress) {
+            this.shippingAddress = shippingAddress;
+        }
     }
 
     get email(): string | undefined {
@@ -22,43 +29,43 @@ export class Customer {
     }
 
     get firstName(): string | undefined {
-        return this._firstName;
+        return this._billingAddress.firstName;
     }
 
     set firstName(firstName: string | undefined) {
-        this._firstName = firstName;
+        this._billingAddress.firstName = firstName;
     }
 
     get lastName(): string | undefined {
-        return this._lastName;
+        return this._billingAddress.lastName;
     }
 
     set lastName(lastName: string | undefined) {
-        this._lastName = lastName;
+        this._billingAddress.lastName = lastName;
     }
 
     get fullName(): string | undefined {
-        if (this._firstName && this._lastName) {
-            return `${this._firstName} ${this._lastName}`;
+        if (this._billingAddress.firstName && this._billingAddress.lastName) {
+            return `${this._billingAddress.firstName} ${this._billingAddress.lastName}`;
         } else {
             return undefined;
         }
         
     }
 
-    get billingAddress(): BillingAddress | undefined {
+    get billingAddress(): BillingAddress {
         return this._billingAddress;
     }
 
-    set billingAddress(billingAddress: BillingAddress | undefined) {
+    set billingAddress(billingAddress: BillingAddress) {
         this._billingAddress = billingAddress;
     }
 
-    get shippingAddress(): ShippingAddress | undefined {
+    get shippingAddress(): ShippingAddress {
         return this._shippingAddress;
     }
 
-    set shippingAddress(shippingAddress: ShippingAddress | undefined) {
+    set shippingAddress(shippingAddress: ShippingAddress) {
         this._shippingAddress = shippingAddress;
     }
 

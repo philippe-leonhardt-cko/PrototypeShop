@@ -1,0 +1,40 @@
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Billing Details</h4>
+                </div>
+                <div class="panel-body">
+                    <p *ngIf="customer.firstName && customer.lastName">{{ customer.billingAddress.fullName }}</p>
+                    <br />
+                    <p *ngIf="customer.billingAddress.companyName"><strong>{{ customer.billingAddress.companyName }}</strong></p>
+                    <p *ngIf="customer.billingAddress.streetName && customer.billingAddress.houseNumber">{{ customer.billingAddress.streetName }} {{ customer.billingAddress.houseNumber }}</p>
+                    <p *ngIf="customer.billingAddress.zip && customer.billingAddress.city">{{ customer.billingAddress.zip }} {{ customer.billingAddress.city }}</p>
+                    <p *ngIf="customer.billingAddress.country">{{ customer.billingAddress.country | uppercase }}</p>
+                    <br />
+                    <p *ngIf="customer.email"><i>{{ customer.email }}</i></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">Shipping Address</h4>
+                </div>
+                <div *ngIf="customer.shippingToBillingAddress" class="panel-body">
+                    <p class="badge">Shipping to Billing Address</p>
+                </div>
+                <div *ngIf="!customer.shippingToBillingAddress" class="panel-body">
+                    <p *ngIf="customer.shippingAddress.firstName && customer.shippingAddress.lastName">{{ customer.shippingAddress.fullName }}</p>
+                    <br />
+                    <p *ngIf="customer.shippingAddress.companyName"><strong>{{ customer.shippingAddress.companyName }}</strong></p>
+                    <p *ngIf="customer.shippingAddress.streetName && customer.shippingAddress.houseNumber">{{ customer.shippingAddress.streetName }} {{ customer.shippingAddress.houseNumber }}</p>
+                    <p *ngIf="customer.shippingAddress.zip && customer.shippingAddress.city">{{ customer.shippingAddress.zip }} {{ customer.shippingAddress.city }}</p>
+                    <p *ngIf="customer.shippingAddress.country">{{ customer.shippingAddress.country | uppercase }}</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
