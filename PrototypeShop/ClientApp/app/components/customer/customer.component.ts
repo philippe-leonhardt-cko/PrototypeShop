@@ -125,6 +125,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
         } else {
             allFormsCompleted = (this.billingForm.valid && this.shippingForm.valid);
         }
+        this.checkoutSummaryService.updateOrderPageUnlocked(allFormsCompleted);
         return allFormsCompleted;
     }
 }

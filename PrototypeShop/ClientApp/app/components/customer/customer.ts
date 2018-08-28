@@ -23,9 +23,6 @@ export class Customer {
 
     set email(email: string | undefined) {
         this._email = email;
-        if (this._email) {
-            this.checkoutSummaryService.updateCustomerEmail(this._email as string);
-        }
     }
 
     get firstName(): string | undefined {

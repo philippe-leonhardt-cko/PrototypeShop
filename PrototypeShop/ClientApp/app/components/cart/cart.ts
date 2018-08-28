@@ -13,18 +13,8 @@ export class Cart {
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) {
         this.id = '12345';
-        this.customer = this.customer || new Customer(this.checkoutSummaryService);
-        this.currency = this.updateCartCurrency(this.currency);
+        this.customer = new Customer(this.checkoutSummaryService);
         this.total = this.calculateCartTotal();
-    }
-
-    private updateCartCurrency(currency: string): string {
-        try {
-            this.checkoutSummaryService.updateCartCurrency(currency);
-        } catch (e) {
-            console.log(e);
-        }
-        return currency;
     }
 
     private calculateCartTotal(): number {
@@ -36,8 +26,8 @@ export class Cart {
             let quantities = this.products.map(product => product.quantity);
             let totals = prices.map((price, index) => price * quantities[index]);
             cartTotal = totals.reduce((a, b) => a + b);
-
-        }        
+        }
+        this.checkoutSummaryService.updateCustomerPageUnlocked(cartTotal > 0);
         return cartTotal;
     }
 
@@ -66,7 +56,7 @@ export class Cart {
     }
 
     public decreaseProductQuantity(product: Product) {
-        if (product.quantity == 1) {
+        if (product.quantity == 0) {
             if (window.confirm(`Do you really want to discard ${product.name} (${product.id}) from your cart?`)) {
                 this.discardProduct(product);
             };

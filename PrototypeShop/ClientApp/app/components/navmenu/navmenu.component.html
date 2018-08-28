@@ -7,23 +7,33 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/imprint']"><img src="/assets/img/logo-optical-green-white.png" style="max-width:40%"/></a>
+            <a class='navbar-brand' [routerLink]="['/imprint']"><img src="/assets/img/logo-optical-green-white.png" style="max-width:40%" /></a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/cart']">
-                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart {{ cartTotal / 100 | currency:cartCurrency:true }}
+                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart {{ cart.total / 100 | currency:cart.currency:true }}
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li *ngIf="customerPageUnlocked" [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/customer']">
-                        <span class='glyphicon glyphicon-user'></span> {{ customerFullName || "Customer Details" }}
+                        <span class='glyphicon glyphicon-user'></span> Customer Details
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li *ngIf="!customerPageUnlocked" [routerLinkActive]="['link-active']" class="disabled">
+                    <a>
+                        <span class='glyphicon glyphicon-user'></span> Customer Details
+                    </a>
+                </li>
+                <li *ngIf="orderPageUnlocked" [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/order']">
+                        <span class='glyphicon glyphicon-gift'></span> Place Order
+                    </a>
+                </li>
+                <li *ngIf="!orderPageUnlocked" [routerLinkActive]="['link-active']" class="disabled">
+                    <a>
                         <span class='glyphicon glyphicon-gift'></span> Place Order
                     </a>
                 </li>

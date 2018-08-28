@@ -13,7 +13,8 @@ import { Subscription } from 'rxjs';
 
 export class CartComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
-    public cart: Cart | undefined;
+    private cart: Cart | undefined;
+    private customerPageUnlocked: boolean = false;
     @Input() isSummary: boolean = true;
 
     constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) { }
@@ -35,8 +36,13 @@ export class CartComponent implements OnInit, OnDestroy {
             cart => {
                 this.cart = cart;
             }
-        )
-        this.subscriptions.push(cartSubscription);
+        );
+        let customerPageUnlockedSubscription: Subscription = this.checkoutSummaryService.customerPageUnlocked$.subscribe(
+            customerPageUnlocked => {
+                this.customerPageUnlocked = customerPageUnlocked;
+            }
+        );
+        this.subscriptions.push(cartSubscription, customerPageUnlockedSubscription);
     }
 
     private getPaymentToken() {
