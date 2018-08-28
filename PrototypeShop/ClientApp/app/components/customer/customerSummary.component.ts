@@ -10,9 +10,8 @@ import { Subscription } from 'rxjs';
 export class CustomerSummaryComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
-    public customer: Customer;
-
-    @Input() isSummary: boolean = true;
+    public customer: Customer | undefined = undefined;
+    public isReady: boolean = false;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 
@@ -20,6 +19,9 @@ export class CustomerSummaryComponent implements OnInit, OnDestroy {
         let cartSubscription: Subscription = this.checkoutSummaryService.cart$.subscribe(
             cart => {
                 this.customer = cart.customer;
+                if (Object.getOwnPropertyNames(this.customer.billingAddress).length > 0) {
+                    this.isReady = true;
+                }
             }
         )
         this.subscriptions.push(cartSubscription);
