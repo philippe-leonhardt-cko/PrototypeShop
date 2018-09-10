@@ -1,0 +1,44 @@
+<div class="container-fluid">
+    <div class="col-md-12">
+        <div class="row">
+            <form [formGroup]="productsForm">
+                <div formArrayName="products"
+                     *ngFor="let product of productsForm.get('products').controls; let i = index;">
+                    <div [formGroupName]="i" class="product col-md-4">
+                        <img src="/assets/img/{{ productsForm.controls.products.controls[i].controls.id.value }}.jpg" class="img-thumbnail" style="max-width: 50%;" />
+                        <br />
+                        <span class="product-name">{{ productsForm.controls.products.controls[i].controls.name.value }}</span>&emsp;<span class="badge">{{ productsForm.controls.products.controls[i].controls.id.value }}</span>
+                        <p>{{ productsForm.controls.products.controls[i].controls.description.value }}</p>
+                        <br />
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td style="padding-right:5px;">{{ (productsForm.controls.products.controls[i].controls.price.value / 100) / ((productsForm.controls.products.controls[i].controls.vat.value + 100) / 100) | currency:cart.currency:true }}</td>
+                                    <td>(Net)</td>
+                                </tr>
+                                <tr>
+                                    <td>{{ ((productsForm.controls.products.controls[i].controls.price.value / 100) / ((productsForm.controls.products.controls[i].controls.vat.value + 100) / 100)) * (productsForm.controls.products.controls[i].controls.vat.value / 100) | currency:cart.currency:true }}</td>
+                                    <td>({{ productsForm.controls.products.controls[i].controls.vat.value }}% VAT)</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2"><h4>{{ productsForm.controls.products.controls[i].controls.price.value / 100 | currency:cart.currency:true }}</h4></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div class="form-group-sm form-inline">
+                            <input type="number" style="width: 5em" min="1" class="form-control text-right"
+                                   formControlName="quantity" />
+                            <button class="btn btn-default" (click)="addProduct(productsForm.controls.products.controls[i].controls.product.value, productsForm.controls.products.controls[i].controls.quantity.value)">Add to Cart</button>
+                        </div>
+                        
+                        <br />
+                        <!--<p><span *ngFor="let tag of productsForm.controls.products.controls[i].controls.tags.value" class="badge">{{ tag }}</span></p>-->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
