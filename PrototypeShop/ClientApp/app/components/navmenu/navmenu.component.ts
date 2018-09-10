@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Subscription } from 'rxjs';
 import { Cart } from '../cart/cart';
+import { PaymentToken } from '../payment-token/PaymentToken';
 
 @Component({
     selector: 'nav-menu',
@@ -11,9 +12,18 @@ import { Cart } from '../cart/cart';
 export class NavMenuComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
+    private solutions: string[] = [
+        'Frames',
+        'Checkout.js'
+    ];
+    private currentSolution: string = this.solutions[0];
+
     private cart: Cart | undefined = undefined;
-    private customerPageUnlocked: boolean = false;
-    private orderPageUnlocked: boolean = false;
+    private paymentTokenId: string | undefined = undefined;
+    private paymentTokenCountdown: number = 0;
+    private sidebarCartVisible: boolean = true;
+    private customerDetailsComplete: boolean = false;
+    private debugConsoleVisible: boolean = false;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 
@@ -25,22 +35,47 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
+    private toggleSidebarCartVisibility(event: Event) {
+        event.preventDefault();
+        event.stopPropagation();
+        this.sidebarCartVisible = !this.sidebarCartVisible;
+    }
+
+    private toggleDebugConsoleVisibility() {
+        this.debugConsoleVisible = !this.debugConsoleVisible;
+    }
+
     private makeSubscriptions() {
         let cartSubscription = this.checkoutSummaryService.cart$.subscribe(
-            cart => {
+            (cart: any) => {
                 this.cart = cart;
             }
         );
-        let customerPageUnlockedSubscription = this.checkoutSummaryService.customerPageUnlocked$.subscribe(
-            customerPageUnlocked => {
-                this.customerPageUnlocked = customerPageUnlocked;
+        let customerDetailsCompleteSubscription = this.checkoutSummaryService.customerDetailsComplete$.subscribe(
+            (customerDetailsComplete: boolean) => {
+                this.customerDetailsComplete = customerDetailsComplete;
             }
         );
-        let orderPageUnlockedSubscription = this.checkoutSummaryService.orderPageUnlocked$.subscribe(
-            orderPageUnlocked => {
-                this.orderPageUnlocked = orderPageUnlocked;
+        let paymentTokenSubscription = this.checkoutSummaryService.paymentToken$.subscribe(
+            (paymentToken: PaymentToken) => {
+                this.paymentTokenId = paymentToken.id;
+                paymentToken.countdown.add(
+                    (_: any) => {
+                        this.paymentTokenId = undefined;
+                    }
+                );
             }
         );
-        this.subscriptions.push(cartSubscription, customerPageUnlockedSubscription, orderPageUnlockedSubscription);
+        let paymentTokenCountdownSubscription = this.checkoutSummaryService.paymentTokenCountdown$.subscribe(
+            (paymentTokenCountdown: number) => {
+                this.paymentTokenCountdown = paymentTokenCountdown;
+            }
+        );
+        this.subscriptions.push(cartSubscription, customerDetailsCompleteSubscription, paymentTokenSubscription, paymentTokenCountdownSubscription);
+    }
+
+    private setSolution(event: Event) {
+        let target = event.currentTarget as HTMLElement;
+        this.currentSolution = target.id;
     }
 }

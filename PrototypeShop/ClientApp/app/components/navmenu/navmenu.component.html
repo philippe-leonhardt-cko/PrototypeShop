@@ -1,5 +1,5 @@
 <div class='main-nav'>
-    <div class='navbar navbar-inverse'>
+    <div class='navbar'>
         <div class='navbar-header'>
             <button type='button' class='navbar-toggle' data-toggle='collapse' data-target='.navbar-collapse'>
                 <span class='sr-only'>Toggle navigation</span>
@@ -7,37 +7,69 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/imprint']"><img src="/assets/img/logo-optical-green-white.png" style="max-width:40%" /></a>
+            <a class='navbar-brand' [routerLink]="['/imprint']"><img src="/assets/img/logo-standard.png" style="max-width:60%;" /></a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/cart']">
-                        <span class='glyphicon glyphicon-shopping-cart'></span> Cart {{ cart.total / 100 | currency:cart.currency:true }}
+                    <a [routerLink]="['/shop']">
+                        <span class='glyphicon glyphicon-gift'></span><span>Shop</span>
+                        <span class="pull-right" (click)="toggleSidebarCartVisibility($event)">
+                            <span class="badge">
+                                <span class='glyphicon glyphicon-shopping-cart'></span><span>{{ cart.total / 100 | currency:cart.currency:true }}</span>&emsp;
+                                <span *ngIf="sidebarCartVisible" class="glyphicon glyphicon-eye-open"></span>
+                                <span *ngIf="!sidebarCartVisible" class="glyphicon glyphicon-eye-close"></span>
+                            </span>
+                        </span>
                     </a>
+                    <cart *ngIf="sidebarCartVisible"></cart>
                 </li>
-                <li *ngIf="customerPageUnlocked" [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/customer']">
-                        <span class='glyphicon glyphicon-user'></span> Customer Details
+                        <span class='glyphicon glyphicon-user'></span><span>Customer Details</span>
+                        <span *ngIf="!customerDetailsComplete"><span class="badge pull-right">Incomplete</span></span>
                     </a>
                 </li>
-                <li *ngIf="!customerPageUnlocked" [routerLinkActive]="['link-active']" class="disabled">
-                    <a>
-                        <span class='glyphicon glyphicon-user'></span> Customer Details
-                    </a>
-                </li>
-                <li *ngIf="orderPageUnlocked" [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/order']">
-                        <span class='glyphicon glyphicon-gift'></span> Place Order
-                    </a>
-                </li>
-                <li *ngIf="!orderPageUnlocked" [routerLinkActive]="['link-active']" class="disabled">
-                    <a>
-                        <span class='glyphicon glyphicon-gift'></span> Place Order
+                        <span class='glyphicon glyphicon-check'></span><span>Verify &amp; Pay</span>
                     </a>
                 </li>
             </ul>
+            <div>
+                <br />
+                <br />
+                <div class="text-right">
+                    <span class="badge badge-info" (click)="toggleDebugConsoleVisibility()">Dashboard&ensp;
+                        <span *ngIf="debugConsoleVisible" class="glyphicon glyphicon-eye-open"></span>
+                        <span *ngIf="!debugConsoleVisible" class="glyphicon glyphicon-eye-close"></span>
+                    </span>&ensp;
+                </div>
+                <ul *ngIf="debugConsoleVisible" id="debug" class="list-group">
+                    <li class="list-group-item">
+                        <span class="list-group-item-heading">Solution</span>
+                        <p *ngFor="let solution of solutions" class="list-group-item-text radio">
+                            <label>
+                                <input type="radio" name="solutionsRadios" id="{{ solution | lowercase }}" [checked]="solution.toLowerCase() == currentSolution.toLowerCase()" (click)="setSolution($event)">
+                                {{ solution }}
+                            </label>
+                        </p>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="list-group-item-heading">Cart Total</span>
+                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="cart.total > 0" [class.badge-danger]="cart.total == 0">{{ cart.total / 100 | currency:cart.currency:true }}</span></p>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="list-group-item-heading">Payment Token</span>
+                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="paymentTokenId != undefined" [class.badge-danger]="paymentTokenId == undefined">{{ paymentTokenId }}{{ paymentTokenCountdown | secondsToTime:' (':')':'Payment Token expired!' }}</span></p>
+                    </li>
+                    <li class="list-group-item">
+                        <span class="list-group-item-heading">Customer Details Complete</span>
+                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="customerDetailsComplete" [class.badge-danger]="!customerDetailsComplete">{{ customerDetailsComplete }}</span></p>
+                    </li>
+                </ul>
+            </div>
         </div>
     </div>
 </div>
