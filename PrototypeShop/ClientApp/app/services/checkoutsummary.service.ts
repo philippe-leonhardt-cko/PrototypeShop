@@ -1,33 +1,33 @@
 ﻿import { Injectable } from '@angular/core';
 import { Subject, ReplaySubject } from 'rxjs';
 import { Cart } from '../components/cart/cart';
+import { PaymentToken } from '../components/payment-token/PaymentToken';
 
 @Injectable()
 export class CheckoutSummaryService {
     // Subjects
     private cartSource = new ReplaySubject<Cart>();
-    private paymentTokenSource = new ReplaySubject<string>();
-    private customerPageUnlockedSource = new Subject<boolean>();
-    private orderPageUnlockedSource = new Subject<boolean>();
+    private paymentTokenSource = new ReplaySubject<PaymentToken>();
+    private paymentTokenCountdownSource = new Subject<number>();
+    private customerDetailsCompleteSource = new ReplaySubject<boolean>();
 
     // Observables
-    cart$ = this.cartSource.asObservable();
-    paymentToken$ = this.paymentTokenSource.asObservable();
-    customerPageUnlocked$ = this.customerPageUnlockedSource.asObservable();
-    orderPageUnlocked$ = this.orderPageUnlockedSource.asObservable();
+    public cart$ = this.cartSource.asObservable();
+    public paymentToken$ = this.paymentTokenSource.asObservable();
+    public paymentTokenCountdown$ = this.paymentTokenCountdownSource.asObservable();
+    public customerDetailsComplete$ = this.customerDetailsCompleteSource.asObservable();
 
     // Methods
-    setCart(cart: Cart) {
+    public setCart(cart: Cart) {
         this.cartSource.next(cart);
-        console.log('New Cart created\n', cart);
     }
-    updatePaymentToken(paymentToken: string) {
+    public updatePaymentToken(paymentToken: PaymentToken) {
         this.paymentTokenSource.next(paymentToken);
     }
-    updateCustomerPageUnlocked(isUnlocked: boolean) {
-        this.customerPageUnlockedSource.next(isUnlocked);
+    public updatePaymentTokenCountdown(paymentTokenCountdown: number) {
+        this.paymentTokenCountdownSource.next(paymentTokenCountdown);
     }
-    updateOrderPageUnlocked(isUnlocked: boolean) {
-        this.orderPageUnlockedSource.next(isUnlocked);
+    public updateCustomerDetailsComplete(areComplete: boolean) {
+        this.customerDetailsCompleteSource.next(areComplete);
     }
 }

@@ -1,40 +1,80 @@
-<div *ngIf="isReady" class="container-fluid">
-    <div class="col-md-12">
+<div class="container-fluid">
+    <div class="row">
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Billing Details</h4>
+                    <span class="panel-title">Billing Details</span>
                 </div>
                 <div class="panel-body">
-                    <p *ngIf="customer.firstName && customer.lastName">{{ customer.billingAddress.fullName }}</p>
+                    <p>
+                        <span *ngIf="customer.billingAddress.firstName">{{ customer.billingAddress.firstName }}</span>
+                        <span *ngIf="!customer.billingAddress.firstName"><span class="badge badge-danger">First Name</span></span>
+                        <span *ngIf="customer.billingAddress.lastName">{{ customer.billingAddress.lastName }}</span>
+                        <span *ngIf="!customer.billingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
+                    </p>
                     <br />
                     <p *ngIf="customer.billingAddress.companyName"><strong>{{ customer.billingAddress.companyName }}</strong></p>
-                    <p *ngIf="customer.billingAddress.streetName && customer.billingAddress.houseNumber">{{ customer.billingAddress.streetName }} {{ customer.billingAddress.houseNumber }}</p>
-                    <p *ngIf="customer.billingAddress.zip && customer.billingAddress.city">{{ customer.billingAddress.zip }} {{ customer.billingAddress.city }}</p>
-                    <p *ngIf="customer.billingAddress.country">{{ customer.billingAddress.country | uppercase }}</p>
+                    <p>
+                        <span *ngIf="customer.billingAddress.streetName">{{ customer.billingAddress.streetName }}</span>
+                        <span *ngIf="!customer.billingAddress.streetName"><span class="badge badge-danger">Street Name</span></span>
+                        <span *ngIf="customer.billingAddress.houseNumber">{{ customer.billingAddress.houseNumber }}</span>
+                        <span *ngIf="!customer.billingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
+                    </p>
+                    <p>
+                        <span *ngIf="customer.billingAddress.postcode">{{ customer.billingAddress.postcode }}</span>
+                        <span *ngIf="!customer.billingAddress.postcode"><span class="badge badge-danger">Postcode</span></span>
+                        <span *ngIf="customer.billingAddress.city">{{ customer.billingAddress.city }}</span>
+                        <span *ngIf="!customer.billingAddress.city"><span class="badge badge-danger">City</span></span>
+                    </p>
+                    <p>
+                        <span *ngIf="customer.billingAddress.country">{{ customer.billingAddress.country | uppercase }}</span>
+                        <span *ngIf="!customer.billingAddress.country"><span class="badge badge-danger">Country</span></span>
+                    </p>
                     <br />
-                    <p *ngIf="customer.email"><i>{{ customer.email }}</i></p>
+                    <p>
+                        <span *ngIf="customer.email"><i>{{ customer.email }}</i></span>
+                        <span *ngIf="!customer.email"><span class="badge badge-danger">Email</span></span>
+                    </p>
                 </div>
             </div>
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h4 class="panel-title">Shipping Address</h4>
+                    <div class="panel-title">Shipping Address</div>
                 </div>
-                <div *ngIf="customer.shippingToBillingAddress" class="panel-body">
-                    <p class="badge">Shipping to Billing Address</p>
-                </div>
-                <div *ngIf="!customer.shippingToBillingAddress" class="panel-body">
-                    <p *ngIf="customer.shippingAddress.firstName && customer.shippingAddress.lastName">{{ customer.shippingAddress.fullName }}</p>
-                    <br />
-                    <p *ngIf="customer.shippingAddress.companyName"><strong>{{ customer.shippingAddress.companyName }}</strong></p>
-                    <p *ngIf="customer.shippingAddress.streetName && customer.shippingAddress.houseNumber">{{ customer.shippingAddress.streetName }} {{ customer.shippingAddress.houseNumber }}</p>
-                    <p *ngIf="customer.shippingAddress.zip && customer.shippingAddress.city">{{ customer.shippingAddress.zip }} {{ customer.shippingAddress.city }}</p>
-                    <p *ngIf="customer.shippingAddress.country">{{ customer.shippingAddress.country | uppercase }}</p>
+                <div class="panel-body">
+                    <div *ngIf="customer.shippingToBillingAddress">
+                        <p class="badge">Shipping to Billing Address</p>
+                    </div>
+                    <div *ngIf="!customer.shippingToBillingAddress">
+                        <p>
+                            <span *ngIf="customer.shippingAddress.firstName">{{ customer.shippingAddress.firstName }}</span>
+                            <span *ngIf="!customer.shippingAddress.firstName"><span class="badge badge-danger">First Name</span></span>
+                            <span *ngIf="customer.shippingAddress.lastName">{{ customer.shippingAddress.lastName }}</span>
+                            <span *ngIf="!customer.shippingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
+                        </p>
+                        <br />
+                        <p *ngIf="customer.shippingAddress.companyName"><strong>{{ customer.shippingAddress.companyName }}</strong></p>
+                        <p>
+                            <span *ngIf="customer.shippingAddress.streetName">{{ customer.shippingAddress.streetName }}</span>
+                            <span *ngIf="!customer.shippingAddress.streetName"><span class="badge badge-danger">Street Name</span></span>
+                            <span *ngIf="customer.shippingAddress.houseNumber">{{ customer.shippingAddress.houseNumber }}</span>
+                            <span *ngIf="!customer.shippingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
+                        </p>
+                        <p>
+                            <span *ngIf="customer.shippingAddress.postcode">{{ customer.shippingAddress.postcode }}</span>
+                            <span *ngIf="!customer.shippingAddress.postcode"><span class="badge badge-danger">Postcode</span></span>
+                            <span *ngIf="customer.shippingAddress.city">{{ customer.shippingAddress.city }}</span>
+                            <span *ngIf="!customer.shippingAddress.city"><span class="badge badge-danger">City</span></span>
+                        </p>
+                        <p>
+                            <span *ngIf="customer.shippingAddress.country">{{ customer.shippingAddress.country | uppercase }}</span>
+                            <span *ngIf="!customer.shippingAddress.country"><span class="badge badge-danger">Country</span></span>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
-
     </div>
 </div>

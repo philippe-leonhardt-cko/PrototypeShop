@@ -1,27 +1,8 @@
 ﻿<div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    <span class="badge">{{ cart.total / 100 | currency:cart.currency:true }}</span>
-                    Shopping Cart Total
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{ cart.customer.fullName }}</span>
-                    Customer Name
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{ cart.customer.email }}</span>
-                    Customer Email
-                </li>
-                <li class="list-group-item">
-                    <span class="badge">{{ paymentToken }}</span>
-                    Payment Token
-                </li>
-            </ul>
-            <form class="payment-form" method="POST" action="https://merchant.com/successUrl">
-                <button class="btn btn-default" id="ckoJsPayBtn">Place Order Now</button>
-            </form>
+        <div class="col-md-12 text-right">
+            <button class="btn btn-success" id="ckoJsPayButton" [disabled]="!checkoutIsReady">Place Order Now</button>
+            <form class="payment-form" method="POST" action="https://merchant.com/successUrl"></form>
         </div>        
     </div>
 </div>
