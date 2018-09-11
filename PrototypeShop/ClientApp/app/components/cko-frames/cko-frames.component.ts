@@ -1,9 +1,7 @@
-﻿import { Component, OnDestroy } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { DynamicScriptLoaderService } from '../../services/dynamicscriptloader.service';
-import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Cart } from '../cart/cart';
-import { Subscription } from 'rxjs';
-import { PaymentToken } from '../payment-token/PaymentToken';
+import { ICheckoutSolutionComponent } from '../cko-solution/cko-solution.interface';
 
 declare var Frames: any;
 
@@ -13,25 +11,17 @@ declare var Frames: any;
     providers: [DynamicScriptLoaderService]
 })
 
-export class CheckoutFramesComponent implements OnDestroy {
-    private subscriptions: Subscription[] = [];
-    private cart: Cart;
-    private paymentToken: string;
-    private customerDetailsComplete: boolean = false;
-    private checkoutIsReady: boolean = false;
+export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
+    @Input() cart: Cart;
+    @Input() paymentToken: string;
+    @Input() customerDetailsComplete: boolean = false;
 
-    constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private checkoutSummaryService: CheckoutSummaryService) {
+    constructor(private dynamicScriptLoader: DynamicScriptLoaderService) {
         this.loadResources();
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     private async loadResources() {
         console.groupCollapsed('Load Resources');
-        let subscriptionsLoaded = await this.makeSubscriptions();
-        console.assert(subscriptionsLoaded, 'Not all Subscriptions have loaded!');
         let scriptsLoaded = await this.loadCheckoutScript();
         console.assert(scriptsLoaded, 'Not all Scripts have loaded!');
         console.groupEnd();
@@ -50,30 +40,6 @@ export class CheckoutFramesComponent implements OnDestroy {
         return scripts.every(script => script.loaded == true);
     }
 
-    private async makeSubscriptions(): Promise<boolean> {
-        let subscriptionsLoaded: boolean[] = [];
-        let cartSubscription = await this.checkoutSummaryService.cart$.subscribe(
-            (cart: Cart) => {
-                this.cart = cart;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        let paymentTokenSubscription = await this.checkoutSummaryService.paymentToken$.subscribe(
-            (paymentToken: PaymentToken) => {
-                this.paymentToken = paymentToken.id;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        let customerDetailsCompletedSubscription = await this.checkoutSummaryService.customerDetailsComplete$.subscribe(
-            (customerDetailsComplete: boolean) => {
-                this.customerDetailsComplete = customerDetailsComplete;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        this.subscriptions.push(cartSubscription, paymentTokenSubscription, customerDetailsCompletedSubscription);
-        return subscriptionsLoaded.every(status => status == true);
-    }
-
     private configureIfReady() {
         if (this.cart.total > 0 && this.paymentToken && this.customerDetailsComplete) {
             this.CheckoutConfigure();
@@ -81,12 +47,12 @@ export class CheckoutFramesComponent implements OnDestroy {
     }
 
     private CheckoutConfigure() {
-        let paymentForm = document.querySelector('#ckoFramesPaymentForm') as HTMLFormElement;
-        let payNowButton = document.querySelector('#ckoFramesPayNowButton') as HTMLButtonElement;
+        let paymentForm = document.querySelector('#ckoPaymentForm') as HTMLFormElement;
+        let payButton = document.querySelector('#ckoPayButton') as HTMLButtonElement;
 
         let style = {
             'iframe.cko-iframe:not(.mobile)': {
-                position: 'relative'
+                position: 'relative !important'
             }
         }
 
@@ -102,17 +68,17 @@ export class CheckoutFramesComponent implements OnDestroy {
                 city: this.cart.customer.billingAddress.city
             },
             cardValidationChanged: function () {
-                payNowButton.disabled = !Frames.isCardValid();
+                payButton.disabled = !Frames.isCardValid();
             },
             cardSubmitted: function () {
-                payNowButton.disabled = true;
+                payButton.disabled = true;
                 // display loader
             },
             cardTokenised: function (event: any) {
                 let cardToken: string = event.data.cardToken;
                 console.log(cardToken);
-                /*Frames.addCardToken(paymentForm, data.cardToken);
-                paymentForm.submit();*/
+                Frames.addCardToken(paymentForm, cardToken);
+                //paymentForm.submit();
             },
             cardTokenisationFailed: function (event: any) {
                 console.log(event);

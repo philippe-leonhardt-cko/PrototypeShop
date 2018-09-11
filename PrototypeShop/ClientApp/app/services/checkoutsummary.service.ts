@@ -8,12 +8,14 @@ export class CheckoutSummaryService {
     // Subjects
     private cartSource = new ReplaySubject<Cart>();
     private paymentTokenSource = new ReplaySubject<PaymentToken>();
+    private checkoutSolutionSource = new ReplaySubject<string>();
     private paymentTokenCountdownSource = new Subject<number>();
     private customerDetailsCompleteSource = new ReplaySubject<boolean>();
 
     // Observables
     public cart$ = this.cartSource.asObservable();
     public paymentToken$ = this.paymentTokenSource.asObservable();
+    public checkoutSolutionSource$ = this.checkoutSolutionSource.asObservable();
     public paymentTokenCountdown$ = this.paymentTokenCountdownSource.asObservable();
     public customerDetailsComplete$ = this.customerDetailsCompleteSource.asObservable();
 
@@ -23,6 +25,9 @@ export class CheckoutSummaryService {
     }
     public updatePaymentToken(paymentToken: PaymentToken) {
         this.paymentTokenSource.next(paymentToken);
+    }
+    public updateCheckoutSolution(checkoutSolution: string) {
+        this.checkoutSolutionSource.next(checkoutSolution);
     }
     public updatePaymentTokenCountdown(paymentTokenCountdown: number) {
         this.paymentTokenCountdownSource.next(paymentTokenCountdown);

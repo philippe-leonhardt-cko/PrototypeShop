@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Subscription } from 'rxjs';
 import { Cart } from '../cart/cart';
+import { PaymentToken } from '../payment-token/PaymentToken';
 
 @Component({
     selector: 'order',
@@ -10,6 +11,8 @@ import { Cart } from '../cart/cart';
 export class OrderComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
     private cart: Cart;
+    private paymentToken: string;
+    private customerDetailsComplete: boolean;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 
@@ -25,7 +28,18 @@ export class OrderComponent implements OnInit, OnDestroy {
         let cartSubscription: Subscription = this.checkoutSummaryService.cart$.subscribe(
             (cart: Cart) => {
                 this.cart = cart;
-            });
-        this.subscriptions.push(cartSubscription);
+            }
+        );
+        let paymentTokenSubscription: Subscription = this.checkoutSummaryService.paymentToken$.subscribe(
+            (paymentToken: PaymentToken) => {
+                this.paymentToken = paymentToken.id;
+            }
+        );
+        let customerDetailsCompleteSubscription: Subscription = this.checkoutSummaryService.customerDetailsComplete$.subscribe(
+            (customerDetailsComplete: boolean) => {
+                this.customerDetailsComplete = customerDetailsComplete;
+            }
+        );
+        this.subscriptions.push(cartSubscription, paymentTokenSubscription, customerDetailsCompleteSubscription);
     }
 }

@@ -1,9 +1,7 @@
-﻿import { Component, OnDestroy } from '@angular/core';
+﻿import { Component, Input } from '@angular/core';
 import { DynamicScriptLoaderService } from '../../services/dynamicscriptloader.service';
-import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Cart } from '../cart/cart';
-import { Subscription } from 'rxjs';
-import { PaymentToken } from '../payment-token/PaymentToken';
+import { ICheckoutSolutionComponent } from '../cko-solution/cko-solution.interface';
 
 declare var Checkout: any;
 
@@ -13,25 +11,17 @@ declare var Checkout: any;
     providers: [DynamicScriptLoaderService]
 })
 
-export class CheckoutJsComponent implements OnDestroy {
-    private subscriptions: Subscription[] = [];
-    private cart: Cart;
-    private paymentToken: string;
-    private customerDetailsComplete: boolean = false;
-    private checkoutIsReady: boolean = false;
+export class CheckoutJsComponent implements ICheckoutSolutionComponent {
+    @Input() cart: Cart;
+    @Input() paymentToken: string;
+    @Input() customerDetailsComplete: boolean = false;
 
-    constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private checkoutSummaryService: CheckoutSummaryService) {
+    constructor(private dynamicScriptLoader: DynamicScriptLoaderService) {
         this.loadResources();
-    }
-
-    ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     private async loadResources() {
         console.groupCollapsed('Load Resources');
-        let subscriptionsLoaded = await this.makeSubscriptions();
-        console.assert(subscriptionsLoaded, 'Not all Subscriptions have loaded!');
         let scriptsLoaded = await this.loadCheckoutScript();
         console.assert(scriptsLoaded, 'Not all Scripts have loaded!');
         console.groupEnd();
@@ -50,30 +40,6 @@ export class CheckoutJsComponent implements OnDestroy {
         return scripts.every(script => script.loaded == true);
     }
 
-    private async makeSubscriptions(): Promise<boolean> {
-        let subscriptionsLoaded: boolean[] = [];
-        let cartSubscription = await this.checkoutSummaryService.cart$.subscribe(
-            (cart: Cart) => {
-                this.cart = cart;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        let paymentTokenSubscription = await this.checkoutSummaryService.paymentToken$.subscribe(
-            (paymentToken: PaymentToken) => {
-                this.paymentToken = paymentToken.id;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        let customerDetailsCompletedSubscription = await this.checkoutSummaryService.customerDetailsComplete$.subscribe(
-            (customerDetailsComplete: boolean) => {
-                this.customerDetailsComplete = customerDetailsComplete;
-                subscriptionsLoaded.push(true);
-            }
-        );
-        this.subscriptions.push(cartSubscription, paymentTokenSubscription, customerDetailsCompletedSubscription);
-        return subscriptionsLoaded.every(status => status == true);
-    }
-
     private configureIfReady() {
         if (this.cart.total > 0 && this.paymentToken && this.customerDetailsComplete) {
             this.CheckoutConfigure();
@@ -82,6 +48,8 @@ export class CheckoutJsComponent implements OnDestroy {
 
     private CheckoutConfigure() {
         let cart = this.cart as Cart;
+        let payButton = document.querySelector('#ckoPayButton') as HTMLButtonElement;
+
         Checkout.configure({
             //debugMode: true,
             // START required
@@ -93,11 +61,12 @@ export class CheckoutJsComponent implements OnDestroy {
             cardFormMode: 'cardTokenisation',
             // END required
             renderMode: 3,
-            payButtonSelector: '#ckoJsPayButton',
+            paymentMode: 'cards',
+            payButtonSelector: '#ckoPayButton',
             cardTokenised: function (event: any) {
                 console.log(event.data.cardToken);
             }
         });
-        this.checkoutIsReady = true;
+        payButton.disabled = false;
     }
 }
