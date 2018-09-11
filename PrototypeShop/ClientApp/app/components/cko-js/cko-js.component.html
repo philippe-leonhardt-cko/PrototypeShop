@@ -1,8 +1,17 @@
 ﻿<div class="container-fluid">
     <div class="row">
         <div class="col-md-12 text-right">
-            <button class="btn btn-success" id="ckoJsPayButton" [disabled]="!checkoutIsReady">Place Order Now</button>
-            <form class="payment-form" method="POST" action="https://merchant.com/successUrl"></form>
+            <form id="ckoPaymentForm" method="POST" action="https://merchant.com/successUrl">
+                <div class="row">
+                    <div class="col-md-6 pull-right"></div>
+                </div>
+                <br />
+                <div class="row">
+                    <div class="col-md-12">
+                        <button class="btn btn-success" id="ckoPayButton" disabled>Place Order Now</button>
+                    </div>
+                </div>
+            </form>            
         </div>        
     </div>
 </div>
