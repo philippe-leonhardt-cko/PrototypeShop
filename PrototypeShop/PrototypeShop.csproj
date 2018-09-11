@@ -28,9 +28,11 @@
     <None Remove="ClientApp\app\components\cart\cart.ts" />
     <None Remove="ClientApp\app\components\cko-frames\cko-frames.component.ts" />
     <None Remove="ClientApp\app\components\cko-js\cko-js.component.ts" />
+    <None Remove="ClientApp\app\components\cko-solution\cko-solution.component.ts" />
     <None Remove="ClientApp\app\components\customer\customer.ts" />
     <None Remove="ClientApp\app\components\payment-token\PaymentToken.ts" />
     <None Remove="ClientApp\app\components\product\product.ts" />
+    <None Remove="ClientApp\app\directives\checkout-solution.directive.ts" />
     <None Remove="ClientApp\app\directives\summary.directive.ts" />
     <None Remove="ClientApp\app\pipes\SecondsToTime.pipe.ts" />
     <None Remove="ClientApp\app\services\checkoutsummary.service.ts" />
@@ -50,9 +52,11 @@
     <TypeScriptCompile Include="ClientApp\app\components\cart\cart.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-frames\cko-frames.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-js\cko-js.component.ts" />
+    <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-solution.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\customer\customer.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\payment-token\PaymentToken.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\product\product.ts" />
+    <TypeScriptCompile Include="ClientApp\app\directives\checkout-solution.directive.ts" />
     <TypeScriptCompile Include="ClientApp\app\directives\summary.directive.ts" />
     <TypeScriptCompile Include="ClientApp\app\pipes\SecondsToTime.pipe.ts" />
     <TypeScriptCompile Include="ClientApp\app\services\checkoutsummary.service.ts" />
