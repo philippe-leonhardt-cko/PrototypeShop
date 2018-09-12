@@ -1,7 +1,7 @@
 ﻿import { Component, OnDestroy, Type, ComponentFactoryResolver, ViewChild, ComponentFactory, ViewContainerRef, Input, ComponentRef, OnInit } from "@angular/core";
-import { CheckoutFramesComponent } from "../cko-frames/cko-frames.component";
+import { CheckoutFramesComponent } from "./cko-frames/cko-frames.component";
 import { CheckoutSolutionDirective } from "../../directives/checkout-solution.directive";
-import { CheckoutJsComponent } from "../cko-js/cko-js.component";
+import { CheckoutJsComponent } from "./cko-js/cko-js.component";
 import { CheckoutSummaryService } from "../../services/checkoutsummary.service";
 import { Subscription } from "rxjs";
 import { Cart } from "../cart/cart";

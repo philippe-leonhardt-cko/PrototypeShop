@@ -13,8 +13,8 @@ import { OrderComponent } from './components/order/order.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartSummaryComponent } from './components/cart/cartSummary.component';
 import { CheckoutSolutionComponent } from './components/cko-solution/cko-solution.component';
-import { CheckoutJsComponent } from './components/cko-js/cko-js.component';
-import { CheckoutFramesComponent } from './components/cko-frames/cko-frames.component';
+import { CheckoutJsComponent } from './components/cko-solution/cko-js/cko-js.component';
+import { CheckoutFramesComponent } from './components/cko-solution/cko-frames/cko-frames.component';
 
 import { CheckoutSolutionDirective } from './directives/checkout-solution.directive';
 import { SummaryDirective } from './directives/summary.directive';

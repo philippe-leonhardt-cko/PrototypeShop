@@ -1,6 +1,6 @@
 ﻿import { Component, Input } from '@angular/core';
-import { Cart } from '../cart/cart';
-import { ICheckoutSolutionComponent } from '../cko-solution/cko-solution.interface';
+import { Cart } from '../../cart/cart';
+import { ICheckoutSolutionComponent } from '../../cko-solution/cko-solution.interface';
 
 declare var Checkout: any;
 
