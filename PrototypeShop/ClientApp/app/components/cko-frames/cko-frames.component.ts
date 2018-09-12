@@ -1,5 +1,4 @@
 ﻿import { Component, Input } from '@angular/core';
-import { DynamicScriptLoaderService } from '../../services/dynamicscriptloader.service';
 import { Cart } from '../cart/cart';
 import { ICheckoutSolutionComponent } from '../cko-solution/cko-solution.interface';
 
@@ -7,44 +6,25 @@ declare var Frames: any;
 
 @Component({
     selector: 'cko-frames',
-    templateUrl: './cko-frames.component.html',
-    providers: [DynamicScriptLoaderService]
+    templateUrl: './cko-frames.component.html'
 })
 
 export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
     @Input() cart: Cart;
     @Input() paymentToken: string;
-    @Input() customerDetailsComplete: boolean = false;
-
-    constructor(private dynamicScriptLoader: DynamicScriptLoaderService) {
-        this.loadResources();
-    }
-
-    private async loadResources() {
-        console.groupCollapsed('Load Resources');
-        let scriptsLoaded = await this.loadCheckoutScript();
-        console.assert(scriptsLoaded, 'Not all Scripts have loaded!');
-        console.groupEnd();
-        this.configureIfReady();
-    }
-
-    private async loadCheckoutScript(): Promise<boolean> {
-        let scripts = await this.dynamicScriptLoader.load('frames');
-        scripts.forEach(_ => {
-            if (_.loaded) {
-                console.info(`Loaded external script: '${_.script}' successfully.`);
-            } else {
-                console.error(`Did not load external script: '${_.script}' successfully.`);
-            }
-        });
-        return scripts.every(script => script.loaded == true);
-    }
-
-    private configureIfReady() {
-        if (this.cart.total > 0 && this.paymentToken && this.customerDetailsComplete) {
-            this.CheckoutConfigure();
+    private _customerAgreesWithGtc: boolean;
+    @Input()
+    set customerAgreesWithGtc(decision: boolean) {
+        this._customerAgreesWithGtc = decision;
+        if (decision) {
+            this.CheckoutConfigure()
         }
     }
+    get customerAgreesWithGtc(): boolean {
+        return this._customerAgreesWithGtc;
+    }
+
+    constructor() { }
 
     private CheckoutConfigure() {
         let paymentForm = document.querySelector('#ckoPaymentForm') as HTMLFormElement;

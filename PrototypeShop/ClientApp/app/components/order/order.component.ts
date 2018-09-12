@@ -13,6 +13,7 @@ export class OrderComponent implements OnInit, OnDestroy {
     private cart: Cart;
     private paymentToken: string;
     private customerDetailsComplete: boolean;
+    private customerAgreesWithGtc: boolean = false;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 
@@ -33,6 +34,9 @@ export class OrderComponent implements OnInit, OnDestroy {
         let paymentTokenSubscription: Subscription = this.checkoutSummaryService.paymentToken$.subscribe(
             (paymentToken: PaymentToken) => {
                 this.paymentToken = paymentToken.id;
+                if (this.customerAgreesWithGtc) {
+                    this.customerAgreesWithGtc = false;
+                }
             }
         );
         let customerDetailsCompleteSubscription: Subscription = this.checkoutSummaryService.customerDetailsComplete$.subscribe(
@@ -41,5 +45,9 @@ export class OrderComponent implements OnInit, OnDestroy {
             }
         );
         this.subscriptions.push(cartSubscription, paymentTokenSubscription, customerDetailsCompleteSubscription);
+    }
+
+    private configureCheckout(customerAgreesWithGtc: boolean) {
+        this.customerAgreesWithGtc = customerAgreesWithGtc;
     }
 }

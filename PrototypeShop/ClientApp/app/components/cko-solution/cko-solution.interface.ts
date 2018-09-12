@@ -3,5 +3,5 @@
 export interface ICheckoutSolutionComponent {
     cart: Cart;
     paymentToken: string;
-    customerDetailsComplete: boolean;
+    customerAgreesWithGtc: boolean;
 }

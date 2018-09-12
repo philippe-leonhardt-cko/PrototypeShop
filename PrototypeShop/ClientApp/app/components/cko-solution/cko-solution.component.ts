@@ -1,4 +1,4 @@
-﻿import { Component, OnInit, OnDestroy, Type, ComponentFactoryResolver, ViewChild, ComponentFactory, ViewContainerRef, Input, ComponentRef } from "@angular/core";
+﻿import { Component, OnDestroy, Type, ComponentFactoryResolver, ViewChild, ComponentFactory, ViewContainerRef, Input, ComponentRef, OnInit } from "@angular/core";
 import { CheckoutFramesComponent } from "../cko-frames/cko-frames.component";
 import { CheckoutSolutionDirective } from "../../directives/checkout-solution.directive";
 import { CheckoutJsComponent } from "../cko-js/cko-js.component";
@@ -22,7 +22,15 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
 
     @Input() cart: Cart;
     @Input() paymentToken: string;
-    @Input() customerDetailsComplete: boolean;
+    private _customerAgreesWithGtc: boolean;
+    @Input()
+    set customerAgreesWithGtc(decision: boolean) {
+        this._customerAgreesWithGtc = decision;
+        this.loadComponent();
+    }
+    get customerAgreesWithGtc(): boolean {
+        return this._customerAgreesWithGtc;
+    }
     @ViewChild(CheckoutSolutionDirective) checkoutSolutionHost: CheckoutSolutionDirective;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private checkoutSummaryService: CheckoutSummaryService) {
@@ -40,7 +48,6 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
     private loadComponent() {
         let componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(this.solution);
 
-        console.log(this.checkoutSolutionHost);
         let viewContainerRef: ViewContainerRef = this.checkoutSolutionHost.viewContainerRef;
         viewContainerRef.clear();
 
@@ -48,14 +55,16 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
         let componentInstance: ICheckoutSolutionComponent = (<ICheckoutSolutionComponent>componentRef.instance);
         componentInstance.cart = this.cart;
         componentInstance.paymentToken = this.paymentToken;
-        componentInstance.customerDetailsComplete = this.customerDetailsComplete;
+        componentInstance.customerAgreesWithGtc = this.customerAgreesWithGtc;
     }
 
     private makeSubscriptions() {
         let checkoutSolutionSubscription = this.checkoutSummaryService.checkoutSolutionSource$.subscribe(
             (solution: string) => {
                 this.solution = this.solutions[solution];
-                this.loadComponent();
+                if (this.checkoutSolutionHost) {
+                    this.loadComponent();
+                }
             }
         );
         this.subscriptions.push(checkoutSolutionSubscription);
