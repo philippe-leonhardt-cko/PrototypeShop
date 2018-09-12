@@ -1,6 +1,6 @@
-<div class="container-fluid">
+<div class="component" [class.component-warning]="!customerDetailsComplete">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <span class="panel-title">Billing Details</span>
@@ -38,14 +38,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <div class="panel-title">Shipping Address</div>
                 </div>
                 <div class="panel-body">
                     <div *ngIf="customer.shippingToBillingAddress">
-                        <p class="badge">Shipping to Billing Address</p>
+                        <p class="badge badge-info">Shipping to Billing Address</p>
                     </div>
                     <div *ngIf="!customer.shippingToBillingAddress">
                         <p>
@@ -78,3 +78,5 @@
         </div>
     </div>
 </div>
+
+

@@ -18,11 +18,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
     public billingForm: FormGroup;
     public shippingForm: FormGroup;
 
-    public email = new FormControl("", Validators.required);
+    public email = new FormControl("", [Validators.required, Validators.email]);
     public firstName = new FormControl("", Validators.required);
     public lastName = new FormControl("", Validators.required);
     public companyName = new FormControl("");
-    public streetName = new FormControl("", Validators.required);
+    public streetName = new FormControl("", [Validators.required]);
     public houseNumber = new FormControl("", Validators.required);
     public postcode = new FormControl("", Validators.required);
     public city = new FormControl("", Validators.required);
@@ -81,17 +81,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
             }
         );
         let billingFormSubscription: Subscription = this.billingForm.valueChanges
-            //.filter((values) => this.billingForm.valid)
-            .map(
-            (formValues: IFormValues) => {
-                let streetValue = formValues.address.streetName;
-                let regExp = new RegExp('([a-zäöüßéúíóáýèùìòà. -]{1,}[0-9]{0,}[a-zäöüßéúíóáýèùìòà. -]{1,}) ([0-9 ]{1,}[-+/\\a-z0-9 ]{0,})');
-                let matches = regExp.exec(streetValue!);
-                if (matches) {
-                    console.log(matches[1], matches[2]);
-                }
-                return formValues;
-            })
             .subscribe(
             (formValues: IFormValues) => {
                 this.customer.email = formValues.email;
@@ -107,7 +96,6 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 this.formsCompleted();
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges
-            //.filter((values) => this.shippingForm.valid)
             .subscribe(
             (formValues: IFormValues) => {
                 let address = this.customer.shippingAddress as ShippingAddress;

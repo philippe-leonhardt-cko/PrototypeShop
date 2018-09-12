@@ -17,41 +17,54 @@ html, body {
 
 }
 
-.btn:focus {
-    outline: none !important;
-}
-
-.navbar-collapse {
-    border-top: 1px solid @cko-dune !important;
-
-}
-
-.panel-default > .panel-heading, .product-name {
+.panel {
+    box-shadow: none;
     background: none;
-    border: none;
-    font-family: 'Times New Roman';
+
+    &-default {
+        border: none;
+    }
+
+    &-default > &-heading {
+        background: none;
+        border: none;
+        font-family: 'Times New Roman';
+    }
+
+    &-default > &-heading > &-title {
+        color: @cko-midnight-blue;
+        font-size: 2em;
+    }
 }
 
-.product-name {
-    font-size: 2em;
-    line-height: 2em;
-}
+.product {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: solid 1px @cko-dove-grey;
+    box-shadow: @cko-dove-grey 0px 2px 0px 1px;
+    border-radius: 4px;
 
-.panel-default > .panel-heading > .panel-title {
-    color: @cko-midnight-blue;
-    font-size: 2em;
+    &-title div {
+        line-height: 2em;
+    }
 
-}
+    &-name {
+        background: none;
+        border: none;
+        font-family: 'Times New Roman';
+        font-size: 2em;
+    }
 
-.btn:active {
-    box-shadow: inset 0 3px 5px fade(@black, 60%);
-
+    & div, & span, & p {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 }
 
 a {
     &, &:hover {
         color: @cko-midnight-blue;
-
     }
 
 }
@@ -59,37 +72,14 @@ a {
 .navbar {
     background-color: @cko-dove-grey;
 
+    &-collapse {
+        border-top: 1px solid @cko-dune !important;
+    }
 }
 
 li.link-active a {
     background-color: @cko-storm-blue !important;
     color: @cko-midnight-blue !important;
-
-}
-
-.btn-default {
-    &, &:focus, &[disabled]:hover {
-        border: none;
-        background-color: @cko-midnight-blue;
-        color: @white;
-    }
-    
-}
-
-.btn-default {
-    &:hover, &:active, &:active:focus {
-        border: none;
-        background-color: @cko-midnight-blue;
-        color: @white;
-    }
-}
-
-.panel {
-    box-shadow: none;
-}
-
-.panel-default {
-    border: none;
 
 }
 
@@ -99,80 +89,107 @@ li.link-active a {
 }
 
 .badge {
-    background-color: @cko-dune;
-    color: @cko-midnight-blue;
-    font-weight: normal;
-
-}
-
-#debug .badge {
-    font-family: monospace;
-    font-size: 0.7em;
-}
-
-.badge-info {
     background-color: @cko-midnight-blue;
     color: @white;
     font-weight: normal;
-}
 
-.badge-danger {
-    background-color: @cko-rose;
-    color: @cko-midnight-blue;
-    font-weight: normal;
-
-}
-
-.badge-success {
-    background-color: lighten(@cko-bright-green, 40%);
-    color: @cko-midnight-blue;
-    font-weight: normal;
-}
-
-.btn-danger, .btn-danger:focus, .btn-danger[disabled]:hover {
-    border: none;
-    color: @white;
-    background-color: @cko-coral;
-}
-
-.btn-danger:hover, .btn-danger:active, .btn-danger:active:focus {
-    border: none;
-    color: @white;
-    background-color: @cko-coral;
-
-}
-
-.btn-info, .btn-info:focus {
-    border: none;
-    background-color: @cko-storm-blue;
-}
-
-.btn-info:hover, .btn-info:active, .btn-info:active:focus {
-    border: none;
-    background-color: @cko-storm-blue;
-}
-
-.btn-success, .btn-success:focus {
-    border: none;
-    background-color: @cko-midnight-blue;
-    color: @cko-bright-green;
-}
-
-.btn-success:hover, .btn-success:active, .btn-success:active:focus, .btn-success:active:hover {
-    border: none;
-    background-color: @cko-bright-green;
-    color: @cko-midnight-blue;
-}
-
-.btn-success[disabled] {
-    &, &:hover {
-        border: solid 1px @cko-midnight-blue;
-        background: none;
+    &-info {
+        background-color: @cko-dune;
         color: @cko-midnight-blue;
-
     }
-    
+
+    &-success {
+        background-color: @cko-bright-green;
+    }
+
+    &-danger {
+        background-color: @cko-rose;
+    }
+
+    #debug & {
+        font-family: monospace;
+        font-size: 0.7em;
+    }
 }
+
+.btn {
+    &:active {
+        box-shadow: inset 0 3px 5px fade(@black, 60%);
+    }
+
+    &:focus {
+        outline: none !important;
+    }
+
+    &-default {
+        &, &:focus, &[disabled]:hover {
+            border: none;
+            background-color: @cko-midnight-blue;
+            color: @white;
+        }
+
+        &:hover, &:active, &:active:focus {
+            border: none;
+            background-color: @cko-midnight-blue;
+            color: @white;
+        }
+    }
+
+    &-info {
+        &, &:focus, &[disabled]:hover {
+            border: none;
+            color: @white;
+            background-color: @cko-storm-blue;
+        }
+
+        &:hover, &:active, &:active:focus {
+            border: none;
+            color: @white;
+            background-color: @cko-storm-blue;
+        }
+    }
+
+    &-success {
+        &, &:focus {
+            border: solid 1px @cko-midnight-blue;
+            background-color: @cko-midnight-blue;
+            color: @cko-bright-green;
+        }
+
+        &[disabled] {
+            &, &:hover {
+                border: solid 1px @cko-midnight-blue;
+                background: none;
+                color: @cko-midnight-blue;
+            }
+        }
+
+        &:hover, &:active, &:active:focus, &:active:hover {
+            border: solid 1px @cko-bright-green;
+            background-color: @cko-bright-green;
+            color: @cko-midnight-blue;
+        }
+    }
+
+    &-danger {
+        &, &:focus, &[disabled]:hover {
+            border: none;
+            color: @white;
+            background-color: @cko-coral;
+        }
+
+        &:hover, &:active, &:active:focus {
+            border: none;
+            color: @white;
+            background-color: @cko-coral;
+        }
+    }
+
+    table & {
+        font-size: 0.8em;
+    }
+}
+
 
 .well  {
     box-shadow: none;
@@ -190,10 +207,40 @@ li.link-active a {
     background-color: @cko-storm-blue;
 }
 
-cart, table .btn, cart-summary .price-details {
+cart, cart-summary .price-details {
     font-size: 0.8em;
 }
 
 cart .glyphicon-plus, cart .glyphicon-minus {
     font-size: 0.6em;
+}
+
+cart .form-group {
+    width: 4em;
+    margin: 0px;
+
+    & input {
+        font-weight: normal !important;
+        font-size: 1em;
+        padding: 6px 4px;
+        text-align: right;
+    }
+}
+
+.component {
+    box-sizing: border-box;
+    padding-bottom: 15px;
+    border-radius: 4px;
+
+    &-default {
+        border: solid 1px @cko-storm-blue;
+    }
+
+    &-success {
+        border: solid 1px @cko-bright-green;
+    }
+
+    &-warning {
+        border: solid 1px @cko-rose;
+    }
 }

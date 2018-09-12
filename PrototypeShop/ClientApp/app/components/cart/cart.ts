@@ -71,13 +71,24 @@ export class Cart {
         this.calculateCartTotal();
     }
 
-    public decreaseProductQuantity(product: Product) {
-        if (product.quantity == 1) {
-            this.discardProduct(product);
+    public decreaseProductQuantity(productToDecrease: Product) {
+        if (productToDecrease.quantity == 1) {
+            this.discardProduct(productToDecrease);
         } else {
-            product.quantity--;
+            productToDecrease.quantity--;
         }
         this.calculateCartTotal();
+    }
+
+    public updateProductCount(productToUpdate: Product, quantity: string | number) {
+        if (typeof quantity == 'string') {
+            quantity = parseInt(quantity);
+        }
+        let matchedProduct = this.products.filter((product: Product) => product.id == productToUpdate.id).pop() as Product;
+        if (quantity > 0 && matchedProduct.quantity != quantity) {
+            matchedProduct.quantity = quantity;
+            this.calculateCartTotal();
+        }
     }
 
     public generatePaymentToken() {

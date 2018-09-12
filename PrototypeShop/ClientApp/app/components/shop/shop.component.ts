@@ -61,13 +61,29 @@ export class ShopComponent implements OnInit, OnDestroy {
         });
     }
 
-    private addProduct(productToAdd: Product, quantity: string) {
+    private addProduct(i: number) {
+        let productToAdd: Product = <Product>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('product')).value;
+        let quantity: any = <any>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).value;
+        quantity = !quantity ? 1 : parseInt(quantity);
         let productExistsInCart = this.cart.products.find(product => product.id == productToAdd.id) != undefined;
         if (productExistsInCart) {
-            this.cart.increaseProductQuantity(productToAdd, parseInt(quantity));
+            this.cart.increaseProductQuantity(productToAdd, quantity);
         } else {
-            productToAdd.quantity = parseInt(quantity);
+            productToAdd.quantity = quantity;
             this.cart.addProduct(productToAdd);
         }
+        (<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).setValue('1');
+    }
+
+    private keyPress(event: KeyboardEvent) {
+        const pattern = /[0-9]/;
+        let inputChar = String.fromCharCode(event.charCode);
+        if (!pattern.test(inputChar)) {
+            event.preventDefault();
+        }
+    }
+
+    private resetInput(quantityInput: HTMLInputElement, i: number) {
+        quantityInput.value = '1';
     }
 }

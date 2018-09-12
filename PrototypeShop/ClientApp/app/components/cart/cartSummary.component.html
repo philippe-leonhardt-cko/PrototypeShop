@@ -1,80 +1,86 @@
-<div class="container-fluid">
-    <table *ngIf="cart" class="table" id="cart">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Product</th>
-                <th>ID</th>
-                <th></th>
-                <th class="text-center">Price per Unit</th>
-                <th class="text-center">Total Price</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="cart.total > 0">
-            <tr *ngFor="let product of cart.products">
-                <td class="text-center" style="vertical-align:middle"><span>{{ product.quantity }}x</span></td>
-                <td style="vertical-align:middle">
-                    <span>{{ product.name }}</span>
-                </td>
-                <td style="vertical-align:middle">
-                    <span>{{ product.id }}</span>
-                </td>
-                <td class="text-center" style="vertical-align:middle">
-                    <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-width:80%; max-height:20%" />
-                </td>
-                <td class="text-right" style="vertical-align:middle">
-                    <table class="price-details text-right">
-                        <tbody>
-                            <tr>
-                                <td>Net:</td>
-                                <td style="padding-left:5px;">{{ (product.price / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
-                            </tr>
-                            <tr>
-                                <td>{{ product.vat }}% VAT:</td>
-                                <td>{{ ((product.price / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"><h5>{{ product.price / 100 | currency:cart.currency:true }}</h5></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </td>
-                <td class="text-right" style="vertical-align:middle">
-                    <table class="price-details text-right">
-                        <tbody>
-                            <tr>
-                                <td>Net:</td>
-                                <td style="padding-left:5px;">{{ (product.price * product.quantity / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
-                            </tr>
-                            <tr>
-                                <td>{{ product.vat }}% VAT:</td>
-                                <td>{{ ((product.price * product.quantity / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
-                            </tr>
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="2"><h5>{{ product.price * product.quantity / 100 | currency:cart.currency:true }}</h5></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot *ngIf="cart.total > 0">
-            <tr>
-                <th colspan="6" class="text-right"><h4>{{ cart.total / 100 | currency:cart.currency:true }}</h4></th>
-            </tr>
-        </tfoot>
-    </table>
-    <div *ngIf="cart.total == 0" class="col-md-12 text-center">
-        <span class="badge badge-danger">Your Cart is empty</span>
-        <br />
-        <br />
-        <a [routerLink]="['/shop']">
-            <button class="btn btn-default">Continue Shopping</button>
-        </a>
+<div class="col-md-12 component" [class.component-warning]="cart.total == 0">
+    <div class="row">
+        <div class="col-md-12">
+            <table *ngIf="cart" class="table" id="cart">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Product</th>
+                        <th>ID</th>
+                        <th></th>
+                        <th class="text-center">Price per Unit</th>
+                        <th class="text-center">Total Price</th>
+                    </tr>
+                </thead>
+                <tbody *ngIf="cart.total > 0">
+                    <tr *ngFor="let product of cart.products">
+                        <td class="text-center" style="vertical-align:middle"><span>{{ product.quantity }}x</span></td>
+                        <td style="vertical-align:middle">
+                            <span>{{ product.name }}</span>
+                        </td>
+                        <td style="vertical-align:middle">
+                            <span>{{ product.id }}</span>
+                        </td>
+                        <td class="text-center" style="vertical-align:middle">
+                            <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-width:80%; max-height:20%" />
+                        </td>
+                        <td class="text-right" style="vertical-align:middle">
+                            <table class="price-details text-right">
+                                <tbody>
+                                    <tr>
+                                        <td>Net:</td>
+                                        <td style="padding-left:5px;">{{ (product.price / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ product.vat }}% VAT:</td>
+                                        <td>{{ ((product.price / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"><h5>{{ product.price / 100 | currency:cart.currency:true }}</h5></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                        <td class="text-right" style="vertical-align:middle">
+                            <table class="price-details text-right">
+                                <tbody>
+                                    <tr>
+                                        <td>Net:</td>
+                                        <td style="padding-left:5px;">{{ (product.price * product.quantity / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>{{ product.vat }}% VAT:</td>
+                                        <td>{{ ((product.price * product.quantity / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="2"><h5>{{ product.price * product.quantity / 100 | currency:cart.currency:true }}</h5></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot *ngIf="cart.total > 0">
+                    <tr>
+                        <th colspan="6" class="text-right"><h4>{{ cart.total / 100 | currency:cart.currency:true }}</h4></th>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        
+        <div *ngIf="cart.total == 0" class="col-md-12 text-center">
+            <span class="badge badge-danger">Your Cart is empty</span>
+            <br />
+            <br />
+            <a [routerLink]="['/shop']">
+                <button class="btn btn-default">Continue Shopping</button>
+            </a>
+        </div>
     </div>
+    
 </div>
 

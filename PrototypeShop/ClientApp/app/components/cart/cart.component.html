@@ -3,7 +3,6 @@
         <thead>
             <tr>
                 <th></th>
-                <th></th>
                 <th>Product</th>
                 <th></th>
                 <th class="text-right">Total</th>
@@ -11,11 +10,17 @@
             </tr>
         </thead>
         <tbody *ngIf="cart.total > 0">
-            <tr *ngFor="let product of cart.products" title="{{ product.name }} ({{ product.id }})">
-                <td class="text-center" style="vertical-align:middle"><span>{{ product.quantity }}x</span></td>
+            <tr *ngFor="let product of cart.products; let i = index" title="{{ product.name }} ({{ product.id }})">
                 <td class="text-center" style="vertical-align:middle">
-                    <button class="btn btn-default" [disabled]="router.url === '/order'" (click)="cart.increaseProductQuantity(product)"><div class="glyphicon glyphicon-plus"></div></button>
-                    <button *ngIf="product.quantity > 1" class="btn btn-default" [disabled]="router.url === '/order'" (click)="cart.decreaseProductQuantity(product)"><div class="glyphicon glyphicon-minus"></div></button>
+                    <div class="form-group">
+                        <label>
+                            <input #box type="number" class="form-control" value="{{ product.quantity }}" min="1"
+                                   (blur)="cart.updateProductCount(product, box.value)"
+                                   (click)="cart.updateProductCount(product, box.value)"
+                                   (keyup.enter)="cart.updateProductCount(product, box.value)"
+                                   (keypress)="keyPress($event)" />
+                        </label>
+                    </div>
                 </td>
                 <td style="vertical-align:middle">
                     <span>{{ product.name }}</span>
@@ -25,7 +30,7 @@
                 </td>
                 <td class="text-right" style="vertical-align:middle">{{ product.price * product.quantity / 100 | currency:cart.currency:true }}</td>
                 <td class="text-center" style="vertical-align:middle">
-                    <button class="btn btn-danger" [disabled]="router.url === '/order'" (click)="cart.discardProduct(product)"><div class="glyphicon glyphicon-trash"></div></button>
+                    <button class="btn btn-danger" (click)="cart.discardProduct(product)"><div class="glyphicon glyphicon-trash"></div></button>
                 </td>
             </tr>
         </tbody>
@@ -34,6 +39,6 @@
                 <th colspan="7" class="text-right cart-total">{{ cart.total / 100 | currency:cart.currency:true }}</th>
             </tr>
         </tfoot>
-    </table>
+    </table>        
 </div>
 

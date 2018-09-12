@@ -15,9 +15,10 @@
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/shop']">
                         <span class='glyphicon glyphicon-gift'></span><span>Shop</span>
-                        <span class="pull-right" (click)="toggleSidebarCartVisibility($event)">
-                            <span class="badge">
-                                <span class='glyphicon glyphicon-shopping-cart'></span><span>{{ cart.total / 100 | currency:cart.currency:true }}</span>&emsp;
+                        <span class="pull-right"
+                              (click)="toggleSidebarCartVisibility($event)">
+                            <span class="badge badge-info">
+                                <span class='glyphicon glyphicon-shopping-cart'></span>&emsp;<span>{{ cart.total / 100 | currency:cart.currency:true }}</span>&emsp;
                                 <span *ngIf="sidebarCartVisible" class="glyphicon glyphicon-eye-open"></span>
                                 <span *ngIf="!sidebarCartVisible" class="glyphicon glyphicon-eye-close"></span>
                             </span>
@@ -28,7 +29,6 @@
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/customer']">
                         <span class='glyphicon glyphicon-user'></span><span>Customer Details</span>
-                        <span *ngIf="!customerDetailsComplete"><span class="badge pull-right">Incomplete</span></span>
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
@@ -40,18 +40,19 @@
             <div>
                 <br />
                 <br />
-                <div class="text-right">
-                    <span class="badge badge-info" (click)="toggleDebugConsoleVisibility()">Dashboard&ensp;
+                <div class="text-center">
+                    <span class="badge" (click)="toggleDebugConsoleVisibility()">Dashboard&ensp;
                         <span *ngIf="debugConsoleVisible" class="glyphicon glyphicon-eye-open"></span>
                         <span *ngIf="!debugConsoleVisible" class="glyphicon glyphicon-eye-close"></span>
                     </span>&ensp;
                 </div>
                 <ul *ngIf="debugConsoleVisible" id="debug" class="list-group">
-                    <li class="list-group-item">
+                    <li *ngIf="router.url === '/order'" class="list-group-item">
                         <span class="list-group-item-heading">Solution</span>
                         <p *ngFor="let solution of solutions" class="list-group-item-text radio">
                             <label>
-                                <input type="radio" name="solutionsRadios" id="{{ solution | lowercase }}" [checked]="solution.toLowerCase() == currentSolution.toLowerCase()" (click)="setSolution($event)">
+                                <input #solutionRadio type="radio" name="solutionsRadios" id="{{ solution | lowercase }}" [checked]="solution.toLowerCase() == currentSolution.toLowerCase()"
+                                       (click)="setSolution(solutionRadio.id)">
                                 {{ solution }}
                             </label>
                         </p>

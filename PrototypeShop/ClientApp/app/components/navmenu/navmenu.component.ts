@@ -3,6 +3,7 @@ import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Subscription } from 'rxjs';
 import { Cart } from '../cart/cart';
 import { PaymentToken } from '../payment-token/PaymentToken';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'nav-menu',
@@ -25,7 +26,7 @@ export class NavMenuComponent implements OnInit, OnDestroy {
     private customerDetailsComplete: boolean = false;
     private debugConsoleVisible: boolean = false;
 
-    constructor(private checkoutSummaryService: CheckoutSummaryService) { }
+    constructor(private checkoutSummaryService: CheckoutSummaryService, private router: Router) { }
 
     ngOnInit() {
         this.makeSubscriptions();
@@ -74,8 +75,8 @@ export class NavMenuComponent implements OnInit, OnDestroy {
         this.subscriptions.push(cartSubscription, customerDetailsCompleteSubscription, paymentTokenSubscription, paymentTokenCountdownSubscription);
     }
 
-    private setSolution(event: Event) {
-        let target = event.currentTarget as HTMLElement;
-        this.currentSolution = target.id;
+    private setSolution(selectedSolution: string) {
+        this.currentSolution = selectedSolution;
+        this.checkoutSummaryService.updateCheckoutSolution(this.currentSolution);
     }
 }

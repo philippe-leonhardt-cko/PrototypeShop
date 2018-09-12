@@ -2,28 +2,44 @@ html,
 body {
   color: #013a51;
 }
-.btn:focus {
-  outline: none !important;
+.panel {
+  box-shadow: none;
+  background: none;
 }
-.navbar-collapse {
-  border-top: 1px solid #ddd6d0 !important;
+.panel-default {
+  border: none;
 }
-.panel-default > .panel-heading,
-.product-name {
+.panel-default > .panel-heading {
   background: none;
   border: none;
   font-family: 'Times New Roman';
-}
-.product-name {
-  font-size: 2em;
-  line-height: 2em;
 }
 .panel-default > .panel-heading > .panel-title {
   color: #013a51;
   font-size: 2em;
 }
-.btn:active {
-  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.6);
+.product {
+  margin-bottom: 20px;
+  padding: 15px;
+  border: solid 1px #f8f8f8;
+  box-shadow: #f8f8f8 0px 2px 0px 1px;
+  border-radius: 4px;
+}
+.product-title div {
+  line-height: 2em;
+}
+.product-name {
+  background: none;
+  border: none;
+  font-family: 'Times New Roman';
+  font-size: 2em;
+}
+.product div,
+.product span,
+.product p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 a,
 a:hover {
@@ -32,9 +48,40 @@ a:hover {
 .navbar {
   background-color: #f8f8f8;
 }
+.navbar-collapse {
+  border-top: 1px solid #ddd6d0 !important;
+}
 li.link-active a {
   background-color: #aab3c2 !important;
   color: #013a51 !important;
+}
+.cart-total {
+  font-size: 1.1em;
+}
+.badge {
+  background-color: #013a51;
+  color: #fff;
+  font-weight: normal;
+}
+.badge-info {
+  background-color: #ddd6d0;
+  color: #013a51;
+}
+.badge-success {
+  background-color: #00e59e;
+}
+.badge-danger {
+  background-color: #fcbab0;
+}
+#debug .badge {
+  font-family: monospace;
+  font-size: 0.7em;
+}
+.btn:active {
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.6);
+}
+.btn:focus {
+  outline: none !important;
 }
 .btn-default,
 .btn-default:focus,
@@ -50,38 +97,39 @@ li.link-active a {
   background-color: #013a51;
   color: #fff;
 }
-.panel {
-  box-shadow: none;
-}
-.panel-default {
+.btn-info,
+.btn-info:focus,
+.btn-info[disabled]:hover {
   border: none;
-}
-.cart-total {
-  font-size: 1.1em;
-}
-.badge {
-  background-color: #ddd6d0;
-  color: #013a51;
-  font-weight: normal;
-}
-#debug .badge {
-  font-family: monospace;
-  font-size: 0.7em;
-}
-.badge-info {
-  background-color: #013a51;
   color: #fff;
-  font-weight: normal;
+  background-color: #aab3c2;
 }
-.badge-danger {
-  background-color: #fcbab0;
-  color: #013a51;
-  font-weight: normal;
+.btn-info:hover,
+.btn-info:active,
+.btn-info:active:focus {
+  border: none;
+  color: #fff;
+  background-color: #aab3c2;
 }
-.badge-success {
-  background-color: #b2ffe7;
+.btn-success,
+.btn-success:focus {
+  border: solid 1px #013a51;
+  background-color: #013a51;
+  color: #00e59e;
+}
+.btn-success[disabled],
+.btn-success[disabled]:hover {
+  border: solid 1px #013a51;
+  background: none;
   color: #013a51;
-  font-weight: normal;
+}
+.btn-success:hover,
+.btn-success:active,
+.btn-success:active:focus,
+.btn-success:active:hover {
+  border: solid 1px #00e59e;
+  background-color: #00e59e;
+  color: #013a51;
 }
 .btn-danger,
 .btn-danger:focus,
@@ -97,36 +145,8 @@ li.link-active a {
   color: #fff;
   background-color: #fd755f;
 }
-.btn-info,
-.btn-info:focus {
-  border: none;
-  background-color: #aab3c2;
-}
-.btn-info:hover,
-.btn-info:active,
-.btn-info:active:focus {
-  border: none;
-  background-color: #aab3c2;
-}
-.btn-success,
-.btn-success:focus {
-  border: none;
-  background-color: #013a51;
-  color: #00e59e;
-}
-.btn-success:hover,
-.btn-success:active,
-.btn-success:active:focus,
-.btn-success:active:hover {
-  border: none;
-  background-color: #00e59e;
-  color: #013a51;
-}
-.btn-success[disabled],
-.btn-success[disabled]:hover {
-  border: solid 1px #013a51;
-  background: none;
-  color: #013a51;
+table .btn {
+  font-size: 0.8em;
 }
 .well {
   box-shadow: none;
@@ -140,11 +160,34 @@ li.link-active a {
   background-color: #aab3c2;
 }
 cart,
-table .btn,
 cart-summary .price-details {
   font-size: 0.8em;
 }
 cart .glyphicon-plus,
 cart .glyphicon-minus {
   font-size: 0.6em;
+}
+cart .form-group {
+  width: 4em;
+  margin: 0px;
+}
+cart .form-group input {
+  font-weight: normal !important;
+  font-size: 1em;
+  padding: 6px 4px;
+  text-align: right;
+}
+.component {
+  box-sizing: border-box;
+  padding-bottom: 15px;
+  border-radius: 4px;
+}
+.component-default {
+  border: solid 1px #aab3c2;
+}
+.component-success {
+  border: solid 1px #00e59e;
+}
+.component-warning {
+  border: solid 1px #fcbab0;
 }
