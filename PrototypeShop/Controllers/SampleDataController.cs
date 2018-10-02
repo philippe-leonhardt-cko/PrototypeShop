@@ -13,27 +13,36 @@ namespace PrototypeShop.Controllers
             {
                 Id = "100.100.023",
                 Name = "Microscope",
-                VAT = 19,
-                Price = 24999,
-                Description = "See down to the smallest detail.",
+                Pricing = new Pricing()
+                {
+                    Gross = 24999,
+                    TaxPercent = 19
+                },
+                Description = "See down to the smallest detail. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt purus sed ligula euismod ornare porta et ex. Suspendisse at tellus facilisis, porttitor turpis nec, iaculis tortor. Cras in facilisis mauris, sit amet ullamcorper massa.",
                 Tags = new List<string>{ "#Excell" }
             },
             new Product()
             {
                 Id = "200.090.070",
                 Name = "Pocket Knife",
-                VAT = 7,
-                Price = 3595,
-                Description = "Be prepared for any kind of task.",
+                Pricing = new Pricing()
+                {
+                    Gross = 3595,
+                    TaxPercent = 19
+                },
+                Description = "Be prepared for any kind of task. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt purus sed ligula euismod ornare porta et ex. Suspendisse at tellus facilisis, porttitor turpis nec, iaculis tortor. Cras in facilisis mauris, sit amet ullamcorper massa.",
                 Tags = new List<string>{ "#Aspire" }
             },
             new Product()
             {
                 Id = "300.250.011",
                 Name = "Wooden Puzzle",
-                VAT = 7,
-                Price = 1466,
-                Description = "Every piece matters.",
+                Pricing = new Pricing()
+                {
+                    Gross = 1466,
+                    TaxPercent = 19
+                },
+                Description = "Every piece matters. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt purus sed ligula euismod ornare porta et ex. Suspendisse at tellus facilisis, porttitor turpis nec, iaculis tortor. Cras in facilisis mauris, sit amet ullamcorper massa.",
                 Tags = new List<string>{ "#Unite" }
             }
         };
@@ -54,10 +63,29 @@ namespace PrototypeShop.Controllers
         {
             public string Id { get; set; }
             public string Name { get; set; }
-            public int VAT { get; set; }
-            public int Price { get; set; }
+            public Pricing Pricing { get; set; }
             public string Description { get; set; }
             public List<string> Tags { get; set; }
+        }
+
+        public class Pricing
+        {
+            public int Gross { get; set; }
+            public int TaxPercent { get; set; }
+            public int Net
+            {
+                get
+                {
+                    return Gross / (100 + TaxPercent) * 100;
+                }
+            }
+            public int TaxNominal
+            {
+                get
+                {
+                    return Gross - Net;
+                }
+            }
         }
     }
 }
