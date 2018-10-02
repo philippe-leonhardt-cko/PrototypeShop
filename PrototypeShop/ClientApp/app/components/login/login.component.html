@@ -1,0 +1,115 @@
+<div class="component component-{{ customerDetailsComplete ? 'success' : 'warning' }}">
+    <div *ngIf="!customer.isLoggedIn" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <ul class="list-group">
+                    <li class="text-center list-group-item" (click)="customer.shippingToBillingAddress(true)" [class.active]="customer.shippingAddress==customer.billingAddress">Use Billing Address for Shipping</li>
+                    <li class="text-center list-group-item" (click)="customer.shippingToBillingAddress(false)" [class.active]="customer.shippingAddress!==customer.billingAddress">Use a different address for Shipping</li>
+                </ul>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <p>Have an account? Log in to select from saved addresses.</p>
+                <br />
+                <form [formGroup]="loginForm" class="form-horizontal" (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label for="email" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Email</label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="email" class="form-control" id="email" placeholder="your@email.com" formControlName="email" autocomplete="section-login email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password" class="col-lg-2 col-md-2 col-sm-2 col-xs-2 control-label">Password</label>
+                        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <input type="password" class="form-control" id="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" formControlName="password" autocomplete="section-login current-password">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-md-offset-2 col-sm-offset-2 col-xs-offset-2 col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox"> Remember me
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2 col-sm-10">
+                            <button type="submit" class="btn btn-default" [disabled]="!loginForm.valid">Sign in</button>
+                        </div>
+                    </div>
+                </form>
+                <br />
+                <p>Don't have an account yet? Then it's time to <a href="#">register here</a>.</p>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="customer.isLoggedIn" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <label>Billing to:</label>
+                    <div class="addresses-container" id="billingAddresses">
+                        <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                        <div #billingAddresses class="addresses-frame is-set">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.billingAddress!==address" [class.active]="customer.billingAddress==address" (click)="customer.billingAddress=address">
+                                <p>{{ address.firstName }} {{ address.lastName }}</p>
+                                <br />
+                                <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
+                                <p>{{ address.streetName }} {{ address.houseNumber }}</p>
+                                <p>{{ address.additionalAddressLine }}</p>
+                                <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
+                                <p>{{ address.country | uppercase }}</p>
+                            </div>
+                        </div>
+                        <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                    </div>
+                    <ul class="list-group">
+                        <li class="text-center list-group-item" [class.active]="!customer.billingAddress.isTemplateAddress" (click)="customer.newBillingAddress()">Use a new address for Billing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-6 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div>
+                    <label>Shipping to:</label>
+                    <div class="addresses-container" id="shippingAddresses">
+                        <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                        <div #shippingAddresses class="addresses-frame is-set">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.shippingAddress!==address" [class.active]="customer.shippingAddress==address" (click)="customer.shippingAddress=address">
+                                <p>{{ address.firstName }} {{ address.lastName }}</p>
+                                <br />
+                                <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
+                                <p>{{ address.streetName }} {{ address.houseNumber }}</p>
+                                <p>{{ address.additionalAddressLine }}</p>
+                                <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
+                                <p>{{ address.country | uppercase }}</p>
+                            </div>
+                        </div>
+                        <div class="address-nav" (click)="showNextAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                    </div>
+                    <ul class="list-group">
+                        <!--<li class="text-center list-group-item" [class.active]="customer.shippingAddress==customer.billingAddress" (click)="customer.shippingToBillingAddress(true)">Use Billing Address for Shipping</li>-->
+                        <li class="text-center list-group-item" [class.active]="!customer.shippingAddress.isTemplateAddress" (click)="customer.newShippingAddress()">Use a new address for Shipping</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div (click)="customer.logOut()" class="pull-right">Log Out&ensp;<span class="glyphicon glyphicon-log-out"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <br />
+                <a *ngIf="customerDetailsComplete" [routerLink]="['', {outlets: {primary: 'summary', contextMenu: 'summary'}}]"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+

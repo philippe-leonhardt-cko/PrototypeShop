@@ -1,0 +1,26 @@
+<div>
+    <p>
+        <span *ngIf="customer.billingAddress.firstName">{{ customer.billingAddress.firstName }}&#32;</span><span *ngIf="!customer.billingAddress.firstName"><span class="badge badge-danger">First Name</span></span><span *ngIf="customer.billingAddress.lastName">{{ customer.billingAddress.lastName }}</span><span *ngIf="!customer.billingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
+    </p>
+    <br />
+    <p *ngIf="customer.billingAddress.companyName"><strong>{{ customer.billingAddress.companyName }}</strong></p>
+    <p>
+        <span *ngIf="customer.billingAddress.streetName">{{ customer.billingAddress.streetName }}&#32;</span><span *ngIf="!customer.billingAddress.streetName"><span class="badge badge-danger">Street Name</span></span><span *ngIf="customer.billingAddress.houseNumber">{{ customer.billingAddress.houseNumber }}</span><span *ngIf="!customer.billingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
+    </p>
+    <p *ngIf="customer.billingAddress.additionalAddressLine">
+        <span>{{ customer.billingAddress.additionalAddressLine }}</span>
+    </p>
+    <p>
+        <span *ngIf="customer.billingAddress.postcode">{{ customer.billingAddress.postcode }}&#32;</span><span *ngIf="!customer.billingAddress.postcode"><span class="badge badge-danger">Postcode</span></span><span *ngIf="customer.billingAddress.city">{{ customer.billingAddress.city }},&#32;</span><span *ngIf="!customer.billingAddress.city"><span class="badge badge-danger">City</span></span><span *ngIf="customer.billingAddress.municipality">{{ customer.billingAddress.municipality }}</span><span *ngIf="!customer.billingAddress.municipality"><span class="badge badge-danger">Municipality</span></span>
+    </p>
+    <p>
+        <span *ngIf="customer.billingAddress.country">{{ customer.billingAddress.country | uppercase }}</span><span *ngIf="!customer.billingAddress.country"><span class="badge badge-danger">Country</span></span>
+    </p>
+    <br />
+    <p>
+        <span *ngIf="customer.email"><i>{{ customer.email }}</i></span><span *ngIf="!customer.email"><span class="badge badge-danger">Email</span></span>
+    </p>
+</div>
+
+
+

@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { Customer } from '../../classes/customer/customer';
 
 @Component({
-    selector: 'customer-summary',
-    templateUrl: './customerSummary.component.html'
+    selector: 'billing-summary',
+    templateUrl: './billingSummary.component.html'
 })
-export class CustomerSummaryComponent {
+export class BillingSummaryComponent {
     @Input() customer: Customer;
     @Input() customerDetailsComplete: boolean;
 }

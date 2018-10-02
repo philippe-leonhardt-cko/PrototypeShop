@@ -1,0 +1,46 @@
+<div class="row">
+    <div class="text-center">
+        <span class="badge badge-default badge-button" (click)="toggleDebugConsole()">
+            Dashboard&ensp;
+            <span *ngIf="debugConsoleIsVisible" class="glyphicon glyphicon-eye-open"></span>
+            <span *ngIf="!debugConsoleIsVisible" class="glyphicon glyphicon-eye-close"></span>
+        </span>
+    </div>
+</div>
+<br />
+<div *ngIf="debugConsoleIsVisible" class="row dashboard-container">
+    <br />
+    <div class="col-lg-4 col-md-4 col-sm-5 col-xs-6">
+        <ul class="list-group">
+            <li *ngIf="router.url === '/order'" class="list-group-item">
+                <span class="list-group-item-heading">Solution</span>
+                <p *ngFor="let solution of solutions" class="list-group-item-text radio">
+                    <label>
+                        <input #solutionRadio type="radio" name="solutionsRadios" id="{{ solution | lowercase }}" [checked]="solution.toLowerCase() == currentSolution.toLowerCase()"
+                               (click)="setSolution(solutionRadio.id)">
+                        {{ solution }}
+                    </label>
+                </p>
+            </li>
+            <li class="list-group-item">
+                <p>Cart Total</p>
+                <span class="badge" [class.badge-success]="customer.cart.subTotal > 0" [class.badge-danger]="customer.cart.subTotal == 0">{{ customer.cart.grandTotal / 100 | currency:customer.cart.currency:true }}</span>
+            </li>
+            <li class="list-group-item">
+                <p>Payment Token</p>
+                <span class="badge" [class.badge-success]="paymentTokenId != undefined" [class.badge-danger]="paymentTokenId == undefined">{{ paymentTokenId }}{{ paymentTokenCountdown | secondsToTime:' (':')':'Payment Token expired!' }}</span>
+            </li>
+            <li class="list-group-item">
+                <p>Customer Details Complete</p>
+                <span class="badge" [class.badge-success]="customerDetailsComplete" [class.badge-danger]="!customerDetailsComplete">{{ customerDetailsComplete }}</span>
+            </li>
+        </ul>
+    </div>
+    <div class="log col-lg-8 col-md-8 col-sm-7 col-xs-6">
+        <ul class="list-group">
+            <li *ngFor="let entry of log" class="list-group-item">
+                <span class="list-group-item-text badge badge-info">{{ entry.t.value | date:'HH:mm:ss' }}</span>&emsp;<span class="list-group-item-text">{{ entry.m }}</span>
+            </li>
+        </ul>
+    </div>
+</div>

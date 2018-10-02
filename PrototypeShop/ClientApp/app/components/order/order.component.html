@@ -1,43 +1,6 @@
-<div class="row">
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <cart-summary [cart]="cart" class="col-md-12"></cart-summary>
-    </div>
-    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-        <customer-summary [customer]="cart.customer" [customerDetailsComplete]="customerDetailsComplete" class="col-md-12"></customer-summary>
-    </div>
+<div>
+   Order
 </div>
-<div class="row">
-    <div class="col-md-12 col-sm-12">
-        <div class="row">
-            <div *ngIf="cart.total == 0 || !customerDetailsComplete" class="col-md-6 col-sm-12 pull-right">
-                <div class="col-md-12">
-                    <br />
-                    <br />
-                    <p>Please provide all necessary information:</p>
-                    <ul class="list-group">
-                        <li *ngIf="cart.total == 0" class="list-group-item"><a [routerLink]="['/shop']">Continue Shopping</a> and put something in your Cart.</li>
-                        <li *ngIf="!customerDetailsComplete" class="list-group-item"><a [routerLink]="['/customer']">Complete</a> your Billing &amp; Shipping Details.</li>
-                    </ul>
-                </div>
-            </div>
-            <div *ngIf="cart.total > 0 && customerDetailsComplete" class="col-md-12 col-sm-12 pull-right">
-                <div class="col-md-12">
-                    <br />
-                    <br />
-                    <form>
-                        <div class="checkbox">
-                            <label>
-                                <input #verifyOrderInput type="checkbox"
-                                       [checked]="customerAgreesWithGtc"
-                                       (click)="configureCheckout(verifyOrderInput.checked)" />I have read and agree with the <a href="#" target="_blank">General Terms &amp; Conditions</a>. My Billing &amp; Shipping Details are correct and want to continue with the payment of {{ cart.total / 100 | currency:cart.currency:true }}.
-                            </label>
-                        </div>
-                    </form>
-                    <br />
-                    <br />
-                </div>
-            </div>
-        </div>  
-        <cko-solution [cart]="cart" [paymentToken]="paymentToken" [customerAgreesWithGtc]="customerAgreesWithGtc" class="col-md-12"></cko-solution>
-    </div>
-</div>    
+
+
+
