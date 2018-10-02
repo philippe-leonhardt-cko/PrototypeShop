@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit, Inject } from '@angular/core';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Http } from '@angular/http';
-import { Product } from '../product/product';
-import { Cart } from '../cart/cart';
+import { Product } from '../../classes/product/product';
 import { Subscription } from 'rxjs';
 import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@angular/forms';
+import { Customer } from '../../classes/customer/customer';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { FormGroup, FormControl, FormBuilder, FormArray, Validators } from '@ang
 
 export class ShopComponent implements OnInit, OnDestroy {
     private products: Product[] = [];
-    private cart: Cart;
+    private customer: Customer;
     private subscriptions: Subscription[] = [];
     public productsForm: FormGroup;
 
@@ -26,12 +26,11 @@ export class ShopComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.makeSubscriptions();
-        this.http.get(this.baseUrl + 'api/SampleData/GetProducts/')
-            .subscribe(
-                (products: any) => {
-                    this.products = products.json() as Product[];
-                    let productsFA = this.productsForm.get('products') as FormArray;
-                    this.products.forEach((product: Product) => productsFA.push(this.createProduct(product)));
+        this.http.get(this.baseUrl + 'api/SampleData/GetProducts/').subscribe(
+            (products: any) => {
+                this.products = <Product[]>products.json();
+                let productsFA = <FormArray>this.productsForm.get('products');
+                this.products.forEach((product: Product) => productsFA.push(this.createProduct(product)));
             },
             (error: any) => console.error(error));
     }
@@ -41,11 +40,11 @@ export class ShopComponent implements OnInit, OnDestroy {
     }
 
     private makeSubscriptions() {
-        let cartSubscription: Subscription = this.checkoutSummaryService.cart$.subscribe(
-            (cart: Cart) => {
-                this.cart = cart;
+        let customerSubscription: Subscription = this.checkoutSummaryService.customer$.subscribe(
+            (customer: Customer) => {
+                this.customer = customer;
             });
-        this.subscriptions.push(cartSubscription);
+        this.subscriptions.push(customerSubscription);
     }
 
     private createProduct(product: Product): FormGroup {
@@ -55,7 +54,10 @@ export class ShopComponent implements OnInit, OnDestroy {
             "id": product.id,
             "name": product.name,
             "description": product.description,
-            "price": product.price,
+            "gross": product.pricing.gross,
+            "net": product.pricing.net,
+            "taxPercent": product.pricing.taxPercent,
+            "taxNominal": product.pricing.taxNominal,
             "tags": product.tags,
             "vat": product.vat
         });
@@ -65,12 +67,12 @@ export class ShopComponent implements OnInit, OnDestroy {
         let productToAdd: Product = <Product>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('product')).value;
         let quantity: any = <any>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).value;
         quantity = !quantity ? 1 : parseInt(quantity);
-        let productExistsInCart = this.cart.products.find(product => product.id == productToAdd.id) != undefined;
+        let productExistsInCart = this.customer.cart.products.find(product => product.id == productToAdd.id) != undefined;
         if (productExistsInCart) {
-            this.cart.increaseProductQuantity(productToAdd, quantity);
+            this.customer.cart.increaseProductQuantity(productToAdd, quantity);
         } else {
             productToAdd.quantity = quantity;
-            this.cart.addProduct(productToAdd);
+            this.customer.cart.addProduct(productToAdd);
         }
         (<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).setValue('1');
     }

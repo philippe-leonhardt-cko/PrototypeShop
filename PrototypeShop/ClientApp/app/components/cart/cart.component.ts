@@ -1,8 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
-import { Cart } from '../cart/cart';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Customer } from '../../classes/customer/customer';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 
 
 @Component({
@@ -12,25 +11,29 @@ import { Router } from '@angular/router';
 
 export class CartComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
-    private cart: Cart | undefined;
+    private customer: Customer;
+    private customerDetailsComplete: boolean;
 
-    constructor(private checkoutSummaryService: CheckoutSummaryService, private router: Router) { }
+    constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 
     ngOnInit() {
         this.makeSubscriptions();
     }
 
-    ngOnDestroy() { 
+    ngOnDestroy() {
         this.subscriptions.forEach(subscription => subscription.unsubscribe());
     }
 
     private makeSubscriptions() {
-        let cartSubscription: Subscription = this.checkoutSummaryService.cart$.subscribe(
-            (cart: Cart) => {
-                this.cart = cart;
-            }
-        );
-        this.subscriptions.push(cartSubscription);
+        let customerSubscription: Subscription = this.checkoutSummaryService.customer$.subscribe(
+            (customer: Customer) => {
+                this.customer = customer;
+            });
+        let customerDetailsCompleteSubscription: Subscription = this.checkoutSummaryService.customerDetailsComplete$.subscribe(
+            (customerDetailsComplete: boolean) => {
+                this.customerDetailsComplete = customerDetailsComplete;
+            });
+        this.subscriptions.push(customerSubscription, customerDetailsCompleteSubscription);
     }
 
     private keyPress(event: KeyboardEvent) {

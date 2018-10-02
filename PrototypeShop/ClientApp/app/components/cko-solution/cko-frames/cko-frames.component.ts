@@ -1,6 +1,11 @@
-﻿import { Component, Input } from '@angular/core';
-import { Cart } from '../../cart/cart';
+﻿import { Component, Input, OnDestroy, AfterViewInit, Inject } from '@angular/core';
 import { ICheckoutSolutionComponent } from '../../cko-solution/cko-solution.interface';
+import { CheckoutSummaryService } from '../../../services/checkoutsummary.service';
+import { LogEntry } from '../../../classes/log-entry/log-entry';
+import { Customer } from '../../../classes/customer/customer';
+import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
+import { Http } from '@angular/http';
 
 declare var Frames: any;
 
@@ -9,43 +14,51 @@ declare var Frames: any;
     templateUrl: './cko-frames.component.html'
 })
 
-export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
-    @Input() cart: Cart;
+export class CheckoutFramesComponent implements ICheckoutSolutionComponent, AfterViewInit, OnDestroy {
+    private subscriptions: Subscription[] = [];
+    @Input() customer: Customer;
     @Input() paymentToken: string;
-    private _customerAgreesWithGtc: boolean;
-    @Input()
-    set customerAgreesWithGtc(decision: boolean) {
-        this._customerAgreesWithGtc = decision;
-        if (decision) {
-            this.CheckoutConfigure()
-        }
-    }
-    get customerAgreesWithGtc(): boolean {
-        return this._customerAgreesWithGtc;
+    @Input() checkoutSummaryService: CheckoutSummaryService;
+
+    public customerAgreesWithGtc: boolean;
+
+    constructor(private router: Router) { }
+
+    ngAfterViewInit() {
+        let customerAgreesWithGtcSubscription: Subscription = this.checkoutSummaryService.customerAgreesWithGtc$.subscribe(
+            (customerAgreesWithGtc: boolean) => {
+                this.customerAgreesWithGtc = customerAgreesWithGtc;
+                if (this.customerAgreesWithGtc) {
+                    this.CheckoutConfigure();
+                }
+            });
+        this.subscriptions.push(customerAgreesWithGtcSubscription);
     }
 
-    constructor() { }
+    ngOnDestroy() {
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    }
 
     private CheckoutConfigure() {
-        let paymentForm = document.querySelector('#ckoPaymentForm') as HTMLFormElement;
-        let payButton = document.querySelector('#ckoPayButton') as HTMLButtonElement;
-
-        let style = {
-            'iframe.cko-iframe:not(.mobile)': {
-                position: 'relative !important'
-            }
+        let checkoutSummaryService: CheckoutSummaryService = this.checkoutSummaryService;
+        let paymentForm: HTMLFormElement = <HTMLFormElement>document.querySelector('#ckoPaymentForm');
+        let payButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#ckoPayButton');
+        let paymentToken = this.paymentToken;
+        const cardTokenisedCallback = (cardToken: string) => {
+            new LogEntry(checkoutSummaryService, `Card Token ${cardToken} returned from Payment Gateway`);
+            this.customer.cart.chargeWithCardToken(cardToken);
+            this.router.navigate(['', { outlets: { primary: ['order', paymentToken], contextMenu: null } }]);
         }
 
         Frames.init({
             publicKey: 'pk_test_3f148aa9-347a-450d-b940-0a8645b324e7',
             containerSelector: '#ckoFramesContainer',
-            style: style,
-            customerName: this.cart.customer.fullName,
+            customerName: this.customer.fullName,
             billingDetails: {
-                addressLine1: `${this.cart.customer.billingAddress.streetName} ${this.cart.customer.billingAddress.houseNumber}`,
-                postcode: this.cart.customer.billingAddress.postcode,
-                //country: this.cart.customer.billingAddress.country,
-                city: this.cart.customer.billingAddress.city
+                addressLine1: `${this.customer.billingAddress.streetName} ${this.customer.billingAddress.houseNumber}`,
+                postcode: this.customer.billingAddress.postcode,
+                //country: this.customer.billingAddress.country,
+                city: this.customer.billingAddress.city
             },
             cardValidationChanged: function () {
                 payButton.disabled = !Frames.isCardValid();
@@ -56,12 +69,12 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
             },
             cardTokenised: function (event: any) {
                 let cardToken: string = event.data.cardToken;
-                console.log(cardToken);
-                Frames.addCardToken(paymentForm, cardToken);
+                cardTokenisedCallback(cardToken);
+                //Frames.addCardToken(paymentForm, cardToken);
                 //paymentForm.submit();
             },
             cardTokenisationFailed: function (event: any) {
-                console.log(event);
+                new LogEntry(checkoutSummaryService, event);
             }
         });
         paymentForm.addEventListener('submit', function (event) {

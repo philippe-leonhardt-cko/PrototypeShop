@@ -1,18 +1,23 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-12">
-            <br />
-            <br />
-        </div>
-    </div>
-</div>
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-md-3 col-sm-12">
+        <div class="nav-content row col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <nav-menu></nav-menu>
         </div>
-        <div class="col-md-9 col-sm-12 body-content">
+    </div>
+    <div class="row" style="height:100%">
+        <div class="body-content col-lg-8 col-lg-push-4 col-md-7 col-md-push-5 col-sm-12 col-xs-12">
             <router-outlet></router-outlet>
+        </div>
+        <div class="summary-content col-lg-4 col-lg-pull-8 col-md-5 col-md-pull-7 col-sm-12 col-xs-12">
+            <router-outlet name="contextMenu"></router-outlet>
+        </div>
+    </div>
+    <br />
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <dashboard [solutions]="solutions" [customer]="customer" [paymentTokenId]="paymentTokenId" [paymentTokenCountdown]="paymentTokenCountdown" [customerDetailsComplete]="customerDetailsComplete" [log]="log"></dashboard>
         </div>
     </div>
 </div>

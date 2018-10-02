@@ -1,73 +1,47 @@
-<div class="container-fluid">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="row">
-            <form [formGroup]="productsForm">
-                <div formArrayName="products">
-                    <div *ngFor="let product of productsForm.get('products').controls; let i = index;"
-                         [formGroupName]="i"
-                         class="col-lg-4 col-md-4 col-sm-4 col-xs-6">
-                        <div class="product">
-                            <div class=" row text-center">
-                                <img src="/assets/img/{{ productsForm.controls.products.controls[i].controls.id.value }}.jpg" class="img-rounded" style="max-width: 50%;" />
-                            </div>
-                            <br />
-                            <div class="row product-title">
-                                <div class="col-md-12">
-                                    <span class="product-name">{{ productsForm.controls.products.controls[i].controls.name.value }}</span>
-                                </div>
-                                <div class="col-md-12">
-                                    <span class="badge badge-info">{{ productsForm.controls.products.controls[i].controls.id.value }}</span>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <p>{{ productsForm.controls.products.controls[i].controls.description.value }}</p>
-                                </div>
-                            </div>
-                            <br />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <td style="padding-right:5px;">{{ (productsForm.controls.products.controls[i].controls.price.value / 100) / ((productsForm.controls.products.controls[i].controls.vat.value + 100) / 100) | currency:cart.currency:true }}</td>
-                                                <td>(Net)</td>
-                                            </tr>
-                                            <tr>
-                                                <td>{{ ((productsForm.controls.products.controls[i].controls.price.value / 100) / ((productsForm.controls.products.controls[i].controls.vat.value + 100) / 100)) * (productsForm.controls.products.controls[i].controls.vat.value / 100) | currency:cart.currency:true }}</td>
-                                                <td>({{ productsForm.controls.products.controls[i].controls.vat.value }}% VAT)</td>
-                                            </tr>
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="2"><h4>{{ productsForm.controls.products.controls[i].controls.price.value / 100 | currency:cart.currency:true }}</h4></td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div class="form-group-sm form-inline">
-                                        <input #quantityInput type="number" style="width: 5em" min="1" class="form-control text-right"
-                                               formControlName="quantity"
-                                               (keypress)="keyPress($event)"
-                                               (blur)="resetInput(quantityInput, i)" />
-                                        <button class="btn btn-default form-control" (click)="addProduct(i)">Add {{ productsForm.controls.products.controls[i].controls.quantity.value }} to Cart</button>
-                                    </div>
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <div class="row">
+        <form [formGroup]="productsForm">
+            <div formArrayName="products">
+                <div *ngFor="let product of productsForm.get('products').controls; let i = index;"
+                     [formGroupName]="i"
+                     class="col-lg-3 col-md-4 col-sm-6 col-xs-12 product-container">
+                    <div class="product">
+                        <div class="row product-img">
+                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <img src="/assets/img/{{ productsForm.controls.products.controls[i].controls.id.value }}.jpg" class="img-rounded" />
+                            </p>
+                        </div>
+                        <div class="row product-title">
+                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span class="product-name">{{ productsForm.controls.products.controls[i].controls.name.value }}</span>
+                            </p>
+                        </div>
+                        <div class="row product-pricing">
+                            <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span class="pull-left product-id">{{ productsForm.controls.products.controls[i].controls.id.value }}</span><span class="pull-right product-price">{{ productsForm.controls.products.controls[i].controls.gross.value / 100 | currency:customer.cart.currency:true }}</span>
+                            </p>
+                        </div>
+                        <div class="row product-adder">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="form-group-sm form-inline">
+                                    <input #quantityInput type="number" min="1" class="form-control"
+                                           formControlName="quantity"
+                                           (keypress)="keyPress($event)"
+                                           (blur)="resetInput(quantityInput, i)" />
+                                    <button class="btn btn-default" (click)="addProduct(i)"><span>Add {{ productsForm.controls.products.controls[i].controls.quantity.value }} to Cart</span></button>
                                 </div>
                             </div>
                         </div>
-                        
-                        
-
-                        <br />
-                        <!--<p><span *ngFor="let tag of productsForm.controls.products.controls[i].controls.tags.value" class="badge">{{ tag }}</span></p>-->
+                        <div class="row product-description">
+                            <p lang="en" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <span>{{ productsForm.controls.products.controls[i].controls.description.value }}</span>
+                            </p>
+                        </div>
                     </div>
+                    <!--<p><span *ngFor="let tag of productsForm.controls.products.controls[i].controls.tags.value" class="badge">{{ tag }}</span></p>-->
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 

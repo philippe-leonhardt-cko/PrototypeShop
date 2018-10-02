@@ -1,11 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Customer } from './customer';
+import { Customer } from '../../classes/customer/customer';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
-import { BillingAddress } from '../address/BillingAddress';
-import { ShippingAddress } from '../address/ShippingAddress';
-import { BaseAddress } from '../address/BaseAddress';
+import { BaseAddress } from '../../classes/address/BaseAddress';
 
 @Component({
     selector: 'customer',
@@ -17,50 +15,42 @@ export class CustomerComponent implements OnInit, OnDestroy {
     public customer: Customer;
     public billingForm: FormGroup;
     public shippingForm: FormGroup;
-
-    public email = new FormControl("", [Validators.required, Validators.email]);
-    public firstName = new FormControl("", Validators.required);
-    public lastName = new FormControl("", Validators.required);
-    public companyName = new FormControl("");
-    public streetName = new FormControl("", [Validators.required]);
-    public houseNumber = new FormControl("", Validators.required);
-    public postcode = new FormControl("", Validators.required);
-    public city = new FormControl("", Validators.required);
-    public country = new FormControl("", Validators.required);
-
-    public shippingFirstName = new FormControl("", Validators.required);
-    public shippingLastName = new FormControl("", Validators.required);
-    public shippingCompanyName = new FormControl("");
-    public shippingStreetName = new FormControl("", Validators.required);
-    public shippingHouseNumber = new FormControl("", Validators.required);
-    public shippingPostcode = new FormControl("", Validators.required);
-    public shippingCity = new FormControl("", Validators.required);
-    public shippingCountry = new FormControl("", Validators.required);
+    private shippingToBillingAddress: boolean = true;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService, private formBuilder: FormBuilder) {
         this.billingForm = this.formBuilder.group({
-            "email": this.email,
+            "email":    new FormControl("", [Validators.required, Validators.email]),
             "address": this.formBuilder.group({
-                "firstName": this.firstName,
-                "lastName": this.lastName,
-                "companyName": this.companyName,
-                "streetName": this.streetName,
-                "houseNumber": this.houseNumber,
-                "postcode": this.postcode,
-                "city": this.city,
-                "country": this.country                                                                        
-            })            
+                "isPrimaryBillingAddress": false,
+                "isPrimaryShippingAddress": false,
+                "isTemplateAddress": false,
+                "firstName": new FormControl("", Validators.required),
+                "lastName": new FormControl("", Validators.required),
+                "companyName": new FormControl(""),
+                "streetName": new FormControl("", Validators.required),
+                "houseNumber": new FormControl("", Validators.required),
+                "additionalAddressLine": new FormControl(""),
+                "postcode": new FormControl("", Validators.required),
+                "city": new FormControl("", Validators.required),
+                "municipality": new FormControl("", Validators.required),
+                "country": new FormControl("", Validators.required)
+            })          
         });
         this.shippingForm = this.formBuilder.group({
             "address": this.formBuilder.group({
-                "firstName": this.shippingFirstName,
-                "lastName": this.shippingLastName,
-                "companyName": this.shippingCompanyName,
-                "streetName": this.shippingStreetName,
-                "houseNumber": this.shippingHouseNumber,
-                "postcode": this.shippingPostcode,
-                "city": this.shippingCity,
-                "country": this.shippingCountry
+                "isPrimaryBillingAddress": false,
+                "isPrimaryShippingAddress": false,
+                "isTemplateAddress": false,
+                "firstName": new FormControl("", Validators.required),
+                "lastName": new FormControl("", Validators.required),
+                "companyName": new FormControl(""),
+                "streetName": new FormControl("", Validators.required),
+                "houseNumber": new FormControl("", Validators.required),
+                "additionalAddressLine": new FormControl(""),
+                "postcode": new FormControl("", Validators.required),
+                "city": new FormControl("", Validators.required),
+                "municipality": new FormControl("", Validators.required),
+                "country": new FormControl("", Validators.required)
             })
         });
     }
@@ -74,42 +64,31 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
     private makeSubscriptions() {
-        let cartSubscription: Subscription = this.checkoutSummaryService.cart$.subscribe(
-            cart => {
-                this.customer = cart.customer;
+        let customerSubscription: Subscription = this.checkoutSummaryService.customer$.subscribe(
+            (customer: Customer) => {
+                this.customer = customer;
                 this.fillForms();
             }
         );
-        let billingFormSubscription: Subscription = this.billingForm.valueChanges
-            .subscribe(
+        let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
                 this.customer.email = formValues.email;
-                let address = this.customer.billingAddress as BillingAddress;
-                address.firstName = formValues.address.firstName;
-                address.lastName = formValues.address.lastName;
-                address.companyName = formValues.address.companyName;
-                address.streetName = formValues.address.streetName;
-                address.houseNumber = formValues.address.houseNumber;
-                address.postcode = formValues.address.postcode;
-                address.city = formValues.address.city;
-                address.country = formValues.address.country;
+                this.customer.billingAddress = formValues.address;
+                if (this.shippingToBillingAddress) {
+                    this.customer.shippingAddress = formValues.address;
+                }
                 this.formsCompleted();
             });
-        let shippingFormSubscription: Subscription = this.shippingForm.valueChanges
-            .subscribe(
+        let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
-                let address = this.customer.shippingAddress as ShippingAddress;
-                address.firstName = formValues.address.firstName;
-                address.lastName = formValues.address.lastName;
-                address.companyName = formValues.address.companyName;
-                address.streetName = formValues.address.streetName;
-                address.houseNumber = formValues.address.houseNumber;
-                address.postcode = formValues.address.postcode;
-                address.city = formValues.address.city;
-                address.country = formValues.address.country;
+                this.customer.shippingAddress = formValues.address;
                 this.formsCompleted();
             });
-        this.subscriptions.push(cartSubscription, billingFormSubscription, shippingFormSubscription);
+        let shippingToBillingAddressSubscription: Subscription = this.checkoutSummaryService.shippingToBillingAddress$.subscribe(
+            (shippingToBillingAddress: boolean) => {
+                this.shippingToBillingAddress = shippingToBillingAddress;
+            })
+        this.subscriptions.push(customerSubscription, billingFormSubscription, shippingFormSubscription, shippingToBillingAddressSubscription);
     }
 
     private fillForms() {
@@ -120,17 +99,16 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
     private formsCompleted() {
         let allFormsCompleted: boolean = false;
-        if (this.customer.shippingToBillingAddress) {
+        if (this.customer.shippingAddress == this.customer.billingAddress) {
             allFormsCompleted = this.billingForm.valid;
         } else {
             allFormsCompleted = (this.billingForm.valid && this.shippingForm.valid);
         }
         this.checkoutSummaryService.updateCustomerDetailsComplete(allFormsCompleted);
     }
-
 }
 
 interface IFormValues {
-    email?: string;
+    email: string;
     address: BaseAddress;
 }

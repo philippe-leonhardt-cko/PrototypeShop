@@ -1,7 +1,9 @@
-﻿import { Cart } from "../cart/cart";
+﻿import { CheckoutSummaryService } from "../../services/checkoutsummary.service";
+import { Customer } from "../../classes/customer/customer";
 
 export interface ICheckoutSolutionComponent {
-    cart: Cart;
+    customer: Customer;
     paymentToken: string;
     customerAgreesWithGtc: boolean;
+    checkoutSummaryService: CheckoutSummaryService;
 }

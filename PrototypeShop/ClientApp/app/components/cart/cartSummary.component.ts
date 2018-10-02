@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { Cart } from '../cart/cart';
+import { Customer } from '../../classes/customer/customer';
 
 @Component({
     selector: 'cart-summary',
@@ -7,5 +7,5 @@ import { Cart } from '../cart/cart';
 })
 
 export class CartSummaryComponent {
-    @Input() cart: Cart;
+    @Input() customer: Customer;
 }

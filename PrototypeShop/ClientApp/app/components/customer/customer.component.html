@@ -1,149 +1,220 @@
-<div class="container-fluid">
-    <div class="col-md-12 col-sm-12 col-xs-12">
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Billing Details</h4>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <p><strong>Billing to:</strong></p>
+    <form *ngIf="!customer.isLoggedIn || !customer.billingAddress.isTemplateAddress" [formGroup]="billingForm">
+        <div formGroupName="address">
+            <div class="form-group">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <div class="row">
+                        <label for="firstname">First Name*</label>
+                        <input type="text" class="form-control" placeholder="John"
+                               formControlName="firstName"
+                               autocomplete="section-billing given-name" />
+                    </div>
                 </div>
-                <div class="panel-body">
-                    <form [formGroup]="billingForm">
-                        <div class="form-group row">
-                            <div class="col-md-12 col-sm-12 col-xs-12">
-                                <label for="email">Email*</label>
-                                <input type="email" class="form-control" id="email" placeholder="your@email.com" value="{{ customer.email }}"
-                                       formControlName="email" />
-                            </div>
-                        </div>
-                        <div formGroupName="address">
-                            <div class="form-group row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">
-                                    <label for="firstname">First Name*</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="John" value="{{ customer.billingAddress.firstName }}"
-                                           formControlName="firstName" />
-                                </div>
-                                <div class="col-md-7 col-sm-7 col-xs-7">
-                                    <label for="lastname">Last Name*</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Doe" value="{{ customer.billingAddress.lastName }}"
-                                           formControlName="lastName" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label for="companyname">Company Name</label>
-                                    <input type="text" class="form-control" id="companyname" placeholder="Company Name" value="{{ customer.billingAddress.companyName }}"
-                                           formControlName="companyName" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-8 col-sm-8 col-xs-8">
-                                    <label for="streetname">Street Name*</label>
-                                    <input type="text" class="form-control" id="streetname" placeholder="Street Name" value="{{ customer.billingAddress.streetName }}"
-                                           formControlName="streetName" />
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label for="housenumber">House Number*</label>
-                                    <input type="text" class="form-control" id="housenumber" placeholder="House Number" value="{{ customer.billingAddress.houseNumber }}"
-                                           formControlName="houseNumber" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label for="postcode">Postcode*</label>
-                                    <input type="text" class="form-control" id="postcode" placeholder="Postcode" value="{{ customer.billingAddress.postcode }}"
-                                           formControlName="postcode" />
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-8">
-                                    <label for="city">City*</label>
-                                    <input type="text" class="form-control" id="city" placeholder="City" value="{{ customer.billingAddress.city }}"
-                                           formControlName="city" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <label for="country">Country*</label>
-                                    <input type="text" class="form-control" id="country" placeholder="Country" value="{{ customer.billingAddress.country }}"
-                                           formControlName="country" />
-                                </div>
-                            </div>
-                        </div>
-                    </form>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                    <div class="row">
+                        <label for="lastname">Last Name*</label>
+                        <input type="text" class="form-control" placeholder="Doe"
+                               formControlName="lastName"
+                               autocomplete="section-billing family-name" />
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="col-md-6 col-sm-6 col-xs-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">Shipping Address</h4>
-                </div>
-                <div *ngIf="customer.shippingToBillingAddress" class="panel-body">
-                    <button class="btn btn-info" (click)="customer.shippingToBillingAddress=false; formsCompleted()" title="Add additional Shipping Address&#013;in case it is different from the Billing Address.">Add Shipping Address</button>
-                </div>
-                <div *ngIf="!customer.shippingToBillingAddress" class="panel-body">
-                    <form [formGroup]="shippingForm">
-                        <div formGroupName="address">
-                            <div class="form-group row">
-                                <div class="col-md-5 col-sm-5 col-xs-5">
-                                    <label for="firstname">First Name*</label>
-                                    <input type="text" class="form-control" id="firstname" placeholder="John" value="{{ customer.shippingAddress.firstName }}"
-                                           formControlName="firstName" />
-                                </div>
-                                <div class="col-md-7 col-sm-7 col-xs-7">
-                                    <label for="lastname">Last Name*</label>
-                                    <input type="text" class="form-control" id="lastname" placeholder="Doe" value="{{ customer.shippingAddress.lastName }}"
-                                           formControlName="lastName" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <label for="companyname">Company Name</label>
-                                    <input type="text" class="form-control" id="companyname" placeholder="Company Name" value="{{ customer.shippingAddress.companyName }}"
-                                           formControlName="companyName" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-8 col-sm-8 col-xs-8">
-                                    <label for="streetname">Street Name*</label>
-                                    <input type="text" class="form-control" id="streetname" placeholder="Street Name" value="{{ customer.shippingAddress.streetName }}"
-                                           formControlName="streetName" />
-                                </div>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label for="housenumber">House Number*</label>
-                                    <input type="text" class="form-control" id="housenumber" placeholder="House Number" value="{{ customer.shippingAddress.houseNumber }}"
-                                           formControlName="houseNumber" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-4 col-sm-4 col-xs-4">
-                                    <label for="postcode">Postcode*</label>
-                                    <input type="text" class="form-control" id="postcode" placeholder="Postcode" value="{{ customer.shippingAddress.postcode }}"
-                                           formControlName="postcode" />
-                                </div>
-                                <div class="col-md-8 col-sm-8 col-xs-8">
-                                    <label for="city">City*</label>
-                                    <input type="text" class="form-control" id="city" placeholder="City" value="{{ customer.shippingAddress.city }}"
-                                           formControlName="city" />
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="col-md-8 col-sm-8 col-xs-12">
-                                    <label for="country">Country*</label>
-                                    <input type="text" class="form-control" id="country" placeholder="Country" value="{{ customer.shippingAddress.country }}"
-                                           formControlName="country" />
-                                </div>
-                            </div>
-                        </div>     
-                    </form>
-                    <br />
-                    <br />
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
-                        <div class="col-md-12">
-                            <button class="btn btn-danger" (click)="customer.shippingToBillingAddress=true; formsCompleted()" title="Remove additional Shipping Address.&#013;Ship to Billing Address instead.">
-                                <div class="glyphicon glyphicon-trash"></div>
-                            </button>
-                        </div>
+                        <label for="companyname">Company Name</label>
+                        <input type="text" class="form-control" placeholder="Company Name"
+                               formControlName="companyName"
+                               autocomplete="section-billing organization"/>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="row">
+                        <label for="streetname">Street Name*</label>
+                        <input type="text" class="form-control" placeholder="Street Name"
+                               formControlName="streetName"
+                               autocomplete="section-billing address-line1" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <label for="housenumber">House Number*</label>
+                        <input type="text" class="form-control" placeholder="House Number"
+                               formControlName="houseNumber"
+                               autocomplete="section-billing address-line2" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <label for="additionalAddressLine">Additional Address Line</label>
+                        <input type="text" class="form-control" placeholder="Additional Address Line"
+                               formControlName="additionalAddressLine"
+                               autocomplete="section-billing address-line3" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <label for="postcode">Postcode*</label>
+                        <input type="text" class="form-control" placeholder="Postcode"
+                               formControlName="postcode"
+                               autocomplete="section-billing postal-code" />
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="row">
+                        <label for="city">City*</label>
+                        <input type="text" class="form-control" placeholder="City"
+                               formControlName="city"
+                               autocomplete="section-billing address-level2" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="row">
+                        <label for="municipality">Municipality*</label>
+                        <input type="text" class="form-control" placeholder="Municipality"
+                               formControlName="municipality"
+                               autocomplete="section-billing state" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="row">
+                        <label for="country">Country*</label>
+                        <input type="text" class="form-control" placeholder="Country"
+                               formControlName="country"
+                               autocomplete="section-billing country-name" />
                     </div>
                 </div>
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="row">
+                    <label for="email">Email*</label>
+                    <input type="email" class="form-control" placeholder="your@email.com" value="{{ customer.email }}"
+                           formControlName="email"
+                           autocomplete="section-billing email" />
+                </div>
+            </div>
+        </div>
+    </form>
+    <div *ngIf="customer.billingAddress.isTemplateAddress">
+        <billing-summary [customer]="customer" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
     </div>
 </div>
+<div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+    <p><strong>Shipping to:</strong></p>
+    <form *ngIf="customer.shippingAddress!==customer.billingAddress && !customer.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
+        <div formGroupName="address">
+            <div class="form-group">
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                    <div class="row">
+                        <label for="firstname">First Name*</label>
+                        <input type="text" class="form-control" placeholder="John" value="{{ customer.shippingAddress.firstName }}"
+                               formControlName="firstName"
+                               autocomplete="section-shipping given-name" />
+                    </div>
+                </div>
+                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                    <div class="row">
+                        <label for="lastname">Last Name*</label>
+                        <input type="text" class="form-control" placeholder="Doe" value="{{ customer.shippingAddress.lastName }}"
+                               formControlName="lastName"
+                               autocomplete="section-shipping family-name" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <label for="companyname">Company Name</label>
+                        <input type="text" class="form-control" placeholder="Company Name" value="{{ customer.shippingAddress.companyName }}"
+                               formControlName="companyName"
+                               autocomplete="section-shipping organization" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="row">
+                        <label for="streetname">Street Name*</label>
+                        <input type="text" class="form-control" placeholder="Street Name" value="{{ customer.shippingAddress.streetName }}"
+                               formControlName="streetName"
+                               autocomplete="section-shipping address-line1" />
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <label for="housenumber">House Number*</label>
+                        <input type="text" class="form-control" placeholder="House Number" value="{{ customer.shippingAddress.houseNumber }}"
+                               formControlName="houseNumber"
+                               autocomplete="section-shipping address-line2" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="row">
+                        <label for="additionalAddressLine">Additional Address Line</label>
+                        <input type="text" class="form-control" placeholder="Additional Address Line" value="{{ customer.shippingAddress.additionalAddressLine }}"
+                               formControlName="additionalAddressLine"
+                               autocomplete="section-shipping address-line3" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="row">
+                        <label for="postcode">Postcode*</label>
+                        <input type="text" class="form-control" placeholder="Postcode" value="{{ customer.shippingAddress.postcode }}"
+                               formControlName="postcode"
+                               autocomplete="section-shipping postal-code" />
+                    </div>
+                </div>
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                    <div class="row">
+                        <label for="city">City*</label>
+                        <input type="text" class="form-control" placeholder="City" value="{{ customer.shippingAddress.city }}"
+                               formControlName="city"
+                               autocomplete="section-shipping address-level2" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="row">
+                        <label for="municipality">Municipality*</label>
+                        <input type="text" class="form-control" placeholder="Municipality" value="{{ customer.shippingAddress.municipality }}"
+                               formControlName="municipality"
+                               autocomplete="section-shipping state" />
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                    <div class="row">
+                        <label for="country">Country*</label>
+                        <input type="text" class="form-control" placeholder="Country" value="{{ customer.shippingAddress.country }}"
+                               formControlName="country"
+                               autocomplete="section-shipping country-name" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div *ngIf="customer.shippingAddress.isTemplateAddress">
+        <shipping-summary [customer]="customer" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
+    </div>
+    <span *ngIf="customer.shippingAddress==customer.billingAddress && !customer.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
+</div>
+

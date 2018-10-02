@@ -7,70 +7,41 @@
                 <span class='icon-bar'></span>
                 <span class='icon-bar'></span>
             </button>
-            <a class='navbar-brand' [routerLink]="['/imprint']"><img src="/assets/img/logo-standard.png" style="max-width:60%;" /></a>
         </div>
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/shop']">
-                        <span class='glyphicon glyphicon-gift'></span><span>Shop</span>
-                        <span class="pull-right"
-                              (click)="toggleSidebarCartVisibility($event)">
-                            <span class="badge badge-info">
-                                <span class='glyphicon glyphicon-shopping-cart'></span>&emsp;<span>{{ cart.total / 100 | currency:cart.currency:true }}</span>&emsp;
-                                <span *ngIf="sidebarCartVisible" class="glyphicon glyphicon-eye-open"></span>
-                                <span *ngIf="!sidebarCartVisible" class="glyphicon glyphicon-eye-close"></span>
-                            </span>
-                        </span>
-                    </a>
-                    <cart *ngIf="sidebarCartVisible"></cart>
-                </li>
-                <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/customer']">
-                        <span class='glyphicon glyphicon-user'></span><span>Customer Details</span>
+                    <a [routerLink]="['', { outlets: { primary: 'shop', contextMenu: 'shop' }}]">
+                        <div>
+                            <span><span class='glyphicon glyphicon-shopping-cart'></span>Shop</span>
+                        </div>
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['/order']">
-                        <span class='glyphicon glyphicon-check'></span><span>Verify &amp; Pay</span>
+                    <a [routerLink]="['', { outlets: { primary: 'customer', contextMenu: 'customer' }}]">
+                        <div>
+                            <span><span class='glyphicon glyphicon-send'></span>Billing &amp; Shipping</span>
+                        </div>
+                    </a>
+                </li>
+                <li [routerLinkActive]="['link-active']">
+                    <a [routerLink]="['', { outlets: { primary: 'summary', contextMenu: 'summary' }}]">
+                        <div>
+                            <span><span class='glyphicon glyphicon-credit-card'></span>Verify &amp; Pay</span>
+                        </div>
                     </a>
                 </li>
             </ul>
-            <div>
-                <br />
-                <br />
-                <div class="text-center">
-                    <span class="badge" (click)="toggleDebugConsoleVisibility()">Dashboard&ensp;
-                        <span *ngIf="debugConsoleVisible" class="glyphicon glyphicon-eye-open"></span>
-                        <span *ngIf="!debugConsoleVisible" class="glyphicon glyphicon-eye-close"></span>
-                    </span>&ensp;
-                </div>
-                <ul *ngIf="debugConsoleVisible" id="debug" class="list-group">
-                    <li *ngIf="router.url === '/order'" class="list-group-item">
-                        <span class="list-group-item-heading">Solution</span>
-                        <p *ngFor="let solution of solutions" class="list-group-item-text radio">
-                            <label>
-                                <input #solutionRadio type="radio" name="solutionsRadios" id="{{ solution | lowercase }}" [checked]="solution.toLowerCase() == currentSolution.toLowerCase()"
-                                       (click)="setSolution(solutionRadio.id)">
-                                {{ solution }}
-                            </label>
-                        </p>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="list-group-item-heading">Cart Total</span>
-                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="cart.total > 0" [class.badge-danger]="cart.total == 0">{{ cart.total / 100 | currency:cart.currency:true }}</span></p>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="list-group-item-heading">Payment Token</span>
-                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="paymentTokenId != undefined" [class.badge-danger]="paymentTokenId == undefined">{{ paymentTokenId }}{{ paymentTokenCountdown | secondsToTime:' (':')':'Payment Token expired!' }}</span></p>
-                    </li>
-                    <li class="list-group-item">
-                        <span class="list-group-item-heading">Customer Details Complete</span>
-                        <p class="list-group-item-text"><span class="badge" [class.badge-success]="customerDetailsComplete" [class.badge-danger]="!customerDetailsComplete">{{ customerDetailsComplete }}</span></p>
-                    </li>
-                </ul>
-            </div>
+            <ul class="nav navbar-nav pull-right">
+                <li>
+                    <a>
+                        <div>
+                            <span><span class='glyphicon glyphicon-user'></span>Login</span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

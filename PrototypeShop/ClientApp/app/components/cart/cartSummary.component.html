@@ -1,86 +1,84 @@
-<div class="col-md-12 component" [class.component-warning]="cart.total == 0">
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
     <div class="row">
-        <div class="col-md-12">
-            <table *ngIf="cart" class="table" id="cart">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <customer-summary [customer]="customer"></customer-summary>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <table *ngIf="customer.cart" class="table" id="cart">
                 <thead>
                     <tr>
-                        <th></th>
-                        <th>Product</th>
-                        <th>ID</th>
-                        <th></th>
-                        <th class="text-center">Price per Unit</th>
-                        <th class="text-center">Total Price</th>
+                        <th colspan="3"></th>
+                        <th class="text-right">Unit</th>
+                        <th class="text-right">Total</th>
                     </tr>
                 </thead>
-                <tbody *ngIf="cart.total > 0">
-                    <tr *ngFor="let product of cart.products">
+                <tbody *ngIf="customer.cart.subTotal > 0">
+                    <tr *ngFor="let product of customer.cart.products">
                         <td class="text-center" style="vertical-align:middle"><span>{{ product.quantity }}x</span></td>
-                        <td style="vertical-align:middle">
-                            <span>{{ product.name }}</span>
-                        </td>
-                        <td style="vertical-align:middle">
-                            <span>{{ product.id }}</span>
+                        <td class="text-left" style="vertical-align:middle">
+                            <span class="product-name">{{ product.name }}</span><br /><span class="product-id">{{ product.id }}</span>
                         </td>
                         <td class="text-center" style="vertical-align:middle">
-                            <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-width:80%; max-height:20%" />
+                            <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" style="max-height:10%" />
                         </td>
-                        <td class="text-right" style="vertical-align:middle">
-                            <table class="price-details text-right">
+                        <td class="text-right product-unit-pricing" style="vertical-align:middle">
+                            <table>
                                 <tbody>
                                     <tr>
                                         <td>Net:</td>
-                                        <td style="padding-left:5px;">{{ (product.price / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
+                                        <td style="padding-left:15px;">{{ product.pricing.net / 100 | currency:customer.cart.currency:true }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ product.vat }}% VAT:</td>
-                                        <td>{{ ((product.price / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
+                                        <td>Tax:</td>
+                                        <td>{{ product.pricing.taxNominal / 100 | currency:customer.cart.currency:true }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2"><h5>{{ product.price / 100 | currency:cart.currency:true }}</h5></td>
+                                        <th colspan="2">{{ product.pricing.gross / 100 | currency:customer.cart.currency:true }}</th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </td>
-                        <td class="text-right" style="vertical-align:middle">
-                            <table class="price-details text-right">
+                        <td class="text-right product-total-pricing" style="vertical-align:middle">
+                            <table>
                                 <tbody>
                                     <tr>
                                         <td>Net:</td>
-                                        <td style="padding-left:5px;">{{ (product.price * product.quantity / (1 + (product.vat / 100)) / 100) | currency:cart.currency:true }}</td>
+                                        <td style="padding-left:15px;">{{ product.pricing.net * product.quantity / 100 | currency:customer.cart.currency:true }}</td>
                                     </tr>
                                     <tr>
-                                        <td>{{ product.vat }}% VAT:</td>
-                                        <td>{{ ((product.price * product.quantity / (1 + (product.vat / 100)) / 100) * (product.vat / 100)) | currency:cart.currency:true }}</td>
+                                        <td>Tax:</td>
+                                        <td>{{ product.pricing.taxNominal * product.quantity / 100 | currency:customer.cart.currency:true }}</td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <td colspan="2"><h5>{{ product.price * product.quantity / 100 | currency:cart.currency:true }}</h5></td>
+                                        <th colspan="2">{{ product.pricing.gross * product.quantity / 100 | currency:customer.cart.currency:true }}</th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </td>
                     </tr>
                 </tbody>
-                <tfoot *ngIf="cart.total > 0">
+                <tfoot class="text-right">
                     <tr>
-                        <th colspan="6" class="text-right"><h4>{{ cart.total / 100 | currency:cart.currency:true }}</h4></th>
+                        <td colspan="4">Subtotal</td>
+                        <td>{{ customer.cart.subTotal / 100 | currency:customer.cart.currency:true }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">Shipping</td>
+                        <td>{{ customer.cart.shipping / 100 | currency:customer.cart.currency:true }}</td>
+                    </tr>
+                    <tr>
+                        <th colspan="4">Grand Total</th>
+                        <th>{{ customer.cart.grandTotal / 100 | currency:customer.cart.currency:true }}</th>
                     </tr>
                 </tfoot>
             </table>
         </div>
-        
-        <div *ngIf="cart.total == 0" class="col-md-12 text-center">
-            <span class="badge badge-danger">Your Cart is empty</span>
-            <br />
-            <br />
-            <a [routerLink]="['/shop']">
-                <button class="btn btn-default">Continue Shopping</button>
-            </a>
-        </div>
     </div>
-    
 </div>
 
