@@ -44,8 +44,8 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
         let payButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#ckoPayButton');
         const cardTokenisedCallback = async (cardTokenOld: string) => {
             new LogEntry(checkoutSummaryService!, `Old API returned Card Token ${cardTokenOld}`);
-            let cardToken: PaymentToken = await this.customer!.cart.requestCardToken();
-            let orderId: string = await this.customer!.cart.chargeWithCardToken(cardToken.id);
+            let cardToken: PaymentToken = await this.customer!.order.requestCardToken();
+            let orderId: string = await this.customer!.order.chargeWithCardToken(cardToken.id);
             this.router.navigate(['', { outlets: { primary: ['order', orderId], contextMenu: null } }]);
         }
 

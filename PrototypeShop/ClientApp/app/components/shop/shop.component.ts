@@ -66,12 +66,12 @@ export class ShopComponent implements OnInit, OnDestroy {
         let productToAdd: Product = <Product>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('product')).value;
         let quantity: any = <any>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).value;
         quantity = !quantity ? 1 : parseInt(quantity);
-        let productExistsInCart = this.customer!.cart.products.find(product => product.id == productToAdd.id) != undefined;
+        let productExistsInCart = this.customer!.order.cart.products.find(product => product.id == productToAdd.id) != undefined;
         if (productExistsInCart) {
-            this.customer!.cart.increaseProductQuantity(productToAdd, quantity);
+            this.customer!.order.cart.increaseProductQuantity(productToAdd, quantity);
         } else {
             productToAdd.quantity = quantity;
-            this.customer!.cart.addProduct(productToAdd);
+            this.customer!.order.cart.addProduct(productToAdd);
         }
         (<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).setValue('1');
     }

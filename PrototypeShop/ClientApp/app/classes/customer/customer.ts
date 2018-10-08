@@ -1,13 +1,13 @@
 ﻿import { BillingAddress } from '../address/BillingAddress';
 import { ShippingAddress } from '../address/ShippingAddress';
 import { BaseAddress } from '../address/BaseAddress';
-import { Cart } from '../cart/cart';
+import { Order } from '../order/order';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Http } from '@angular/http';
 
 export class Customer {
     public addresses: Array<BaseAddress> = [];
-    public cart: Cart;
+    public order: Order;
     private checkoutSummaryService: CheckoutSummaryService;
     private _isLoggedIn: boolean = false;
     private _email: string = "";
@@ -17,7 +17,7 @@ export class Customer {
 
     constructor(http: Http, baseUrl: string, checkoutSummaryService: CheckoutSummaryService) {
         this.checkoutSummaryService = checkoutSummaryService;
-        this.cart = new Cart(http, baseUrl, this.checkoutSummaryService, this);
+        this.order = new Order(http, baseUrl, this.checkoutSummaryService, this);
     }
 
     public logIn() {

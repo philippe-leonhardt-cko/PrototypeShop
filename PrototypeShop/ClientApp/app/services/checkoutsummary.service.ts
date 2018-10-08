@@ -1,6 +1,5 @@
 ﻿import { Injectable } from '@angular/core';
 import { Subject, ReplaySubject, Timestamp } from 'rxjs';
-import { Cart } from '../classes/cart/cart';
 import { PaymentToken } from '../classes/payment-token/PaymentToken';
 import { LogEntry } from '../classes/log-entry/log-entry';
 import { Customer } from '../classes/customer/customer';

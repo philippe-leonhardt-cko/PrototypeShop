@@ -18,7 +18,7 @@
                         </div>
                         <div class="row product-pricing">
                             <p class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <span class="pull-left product-id">{{ productsForm.controls.products.controls[i].controls.id.value }}</span><span class="pull-right product-price">{{ productsForm.controls.products.controls[i].controls.gross.value / 100 | currency:customer.cart.currency:true }}</span>
+                                <span class="pull-left product-id">{{ productsForm.controls.products.controls[i].controls.id.value }}</span><span class="pull-right product-price">{{ productsForm.controls.products.controls[i].controls.gross.value / 100 | currency:customer.order.currency:true }}</span>
                             </p>
                         </div>
                         <div class="row product-adder">
