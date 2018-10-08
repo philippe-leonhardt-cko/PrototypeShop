@@ -2,8 +2,7 @@
 import { Customer } from "../../classes/customer/customer";
 
 export interface ICheckoutSolutionComponent {
-    customer: Customer;
-    paymentToken: string;
+    customer: Customer | undefined;
     customerAgreesWithGtc: boolean;
-    checkoutSummaryService: CheckoutSummaryService;
+    checkoutSummaryService: CheckoutSummaryService | undefined;
 }

@@ -1,11 +1,10 @@
 ﻿export class Product {
-    id: string;
-    name: string;
-    vat: number;
-    pricing: Pricing;
-    quantity: number;
-    description: string;
-    tags: string[];
+    id: string = "";
+    name: string = "";
+    pricing: Pricing = new Pricing();
+    quantity: number = 0;
+    description: string = "";
+    tags: string[] = [];
 
     constructor(id: string, quantity: number = 1) {
         this.id = id;
@@ -14,8 +13,8 @@
 }
 
 export class Pricing {
-    gross: number;
-    taxPercent: number;
-    net: number;
-    taxNominal: number;
+    gross: number = 0;
+    taxPercent: number = 0;
+    net: number = 0;
+    taxNominal: number = 0;
 }

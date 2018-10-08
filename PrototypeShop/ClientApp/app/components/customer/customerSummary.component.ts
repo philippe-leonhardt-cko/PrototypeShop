@@ -6,6 +6,6 @@ import { Customer } from '../../classes/customer/customer';
     templateUrl: './customerSummary.component.html'
 })
 export class CustomerSummaryComponent {
-    @Input() customer: Customer;
-    @Input() customerDetailsComplete: boolean;
+    @Input() customer: Customer | undefined;
+    @Input() customerDetailsComplete: boolean = false;
 }

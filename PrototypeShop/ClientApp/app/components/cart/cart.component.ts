@@ -11,8 +11,8 @@ import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 
 export class CartComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
-    private customer: Customer;
-    private customerDetailsComplete: boolean;
+    private customer: Customer | undefined;
+    private customerDetailsComplete: boolean = false;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService) { }
 

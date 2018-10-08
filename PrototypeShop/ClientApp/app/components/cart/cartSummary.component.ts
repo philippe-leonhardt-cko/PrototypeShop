@@ -7,5 +7,5 @@ import { Customer } from '../../classes/customer/customer';
 })
 
 export class CartSummaryComponent {
-    @Input() customer: Customer;
+    @Input() customer: Customer | undefined;
 }

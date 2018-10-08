@@ -12,7 +12,7 @@ import { BaseAddress } from '../../classes/address/BaseAddress';
 export class CustomerComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
-    public customer: Customer;
+    public customer: Customer | undefined;
     public billingForm: FormGroup;
     public shippingForm: FormGroup;
     private shippingToBillingAddress: boolean = true;
@@ -72,16 +72,16 @@ export class CustomerComponent implements OnInit, OnDestroy {
         );
         let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
-                this.customer.email = formValues.email;
-                this.customer.billingAddress = formValues.address;
+                this.customer!.email = formValues.email;
+                this.customer!.billingAddress = formValues.address;
                 if (this.shippingToBillingAddress) {
-                    this.customer.shippingAddress = formValues.address;
+                    this.customer!.shippingAddress = formValues.address;
                 }
                 this.formsCompleted();
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
-                this.customer.shippingAddress = formValues.address;
+                this.customer!.shippingAddress = formValues.address;
                 this.formsCompleted();
             });
         let shippingToBillingAddressSubscription: Subscription = this.checkoutSummaryService.shippingToBillingAddress$.subscribe(
@@ -92,14 +92,14 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
     private fillForms() {
-        this.billingForm.patchValue({ email: this.customer.email });
-        this.billingForm.patchValue({ address: this.customer.billingAddress });
-        this.shippingForm.patchValue({ address: this.customer.shippingAddress });
+        this.billingForm.patchValue({ email: this.customer!.email });
+        this.billingForm.patchValue({ address: this.customer!.billingAddress });
+        this.shippingForm.patchValue({ address: this.customer!.shippingAddress });
     }
 
     private formsCompleted() {
         let allFormsCompleted: boolean = false;
-        if (this.customer.shippingAddress == this.customer.billingAddress) {
+        if (this.customer!.shippingAddress == this.customer!.billingAddress) {
             allFormsCompleted = this.billingForm.valid;
         } else {
             allFormsCompleted = (this.billingForm.valid && this.shippingForm.valid);

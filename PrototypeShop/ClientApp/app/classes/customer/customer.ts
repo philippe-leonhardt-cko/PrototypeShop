@@ -10,7 +10,7 @@ export class Customer {
     public cart: Cart;
     private checkoutSummaryService: CheckoutSummaryService;
     private _isLoggedIn: boolean = false;
-    private _email: string;
+    private _email: string = "";
     private _billingAddress: BillingAddress = new BillingAddress();
     private _shippingAddress: ShippingAddress = this.billingAddress;
 

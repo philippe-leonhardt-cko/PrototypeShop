@@ -9,7 +9,7 @@ import { Customer } from '../../classes/customer/customer';
 })
 export class SummaryComponent implements OnDestroy {
     private subscriptions: Subscription[] = [];
-    private customer: Customer;
+    private customer: Customer | undefined;
     
     constructor(private checkoutSummaryService: CheckoutSummaryService) {
         this.makeSubscriptions()

@@ -13,8 +13,8 @@ import { Subscription } from 'rxjs';
 })
 export class LoginComponent implements OnInit, OnDestroy{
     private subscriptions: Subscription[] = [];
-    private customer: Customer;
-    private customerDetailsComplete: boolean;
+    private customer: Customer | undefined;
+    private customerDetailsComplete: boolean = false;
 
     public loginForm: FormGroup;
     public email = new FormControl(""/*, [Validators.required, Validators.email]*/);
@@ -115,10 +115,10 @@ export class LoginComponent implements OnInit, OnDestroy{
             (response: Response) => {
                 let authenticationResponse = response.json() as IAuthenticationResponse;
                 if (authenticationResponse.authorized) {
-                    this.customer.logIn();
+                    this.customer!.logIn();
                     let customerData = (<Customer>authenticationResponse.customer);
-                    this.customer.email = customerData.email;
-                    this.customer.addresses = customerData.addresses.sort(
+                    this.customer!.email = customerData.email;
+                    this.customer!.addresses = customerData.addresses.sort(
                         (a, b) => {
                             let nameA = a.firstName!.toUpperCase();
                             let nameB = b.firstName!.toUpperCase();
@@ -132,9 +132,9 @@ export class LoginComponent implements OnInit, OnDestroy{
                         }
                     );
                     let primaryBillingAddress = <BillingAddress>customerData.addresses.find((address: BillingAddress) => <boolean>address.isPrimaryBillingAddress);
-                    this.customer.billingAddress = primaryBillingAddress;
+                    this.customer!.billingAddress = primaryBillingAddress;
                     let primaryShippingAddress = <ShippingAddress>customerData.addresses.find((address: ShippingAddress) => <boolean>address.isPrimaryShippingAddress);
-                    this.customer.shippingAddress = primaryShippingAddress;
+                    this.customer!.shippingAddress = primaryShippingAddress;
                 }
             },
             (error: any) => console.error(error)

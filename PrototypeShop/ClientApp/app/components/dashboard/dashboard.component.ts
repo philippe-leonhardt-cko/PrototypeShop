@@ -9,12 +9,12 @@ import { Customer } from '../../classes/customer/customer';
     templateUrl: './dashboard.component.html'
 })
 export class DashboardComponent implements OnInit {
-    @Input() solutions: string[];
-    @Input() log: any[];
-    @Input() customer: Customer;
+    @Input() solutions: string[] = [];
+    @Input() log: any[] = [];
+    @Input() customer: Customer | undefined;
     @Input() paymentTokenId: string | undefined;
-    @Input() paymentTokenCountdown: number;
-    @Input() customerDetailsComplete: boolean;
+    @Input() paymentTokenCountdown: number | undefined;
+    @Input() customerDetailsComplete: boolean = false;
     private currentSolution: string | undefined;
     private debugConsoleIsVisible: boolean = false;
 
