@@ -13,6 +13,12 @@ to-do {
 to-do a:hover {
   color: #fff;
 }
+.text-success {
+  color: #00e59e;
+}
+.text-danger {
+  color: #fd755f;
+}
 .body-content {
   margin-top: 105px;
   overflow: hidden;
