@@ -47,6 +47,22 @@ namespace PrototypeShop.Controllers
                     City = "Little Whinging",
                     Municipality = "Surrey",
                     Country = "United Kingdom"
+                },
+                new Address()
+                {
+                    IsPrimaryBillingAddress = false,
+                    IsPrimaryShippingAddress = false,
+                    IsTemplateAddress = true,
+                    FirstName = "Bruce",
+                    LastName = "Wayne",
+                    CompanyName = "Wayne Enterprises",
+                    StreetName = "Wayne Plaza",
+                    HouseNumber = "1",
+                    AdditionalAddressLine = "",
+                    Postcode = "60007",
+                    City = "Gotham City",
+                    Municipality = "Illinois",
+                    Country = "USA"
                 }
             }
         };

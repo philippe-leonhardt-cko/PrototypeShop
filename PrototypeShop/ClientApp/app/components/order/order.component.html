@@ -3,7 +3,7 @@
         <div class="col-lg-12 col-lg-12 col-lg-12 col-lg-12">
             <h2 class="text-{{ paymentIsSuccessful() ? 'success' : 'danger' }}">Your purchase was {{ paymentIsSuccessful() ? '' : 'un' }}successful</h2>
             <br />
-            <p>Purchase of order <span class="badge badge-default">{{ payment.reference }}</span> completed via {{ payment.source.scheme }} **** **** **** {{ payment.source.last4 }} on <span class="badge badge-default">{{ payment.requestedOn | date:'dd MMM y \'at\' HH:mm:ss' }}</span></p>
+            <p>Purchase of order <span class="badge badge-default">{{ payment.reference }}</span> completed via {{ payment.source.scheme }}&nbsp;****&nbsp;****&nbsp;****&nbsp;{{ payment.source.last4 }} on <span class="badge badge-default">{{ payment.requestedOn | date:'dd MMM y \'at\' HH:mm:ss' }}</span></p>
             <p>Total amount: <span class="badge badge-default">{{ (payment.amount / 100) | currency:payment.currency:true }}</span></p>
         </div>
     </div>

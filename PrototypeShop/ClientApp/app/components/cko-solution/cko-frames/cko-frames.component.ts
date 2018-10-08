@@ -54,10 +54,10 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
             containerSelector: '#ckoFramesContainer',
             customerName: this.customer!.fullName,
             billingDetails: {
-                addressLine1: `${this.customer!.billingAddress.streetName} ${this.customer!.billingAddress.houseNumber}`,
-                postcode: this.customer!.billingAddress.postcode,
+                addressLine1: `${this.customer!.order.billingAddress.streetName} ${this.customer!.order.billingAddress.houseNumber}`,
+                postcode: this.customer!.order.billingAddress.postcode,
                 //country: this.customer.billingAddress.country,
-                city: this.customer!.billingAddress.city
+                city: this.customer!.order.billingAddress.city
             },
             cardValidationChanged: function () {
                 payButton.disabled = !Frames.isCardValid();
@@ -69,7 +69,7 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
             cardTokenised: function (event: any) {
                 let cardToken: string = event.data.cardToken;
                 cardTokenisedCallback(cardToken);
-                //Frames.addCardToken(paymentForm, cardToken);
+                Frames.addCardToken(paymentForm, cardToken);
                 //paymentForm.submit();
             },
             cardTokenisationFailed: function (event: any) {

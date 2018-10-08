@@ -1,6 +1,6 @@
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <p><strong>Billing to:</strong></p>
-    <form *ngIf="!customer.isLoggedIn || !customer.billingAddress.isTemplateAddress" [formGroup]="billingForm">
+    <form *ngIf="!customer.order.billingAddress.isTemplateAddress" [formGroup]="billingForm">
         <div formGroupName="address">
             <div class="form-group">
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
@@ -101,26 +101,26 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="row">
                     <label for="email">Email*</label>
-                    <input type="email" class="form-control" placeholder="your@email.com" value="{{ customer.email }}"
+                    <input type="email" class="form-control" placeholder="your@email.com"
                            formControlName="email"
                            autocomplete="section-billing email" />
                 </div>
             </div>
         </div>
     </form>
-    <div *ngIf="customer.billingAddress.isTemplateAddress">
-        <billing-summary [email]="customer.email" [billingAddress]="customer.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
+    <div *ngIf="customer.order.billingAddress.isTemplateAddress">
+        <billing-summary [email]="customer.email" [billingAddress]="customer.order.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
     </div>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
     <p><strong>Shipping to:</strong></p>
-    <form *ngIf="customer.shippingAddress!==customer.billingAddress && !customer.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
+    <form *ngIf="customer.order.shippingAddress!==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
         <div formGroupName="address">
             <div class="form-group">
                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                     <div class="row">
                         <label for="firstname">First Name*</label>
-                        <input type="text" class="form-control" placeholder="John" value="{{ customer.shippingAddress.firstName }}"
+                        <input type="text" class="form-control" placeholder="John"
                                formControlName="firstName"
                                autocomplete="section-shipping given-name" />
                     </div>
@@ -128,7 +128,7 @@
                 <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
                     <div class="row">
                         <label for="lastname">Last Name*</label>
-                        <input type="text" class="form-control" placeholder="Doe" value="{{ customer.shippingAddress.lastName }}"
+                        <input type="text" class="form-control" placeholder="Doe"
                                formControlName="lastName"
                                autocomplete="section-shipping family-name" />
                     </div>
@@ -138,7 +138,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <label for="companyname">Company Name</label>
-                        <input type="text" class="form-control" placeholder="Company Name" value="{{ customer.shippingAddress.companyName }}"
+                        <input type="text" class="form-control" placeholder="Company Name"
                                formControlName="companyName"
                                autocomplete="section-shipping organization" />
                     </div>
@@ -148,7 +148,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <div class="row">
                         <label for="streetname">Street Name*</label>
-                        <input type="text" class="form-control" placeholder="Street Name" value="{{ customer.shippingAddress.streetName }}"
+                        <input type="text" class="form-control" placeholder="Street Name"
                                formControlName="streetName"
                                autocomplete="section-shipping address-line1" />
                     </div>
@@ -156,7 +156,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="row">
                         <label for="housenumber">House Number*</label>
-                        <input type="text" class="form-control" placeholder="House Number" value="{{ customer.shippingAddress.houseNumber }}"
+                        <input type="text" class="form-control" placeholder="House Number"
                                formControlName="houseNumber"
                                autocomplete="section-shipping address-line2" />
                     </div>
@@ -166,7 +166,7 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <label for="additionalAddressLine">Additional Address Line</label>
-                        <input type="text" class="form-control" placeholder="Additional Address Line" value="{{ customer.shippingAddress.additionalAddressLine }}"
+                        <input type="text" class="form-control" placeholder="Additional Address Line"
                                formControlName="additionalAddressLine"
                                autocomplete="section-shipping address-line3" />
                     </div>
@@ -176,7 +176,7 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                     <div class="row">
                         <label for="postcode">Postcode*</label>
-                        <input type="text" class="form-control" placeholder="Postcode" value="{{ customer.shippingAddress.postcode }}"
+                        <input type="text" class="form-control" placeholder="Postcode"
                                formControlName="postcode"
                                autocomplete="section-shipping postal-code" />
                     </div>
@@ -184,7 +184,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
                     <div class="row">
                         <label for="city">City*</label>
-                        <input type="text" class="form-control" placeholder="City" value="{{ customer.shippingAddress.city }}"
+                        <input type="text" class="form-control" placeholder="City"
                                formControlName="city"
                                autocomplete="section-shipping address-level2" />
                     </div>
@@ -194,7 +194,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="row">
                         <label for="municipality">Municipality*</label>
-                        <input type="text" class="form-control" placeholder="Municipality" value="{{ customer.shippingAddress.municipality }}"
+                        <input type="text" class="form-control" placeholder="Municipality"
                                formControlName="municipality"
                                autocomplete="section-shipping state" />
                     </div>
@@ -204,7 +204,7 @@
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
                     <div class="row">
                         <label for="country">Country*</label>
-                        <input type="text" class="form-control" placeholder="Country" value="{{ customer.shippingAddress.country }}"
+                        <input type="text" class="form-control" placeholder="Country"
                                formControlName="country"
                                autocomplete="section-shipping country-name" />
                     </div>
@@ -212,9 +212,9 @@
             </div>
         </div>
     </form>
-    <div *ngIf="customer.shippingAddress.isTemplateAddress">
-        <shipping-summary [shippingAddress]="customer.shippingAddress" [billingAddress]="customer.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
+    <div *ngIf="customer.order.shippingAddress.isTemplateAddress">
+        <shipping-summary [shippingAddress]="customer.order.shippingAddress" [billingAddress]="customer.order.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
     </div>
-    <span *ngIf="customer.shippingAddress==customer.billingAddress && !customer.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
+    <span *ngIf="customer.order.shippingAddress==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
 </div>
 

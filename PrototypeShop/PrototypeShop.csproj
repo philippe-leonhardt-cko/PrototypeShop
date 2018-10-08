@@ -23,8 +23,11 @@
 
   <ItemGroup>
     <None Remove="ClientApp\app\classes\address\BaseAddress.ts" />
-    <None Remove="ClientApp\app\classes\address\BillingAddress.ts" />
-    <None Remove="ClientApp\app\classes\address\ShippingAddress.ts" />
+    <None Remove="ClientApp\app\classes\address\GetAddress.ts" />
+    <None Remove="ClientApp\app\classes\address\Phone.ts" />
+    <None Remove="ClientApp\app\classes\address\Shipping.ts" />
+    <None Remove="ClientApp\app\classes\address\Source.ts" />
+    <None Remove="ClientApp\app\classes\cart\cart.ts" />
     <None Remove="ClientApp\app\classes\log-entry\log-entry.ts" />
     <None Remove="ClientApp\app\components\cart\cart.ts" />
     <None Remove="ClientApp\app\components\cko-solution\cko-frames\cko-frames.component.ts" />
@@ -46,10 +49,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\app\classes\address\Phone.ts" />
+    <TypeScriptCompile Include="ClientApp\app\classes\address\GetAddress.ts" />
     <TypeScriptCompile Include="ClientApp\app\classes\address\BaseAddress.ts" />
-    <TypeScriptCompile Include="ClientApp\app\classes\address\BillingAddress.ts" />
-    <TypeScriptCompile Include="ClientApp\app\classes\address\ShippingAddress.ts" />
+    <TypeScriptCompile Include="ClientApp\app\classes\address\Source.ts" />
+    <TypeScriptCompile Include="ClientApp\app\classes\address\Shipping.ts" />
     <TypeScriptCompile Include="ClientApp\app\classes\cart\cart.ts" />
+    <TypeScriptCompile Include="ClientApp\app\classes\order\order.ts" />
     <TypeScriptCompile Include="ClientApp\app\classes\log-entry\log-entry.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-frames\cko-frames.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-js\cko-js.component.ts" />

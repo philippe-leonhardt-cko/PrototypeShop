@@ -2,10 +2,9 @@ import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { Http, Response } from '@angular/http';
 import { Customer } from '../../classes/customer/customer';
-import { BillingAddress } from '../../classes/address/BillingAddress';
-import { ShippingAddress } from '../../classes/address/ShippingAddress';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { Subscription } from 'rxjs';
+import { BaseAddress } from '../../classes/address/BaseAddress';
 
 @Component({
     selector: 'login',
@@ -131,10 +130,10 @@ export class LoginComponent implements OnInit, OnDestroy{
                             return 0;
                         }
                     );
-                    let primaryBillingAddress = <BillingAddress>customerData.addresses.find((address: BillingAddress) => <boolean>address.isPrimaryBillingAddress);
-                    this.customer!.billingAddress = primaryBillingAddress;
-                    let primaryShippingAddress = <ShippingAddress>customerData.addresses.find((address: ShippingAddress) => <boolean>address.isPrimaryShippingAddress);
-                    this.customer!.shippingAddress = primaryShippingAddress;
+                    let primaryBillingAddress = <BaseAddress>customerData.addresses.find((address: BaseAddress) => <boolean>address.isPrimaryBillingAddress);
+                    this.customer!.order.billingAddress = primaryBillingAddress;
+                    let primaryShippingAddress = <BaseAddress>customerData.addresses.find((address: BaseAddress) => <boolean>address.isPrimaryShippingAddress);
+                    this.customer!.order.shippingAddress = primaryShippingAddress;
                 }
             },
             (error: any) => console.error(error)

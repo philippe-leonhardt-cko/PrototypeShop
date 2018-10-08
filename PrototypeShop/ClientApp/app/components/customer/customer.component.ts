@@ -73,15 +73,15 @@ export class CustomerComponent implements OnInit, OnDestroy {
         let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
                 this.customer!.email = formValues.email;
-                this.customer!.billingAddress = formValues.address;
+                this.customer!.order.billingAddress = formValues.address;
                 if (this.shippingToBillingAddress) {
-                    this.customer!.shippingAddress = formValues.address;
+                    this.customer!.order.shippingAddress = formValues.address;
                 }
                 this.formsCompleted();
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
             (formValues: IFormValues) => {
-                this.customer!.shippingAddress = formValues.address;
+                this.customer!.order.shippingAddress = formValues.address;
                 this.formsCompleted();
             });
         let shippingToBillingAddressSubscription: Subscription = this.checkoutSummaryService.shippingToBillingAddress$.subscribe(
@@ -93,13 +93,13 @@ export class CustomerComponent implements OnInit, OnDestroy {
 
     private fillForms() {
         this.billingForm.patchValue({ email: this.customer!.email });
-        this.billingForm.patchValue({ address: this.customer!.billingAddress });
-        this.shippingForm.patchValue({ address: this.customer!.shippingAddress });
+        this.billingForm.patchValue({ address: this.customer!.order.billingAddress });
+        this.shippingForm.patchValue({ address: this.customer!.order.shippingAddress });
     }
 
     private formsCompleted() {
         let allFormsCompleted: boolean = false;
-        if (this.customer!.shippingAddress == this.customer!.billingAddress) {
+        if (this.customer!.order.shippingAddress == this.customer!.order.billingAddress) {
             allFormsCompleted = this.billingForm.valid;
         } else {
             allFormsCompleted = (this.billingForm.valid && this.shippingForm.valid);

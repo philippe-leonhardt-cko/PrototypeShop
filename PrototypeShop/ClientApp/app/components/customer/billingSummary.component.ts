@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BillingAddress } from '../../classes/address/BillingAddress';
+import { BaseAddress } from '../../classes/address/BaseAddress';
 
 @Component({
     selector: 'billing-summary',
@@ -7,6 +7,6 @@ import { BillingAddress } from '../../classes/address/BillingAddress';
 })
 export class BillingSummaryComponent {
     @Input() email: string | undefined;
-    @Input() billingAddress: BillingAddress | undefined;
+    @Input() billingAddress: BaseAddress | undefined;
     @Input() customerDetailsComplete: boolean = false;
 }

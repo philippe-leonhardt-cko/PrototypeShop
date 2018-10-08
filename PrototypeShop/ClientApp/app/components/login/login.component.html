@@ -3,8 +3,8 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <ul class="list-group">
-                    <li class="text-center list-group-item" (click)="customer.shippingToBillingAddress(true)" [class.active]="customer.shippingAddress==customer.billingAddress">Use Billing Address for Shipping</li>
-                    <li class="text-center list-group-item" (click)="customer.shippingToBillingAddress(false)" [class.active]="customer.shippingAddress!==customer.billingAddress">Use a different address for Shipping</li>
+                    <li class="text-center list-group-item" (click)="customer.order.shippingToBillingAddress(true)" [class.active]="customer.order.shippingAddress==customer.order.billingAddress">Use Billing Address for Shipping</li>
+                    <li class="text-center list-group-item" (click)="customer.order.shippingToBillingAddress(false)" [class.active]="customer.order.shippingAddress!==customer.order.billingAddress">Use a different address for Shipping</li>
                 </ul>
             </div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -51,7 +51,7 @@
                     <div class="addresses-container" id="billingAddresses">
                         <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                         <div #billingAddresses class="addresses-frame is-set">
-                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.billingAddress!==address" [class.active]="customer.billingAddress==address" (click)="customer.billingAddress=address">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address" [class.active]="customer.order.billingAddress==address" (click)="customer.order.billingAddress=address">
                                 <p>{{ address.firstName }} {{ address.lastName }}</p>
                                 <br />
                                 <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
@@ -64,7 +64,7 @@
                         <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                     </div>
                     <ul class="list-group">
-                        <li class="text-center list-group-item" [class.active]="!customer.billingAddress.isTemplateAddress" (click)="customer.newBillingAddress()">Use a new address for Billing</li>
+                        <li class="text-center list-group-item" [class.active]="!customer.order.billingAddress.isTemplateAddress" (click)="customer.order.newBillingAddress()">Use a new address for Billing</li>
                     </ul>
                 </div>
             </div>
@@ -76,7 +76,7 @@
                     <div class="addresses-container" id="shippingAddresses">
                         <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                         <div #shippingAddresses class="addresses-frame is-set">
-                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.shippingAddress!==address" [class.active]="customer.shippingAddress==address" (click)="customer.shippingAddress=address">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address" [class.active]="customer.order.shippingAddress==address" (click)="customer.order.shippingAddress=address">
                                 <p>{{ address.firstName }} {{ address.lastName }}</p>
                                 <br />
                                 <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
@@ -90,7 +90,7 @@
                     </div>
                     <ul class="list-group">
                         <!--<li class="text-center list-group-item" [class.active]="customer.shippingAddress==customer.billingAddress" (click)="customer.shippingToBillingAddress(true)">Use Billing Address for Shipping</li>-->
-                        <li class="text-center list-group-item" [class.active]="!customer.shippingAddress.isTemplateAddress" (click)="customer.newShippingAddress()">Use a new address for Shipping</li>
+                        <li class="text-center list-group-item" [class.active]="!customer.order.shippingAddress.isTemplateAddress" (click)="customer.order.newShippingAddress()">Use a new address for Shipping</li>
                     </ul>
                 </div>
             </div>
