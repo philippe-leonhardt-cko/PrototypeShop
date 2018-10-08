@@ -1,11 +1,12 @@
 import { Component, Input } from '@angular/core';
-import { Customer } from '../../classes/customer/customer';
+import { BillingAddress } from '../../classes/address/BillingAddress';
 
 @Component({
     selector: 'billing-summary',
     templateUrl: './billingSummary.component.html'
 })
 export class BillingSummaryComponent {
-    @Input() customer: Customer;
-    @Input() customerDetailsComplete: boolean;
+    @Input() email: string | undefined;
+    @Input() billingAddress: BillingAddress | undefined;
+    @Input() customerDetailsComplete: boolean = false;
 }

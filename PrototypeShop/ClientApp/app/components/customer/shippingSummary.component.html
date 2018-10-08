@@ -1,24 +1,24 @@
 <div>
-    <p *ngIf="customer.shippingAddress == customer.billingAddress">
+    <p *ngIf="shippingAddress == billingAddress">
         <span class="badge badge-info">Shipping to Billing Address</span>
     </p>
-    <div *ngIf="customer.shippingAddress != customer.billingAddress">
+    <div *ngIf="shippingAddress != billingAddress">
         <p>
-            <span *ngIf="customer.shippingAddress.firstName">{{ customer.shippingAddress.firstName }}&#32;</span><span *ngIf="!customer.shippingAddress.firstName"><span class="badge badge-danger">First Name</span></span><span *ngIf="customer.shippingAddress.lastName">{{ customer.shippingAddress.lastName }}</span><span *ngIf="!customer.shippingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
+            <span *ngIf="shippingAddress.firstName">{{ shippingAddress.firstName }}&#32;</span><span *ngIf="!shippingAddress.firstName"><span class="badge badge-danger">First Name</span></span><span *ngIf="shippingAddress.lastName">{{ shippingAddress.lastName }}</span><span *ngIf="!shippingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
         </p>
         <br />
-        <p *ngIf="customer.shippingAddress.companyName"><strong>{{ customer.shippingAddress.companyName }}</strong></p>
+        <p *ngIf="shippingAddress.companyName"><strong>{{ shippingAddress.companyName }}</strong></p>
         <p>
-            <span *ngIf="customer.shippingAddress.streetName">{{ customer.shippingAddress.streetName }}&#32;</span><span *ngIf="!customer.shippingAddress.streetName"><span class="badge badge-danger">Street Name</span></span><span *ngIf="customer.shippingAddress.houseNumber">{{ customer.shippingAddress.houseNumber }}</span><span *ngIf="!customer.shippingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
+            <span *ngIf="shippingAddress.streetName">{{ shippingAddress.streetName }}&#32;</span><span *ngIf="!shippingAddress.streetName"><span class="badge badge-danger">Street Name</span></span><span *ngIf="shippingAddress.houseNumber">{{ shippingAddress.houseNumber }}</span><span *ngIf="!shippingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
         </p>
-        <p *ngIf="customer.shippingAddress.additionalAddressLine">
-            <span>{{ customer.shippingAddress.additionalAddressLine }}</span>
-        </p>
-        <p>
-            <span *ngIf="customer.shippingAddress.postcode">{{ customer.shippingAddress.postcode }}&#32;</span><span *ngIf="!customer.shippingAddress.postcode"><span class="badge badge-danger">Postcode</span></span><span *ngIf="customer.shippingAddress.city">{{ customer.shippingAddress.city }},&#32;</span><span *ngIf="!customer.shippingAddress.city"><span class="badge badge-danger">City</span></span><span *ngIf="customer.shippingAddress.municipality">{{ customer.shippingAddress.municipality }}</span><span *ngIf="!customer.shippingAddress.municipality"><span class="badge badge-danger">Municipality</span></span>
+        <p *ngIf="shippingAddress.additionalAddressLine">
+            <span>{{ shippingAddress.additionalAddressLine }}</span>
         </p>
         <p>
-            <span *ngIf="customer.shippingAddress.country">{{ customer.shippingAddress.country | uppercase }}</span><span *ngIf="!customer.shippingAddress.country"><span class="badge badge-danger">Country</span></span>
+            <span *ngIf="shippingAddress.postcode">{{ shippingAddress.postcode }}&#32;</span><span *ngIf="!shippingAddress.postcode"><span class="badge badge-danger">Postcode</span></span><span *ngIf="shippingAddress.city">{{ shippingAddress.city }},&#32;</span><span *ngIf="!shippingAddress.city"><span class="badge badge-danger">City</span></span><span *ngIf="shippingAddress.municipality">{{ shippingAddress.municipality }}</span><span *ngIf="!shippingAddress.municipality"><span class="badge badge-danger">Municipality</span></span>
+        </p>
+        <p>
+            <span *ngIf="shippingAddress.country">{{ shippingAddress.country | uppercase }}</span><span *ngIf="!shippingAddress.country"><span class="badge badge-danger">Country</span></span>
         </p>
     </div>
 </div>

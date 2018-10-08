@@ -109,7 +109,7 @@
         </div>
     </form>
     <div *ngIf="customer.billingAddress.isTemplateAddress">
-        <billing-summary [customer]="customer" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
+        <billing-summary [email]="customer.email" [billingAddress]="customer.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
     </div>
 </div>
 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -213,7 +213,7 @@
         </div>
     </form>
     <div *ngIf="customer.shippingAddress.isTemplateAddress">
-        <shipping-summary [customer]="customer" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
+        <shipping-summary [shippingAddress]="customer.shippingAddress" [billingAddress]="customer.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
     </div>
     <span *ngIf="customer.shippingAddress==customer.billingAddress && !customer.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
 </div>
