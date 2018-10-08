@@ -61,7 +61,7 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
             { path: 'customer', outlet: 'contextMenu', component: LoginComponent },
             { path: 'summary', component: SummaryComponent },
             { path: 'summary', outlet: 'contextMenu', component: CheckoutSolutionComponent },
-            { path: 'order/:paymentToken', component: OrderComponent },
+            { path: 'order/:id', component: OrderComponent },
             { path: '**', redirectTo: '/shop(contextMenu:shop)' }
         ])
     ],

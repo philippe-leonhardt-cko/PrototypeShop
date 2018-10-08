@@ -40,7 +40,6 @@ export class CheckoutSummaryService {
     }
     public updatePaymentToken(paymentToken: PaymentToken) {
         this.paymentTokenSource.next(paymentToken);
-        new LogEntry(this, `Payment Token ${paymentToken.id} created`);
     }
     public updateCheckoutSolution(checkoutSolution: string) {
         this.checkoutSolutionSource.next(checkoutSolution);

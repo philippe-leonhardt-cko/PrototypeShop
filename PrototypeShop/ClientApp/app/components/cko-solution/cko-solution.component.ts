@@ -21,11 +21,10 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
     };
     private solution: Type<any> = this.solutions['frames'];
 
-    private customer: Customer;
-    private paymentToken: string;
-    private customerDetailsComplete: boolean;
-    private customerAgreesWithGtc: boolean;
-    @ViewChild(CheckoutSolutionDirective) checkoutSolutionHost: CheckoutSolutionDirective;
+    private customer: Customer | undefined;
+    private customerDetailsComplete: boolean = false;
+    private customerAgreesWithGtc: boolean = false;
+    @ViewChild(CheckoutSolutionDirective) checkoutSolutionHost: CheckoutSolutionDirective | undefined;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private checkoutSummaryService: CheckoutSummaryService) {
         this.makeSubscriptions();
@@ -42,13 +41,12 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
     private loadComponent() {
         let componentFactory: ComponentFactory<any> = this.componentFactoryResolver.resolveComponentFactory(this.solution);
 
-        let viewContainerRef: ViewContainerRef = this.checkoutSolutionHost.viewContainerRef;
+        let viewContainerRef: ViewContainerRef = this.checkoutSolutionHost!.viewContainerRef;
         viewContainerRef.clear();
 
         let componentRef: ComponentRef<ICheckoutSolutionComponent> = viewContainerRef.createComponent(componentFactory);
         let componentInstance: ICheckoutSolutionComponent = (<ICheckoutSolutionComponent>componentRef.instance);
         componentInstance.customer = this.customer;
-        componentInstance.paymentToken = this.paymentToken;
         componentInstance.checkoutSummaryService = this.checkoutSummaryService;
     }
 
@@ -56,10 +54,6 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
         let customerSubscription: Subscription = this.checkoutSummaryService.customer$.subscribe(
             (customer: Customer) => {
                 this.customer = customer;
-            });
-        let paymentTokenSubscription: Subscription = this.checkoutSummaryService.paymentToken$.subscribe(
-            (paymentToken: PaymentToken) => {
-                this.paymentToken = paymentToken.id;
             });
         let customerDetailsCompleteSubscription: Subscription = this.checkoutSummaryService.customerDetailsComplete$.subscribe(
             (customerDetailsComplete: boolean) => {
@@ -72,7 +66,7 @@ export class CheckoutSolutionComponent implements OnInit, OnDestroy {
                     this.loadComponent();
                 }
             });
-        this.subscriptions.push(customerSubscription, paymentTokenSubscription, customerDetailsCompleteSubscription, checkoutSolutionSubscription);
+        this.subscriptions.push(customerSubscription, customerDetailsCompleteSubscription, checkoutSolutionSubscription);
     }
 
     private configureCheckout(consentGiven: boolean) {

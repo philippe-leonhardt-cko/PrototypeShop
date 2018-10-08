@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Checkout.APIClient" Version="2.2.4" />
+    <PackageReference Include="CheckoutSDK" Version="0.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.9" />
   </ItemGroup>
 

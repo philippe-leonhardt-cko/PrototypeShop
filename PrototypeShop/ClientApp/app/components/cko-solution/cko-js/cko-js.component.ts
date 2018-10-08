@@ -13,9 +13,8 @@ declare var Checkout: any;
 })
 
 export class CheckoutJsComponent implements ICheckoutSolutionComponent {
-    @Input() customer: Customer;
-    @Input() paymentToken: string;
-    private _customerAgreesWithGtc: boolean;
+    @Input() customer: Customer | undefined;
+    private _customerAgreesWithGtc: boolean = false;
     @Input()
     set customerAgreesWithGtc(decision: boolean) {
         this._customerAgreesWithGtc = decision;
@@ -26,20 +25,20 @@ export class CheckoutJsComponent implements ICheckoutSolutionComponent {
     get customerAgreesWithGtc(): boolean {
         return this._customerAgreesWithGtc;
     }
-    @Input() checkoutSummaryService: CheckoutSummaryService;
+    @Input() checkoutSummaryService: CheckoutSummaryService | undefined;
 
     constructor() { }
 
     private CheckoutConfigure() {
-        let checkoutSummaryService: CheckoutSummaryService = this.checkoutSummaryService;
-        let customer: Customer = this.customer;
+        let checkoutSummaryService: CheckoutSummaryService = this.checkoutSummaryService!;
+        let customer: Customer = this.customer!;
         let payButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#ckoPayButton');
 
         Checkout.configure({
             //debugMode: true,
             // START required
             publicKey: 'pk_test_3f148aa9-347a-450d-b940-0a8645b324e7',
-            paymentToken: this.paymentToken,
+            //paymentToken: this.paymentToken,
             customerEmail: customer.email,
             value: customer.cart.subTotal,
             currency: customer.cart.currency,

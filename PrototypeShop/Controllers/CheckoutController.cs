@@ -2,125 +2,103 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Checkout;
-using Checkout.ApiServices.SharedModels;
-using Checkout.ApiServices.Tokens.RequestModels;
-using Checkout.ApiServices.Tokens.ResponseModels;
-using Checkout.ApiServices.Charges.RequestModels;
-using Checkout.ApiServices.Charges.ResponseModels;
+using Checkout.Common;
+using Checkout.Payments;
+using Checkout.Tokens;
+using System.Net.Http;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace PrototypeShop.Checkout
 {
     [Route("api/[controller]")]
     public class CheckoutController : Controller
     {
-        static CheckoutConfiguration configuration = new CheckoutConfiguration()
-        {
-            PublicKey = Environment.GetEnvironmentVariable("CKO_PUBLIC_KEY"),
-            SecretKey = Environment.GetEnvironmentVariable("CKO_SECRET_KEY"),
-            DebugMode = true
-        };
+        static CheckoutApi api = CheckoutApi.Create(
+            secretKey: Environment.GetEnvironmentVariable("CKO_SECRET_KEY"),
+            publicKey: Environment.GetEnvironmentVariable("CKO_PUBLIC_KEY"),
+            useSandbox: true
+            );
 
-        ApiClientAsync CheckoutClient = new ApiClientAsync(configuration);
-
-        [HttpPost("[action]")]
-        public async Task<string> GetPaymentToken([FromBody] Cart cart)
+        static async Task<string> GetCountryAlpha2Code(string countryName)
         {
-            Console.WriteLine(cart.Value);
-            Console.WriteLine(cart.Currency);
-            PaymentTokenCreate paymentTokenCreate = new PaymentTokenCreate()
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage res = await client.GetAsync($"https://restcountries.eu/rest/v2/name/{countryName}"))
+            using (HttpContent content = res.Content)
             {
-                Value = cart.Value.ToString(),
-                Currency = cart.Currency,
-                TrackId = Guid.NewGuid().ToString(),
-                SuccessUrl = "https://www.checkout.com/checkout?order=success",
-                FailUrl = "https://www.checkout.com/checkout?order=fail"
-            };
-            HttpResponse<PaymentToken> paymentTokenResponse = await CheckoutClient.TokenServiceAsync.CreatePaymentTokenAsync(paymentTokenCreate);
-            PaymentToken paymentToken = paymentTokenResponse.Model;
-            return paymentToken.Id;
+                string data = await content.ReadAsStringAsync();
+                List<Country> countries = JsonConvert.DeserializeObject<List<Country>>(data);
+                return countries[0].Alpha2Code;
+            }
+        }
+
+        [HttpGet("[action]/{id}")]
+        public async Task<GetPaymentResponse> GetPaymentDetails(string id)
+        {
+            GetPaymentResponse getPaymentResponse = await api.Payments.GetAsync(id);
+            return getPaymentResponse;
         }
 
         [HttpPost("[action]")]
-        public async Task<Charge> ChargeWithCardToken([FromBody] Order order)
+        public async Task<string> CardTokenRequest([FromBody] Order order)
         {
-            CardTokenCharge cardTokenCharge = new CardTokenCharge()
-            {
-                CardToken = order.CardToken,
-                Email = order.Customer.Email,
-                Currency = order.Cart.Currency,
-                Value = order.Cart.Value.ToString(),
-                BillingDetails = order.Customer.BillingDetails as Address,
-                ShippingDetails = order.Customer.ShippingDetails as Address,
-                AutoCapture = "Y"
+            CardTokenRequest cardTokenRequest = new CardTokenRequest
+            (
+                number: "4242424242424242",
+                expiryMonth: 6,
+                expiryYear: 2022
+            ){
+                Name = order.Customer.Name,
+                BillingAddress = order.Cart.BillingDetails
             };
-            HttpResponse<Charge> cardTokenChargeResponse = await CheckoutClient.ChargeServiceAsync.ChargeWithCardTokenAsync(cardTokenCharge);
-            Charge charge = cardTokenChargeResponse.Model;
-            return charge;
+            cardTokenRequest.BillingAddress.Country = await GetCountryAlpha2Code(cardTokenRequest.BillingAddress.Country);
+            CardTokenResponse cardTokenResponse = await api.Tokens.RequestAsync(cardTokenRequest);
+            return cardTokenResponse.Token;
         }
-    }
 
-    public interface IAddress
-    {
-        string AddressLine1 { get; set; }
-        string AddressLine2 { get; set; }
-        string Postcode { get; set; }
-        string City { get; set; }
-        string State { get; set; }
-        string Country { get; set; }
-    }
-
-    public class Address : IAddress
-    {
-        public string AddressLine1 { get; set; }
-        public string AddressLine2 { get; set; }
-        public string Postcode { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
-
-        public static implicit operator global::Checkout.ApiServices.SharedModels.Address(Address v)
+        [HttpPost("[action]")]
+        public async Task<(string reference, string paymentId)> ChargeWithCardToken([FromBody] Order order)
         {
-            throw new NotImplementedException();
+
+            PaymentRequest<TokenSource> paymentRequest = new PaymentRequest<TokenSource>
+            (
+                source: new TokenSource(order.CardToken),
+                currency: order.Cart.Currency,
+                amount: order.Cart.Value
+            )
+            {
+                Reference = Guid.NewGuid().ToString(),
+                Customer = new Customer()
+                {
+                Name = order.Customer.Name,
+                Email = order.Customer.Email
+                },
+                Shipping = order.Cart.ShippingDetails            
+            };
+            paymentRequest.Shipping.Address.Country = await GetCountryAlpha2Code(paymentRequest.Shipping.Address.Country);
+            PaymentResponse paymentResponse = await api.Payments.RequestAsync(paymentRequest);
+            return (reference: paymentRequest.Reference, paymentId: paymentResponse.Payment.Id);
         }
     }
 
-    public interface ICart
-    {
-        int Value { get; set; }
-        string Currency { get; set; }
-    }
-
-    public class Cart : ICart
+    public class Cart
     {
         public int Value { get; set; }
         public string Currency { get; set; }
+        public Address BillingDetails { get; set; }
+        public ShippingDetails ShippingDetails { get; set; }
     }
 
-    public interface ICustomer
+    public class Order
     {
-        IAddress BillingDetails { get; set; }
-        IAddress ShippingDetails { get; set; }
-        string Email { get; set; }
-    }
-
-    public class Customer : ICustomer
-    {
-        public IAddress BillingDetails { get; set; }
-        public IAddress ShippingDetails { get; set; }
-        public string Email { get; set; }
-    }
-
-    public interface IOrder
-    {
-        ICart Cart { get; set; }
-        ICustomer Customer { get; set; }
-        string CardToken { get; set; }
-    }
-
-    public class Order : IOrder
-    {
-        public ICart Cart { get; set; }
-        public ICustomer Customer { get; set; }
+        public Cart Cart { get; set; }
+        public Customer Customer { get; set; }
         public string CardToken { get; set; }
+    }
+
+    public class Country
+    {
+        public string Name { get; set; }
+        public string Alpha2Code { get; set; }
     }
 }

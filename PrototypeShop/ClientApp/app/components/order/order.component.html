@@ -1,6 +1,29 @@
-<div>
-   Order
+<div *ngIf="payment">
+    <div class="row">
+        <div class="col-lg-12 col-lg-12 col-lg-12 col-lg-12">
+            <h2 class="text-{{ paymentIsSuccessful() ? 'success' : 'danger' }}">Your purchase was {{ paymentIsSuccessful() ? '' : 'un' }}successful</h2>
+            <br />
+            <p>Purchase of order <span class="badge badge-default">{{ payment.reference }}</span> completed via {{ payment.source.scheme }} **** **** **** {{ payment.source.last4 }} on <span class="badge badge-default">{{ payment.requestedOn | date:'dd MMM y \'at\' HH:mm:ss' }}</span></p>
+            <p>Total amount: <span class="badge badge-default">{{ (payment.amount / 100) | currency:payment.currency:true }}</span></p>
+        </div>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-6 col-lg-6 col-lg-6 col-lg-6">
+            <label>Billing to:</label>
+            <billing-summary [email]="payment.customer.email" [billingAddress]="payment.source.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
+        </div>
+        <div *ngIf="payment.shipping" class="col-lg-6 col-lg-6 col-lg-6 col-lg-6">
+            <label>Shipping to:</label>
+            <shipping-summary [shippingAddress]="payment.shipping.address" [billingAddress]="payment.source.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
+        </div>
+    </div>
 </div>
-
-
-
+<div *ngIf="!orderIdExists">
+    <div class="row">
+        <div class="col-lg-12 col-lg-12 col-lg-12 col-lg-12">
+            <h2 class="text-danger">The order ID {{ orderId }} does not exist!</h2>
+        </div>
+    </div>
+</div>

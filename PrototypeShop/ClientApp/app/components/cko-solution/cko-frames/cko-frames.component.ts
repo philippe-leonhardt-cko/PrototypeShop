@@ -5,7 +5,7 @@ import { LogEntry } from '../../../classes/log-entry/log-entry';
 import { Customer } from '../../../classes/customer/customer';
 import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
-import { Http } from '@angular/http';
+import { PaymentToken } from '../../../classes/payment-token/PaymentToken';
 
 declare var Frames: any;
 
@@ -16,16 +16,15 @@ declare var Frames: any;
 
 export class CheckoutFramesComponent implements ICheckoutSolutionComponent, AfterViewInit, OnDestroy {
     private subscriptions: Subscription[] = [];
-    @Input() customer: Customer;
-    @Input() paymentToken: string;
-    @Input() checkoutSummaryService: CheckoutSummaryService;
+    @Input() customer: Customer | undefined;
+    @Input() checkoutSummaryService: CheckoutSummaryService | undefined;
 
-    public customerAgreesWithGtc: boolean;
+    public customerAgreesWithGtc: boolean = false;
 
     constructor(private router: Router) { }
 
     ngAfterViewInit() {
-        let customerAgreesWithGtcSubscription: Subscription = this.checkoutSummaryService.customerAgreesWithGtc$.subscribe(
+        let customerAgreesWithGtcSubscription: Subscription = (<CheckoutSummaryService>this.checkoutSummaryService).customerAgreesWithGtc$.subscribe(
             (customerAgreesWithGtc: boolean) => {
                 this.customerAgreesWithGtc = customerAgreesWithGtc;
                 if (this.customerAgreesWithGtc) {
@@ -40,25 +39,25 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
     }
 
     private CheckoutConfigure() {
-        let checkoutSummaryService: CheckoutSummaryService = this.checkoutSummaryService;
+        let checkoutSummaryService: CheckoutSummaryService | undefined = this.checkoutSummaryService;
         let paymentForm: HTMLFormElement = <HTMLFormElement>document.querySelector('#ckoPaymentForm');
         let payButton: HTMLButtonElement = <HTMLButtonElement>document.querySelector('#ckoPayButton');
-        let paymentToken = this.paymentToken;
-        const cardTokenisedCallback = (cardToken: string) => {
-            new LogEntry(checkoutSummaryService, `Card Token ${cardToken} returned from Payment Gateway`);
-            this.customer.cart.chargeWithCardToken(cardToken);
-            this.router.navigate(['', { outlets: { primary: ['order', paymentToken], contextMenu: null } }]);
+        const cardTokenisedCallback = async (cardTokenOld: string) => {
+            new LogEntry(checkoutSummaryService!, `Old API returned Card Token ${cardTokenOld}`);
+            let cardToken: PaymentToken = await this.customer!.cart.requestCardToken();
+            let orderId: string = await this.customer!.cart.chargeWithCardToken(cardToken.id);
+            this.router.navigate(['', { outlets: { primary: ['order', orderId], contextMenu: null } }]);
         }
 
         Frames.init({
             publicKey: 'pk_test_3f148aa9-347a-450d-b940-0a8645b324e7',
             containerSelector: '#ckoFramesContainer',
-            customerName: this.customer.fullName,
+            customerName: this.customer!.fullName,
             billingDetails: {
-                addressLine1: `${this.customer.billingAddress.streetName} ${this.customer.billingAddress.houseNumber}`,
-                postcode: this.customer.billingAddress.postcode,
+                addressLine1: `${this.customer!.billingAddress.streetName} ${this.customer!.billingAddress.houseNumber}`,
+                postcode: this.customer!.billingAddress.postcode,
                 //country: this.customer.billingAddress.country,
-                city: this.customer.billingAddress.city
+                city: this.customer!.billingAddress.city
             },
             cardValidationChanged: function () {
                 payButton.disabled = !Frames.isCardValid();
@@ -74,7 +73,7 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
                 //paymentForm.submit();
             },
             cardTokenisationFailed: function (event: any) {
-                new LogEntry(checkoutSummaryService, event);
+                new LogEntry(checkoutSummaryService!, event);
             }
         });
         paymentForm.addEventListener('submit', function (event) {

@@ -1,9 +1,10 @@
 ﻿import { Product } from '../product/product';
-import { Http, RequestOptions, Headers } from '@angular/http';
+import { Http, RequestOptions, Headers, Response } from '@angular/http';
 import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 import { PaymentToken } from '../payment-token/PaymentToken';
 import { Subscription } from 'rxjs';
 import { Customer } from '../customer/customer';
+import { LogEntry } from '../log-entry/log-entry';
 
 export class Cart {
     public id: string;
@@ -12,10 +13,10 @@ export class Cart {
     public subTotal: number = 0;
     public grandTotal: number = 0;
     public shipping: number = 295;
-    private paymentToken: PaymentToken;
+    private cardToken: PaymentToken | undefined;
+    private paymentToken: any | undefined;
 
     constructor(private http: Http, private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService, private customer: Customer) {
-        this.id = '12345';
         this.calculateTotals();
     }
 
@@ -34,25 +35,22 @@ export class Cart {
         }
         this.subTotal = subTotal;
         this.grandTotal = grandTotal;
-        if (this.subTotal > 0) {
-            this.generatePaymentToken();
-        }
     }
 
     public addProduct(requestProduct: Product): Subscription {
         return this.http.get(this.baseUrl + 'api/SampleData/GetProduct/' + requestProduct.id)
             .take(1)
             .subscribe(
-            (result: any) => {
-                let newProduct = <Product>result.json();
-                newProduct.quantity = requestProduct.quantity;
-                this.products.push(newProduct);
-                this.calculateTotals();
-            },
-            (error: any) => {
-                console.error(error);
-            }
-        )
+                (result: Response) => {
+                    let newProduct = <Product>result.json();
+                    newProduct.quantity = requestProduct.quantity;
+                    this.products.push(newProduct);
+                    this.calculateTotals();
+                },
+                (error: any) => {
+                    console.error(error);
+                }
+            )
     }
 
     private discardProduct(product: Product) {
@@ -64,7 +62,7 @@ export class Cart {
     }
 
     public increaseProductQuantity(productToIncrease: Product, increaseBy?: number) {
-        let matchedProduct = this.products.filter((product: Product) => product.id == productToIncrease.id).pop() as Product;
+        let matchedProduct = <Product>this.products.filter((product: Product) => product.id == productToIncrease.id).pop();
         if (increaseBy == undefined) {
             matchedProduct.quantity++;
         } else {
@@ -86,73 +84,115 @@ export class Cart {
         if (typeof quantity == 'string') {
             quantity = parseInt(quantity);
         }
-        let matchedProduct = this.products.filter((product: Product) => product.id == productToUpdate.id).pop() as Product;
+        let matchedProduct = <Product>this.products.filter((product: Product) => product.id == productToUpdate.id).pop();
         if (quantity > 0 && matchedProduct.quantity != quantity) {
             matchedProduct.quantity = quantity;
             this.calculateTotals();
         }
     }
 
-    public generatePaymentToken() {
+    public requestCardToken(): Promise<PaymentToken> {
         let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
         let requestOptions: RequestOptions = new RequestOptions();
         requestOptions.headers = headers;
         let payload = {
-            "value": this.subTotal,
-            "currency": this.currency
-        };
-        this.http.post(this.baseUrl + 'api/Checkout/GetPaymentToken', payload, requestOptions)
-            .take(1)
-            .subscribe(
-                (result: any) => {
-                    let paymentTokenId = result.text() as string;
-                    if (this.paymentToken != undefined) {
-                        this.paymentToken.countdown.unsubscribe();
-                    }
-                    this.paymentToken = new PaymentToken(paymentTokenId, this.checkoutSummaryService, 15*60);
-                    this.checkoutSummaryService.updatePaymentToken(this.paymentToken);
-                },
-                (error: any) => console.error(error)
-            );
-    }
-
-    public chargeWithCardToken(cardToken: string) {
-        let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
-        let requestOptions: RequestOptions = new RequestOptions();
-        requestOptions.headers = headers;
-        let payload = {
-            "cardToken": cardToken,
             "customer": {
                 "email": this.customer.email,
-                "billingDetails": {
-                    "addressLine1": `${this.customer.billingAddress.streetName} ${this.customer.billingAddress.houseNumber}`,
-                    "addressLine2": `${this.customer.billingAddress.additionalAddressLine}`,
-                    "postcode": this.customer.billingAddress.postcode,
-                    "city": this.customer.billingAddress.city,
-                    "state": this.customer.billingAddress.municipality,
-                    "country": this.customer.billingAddress.country
-                },
-                "shippingDetails": {
-                    "addressLine1": `${this.customer.shippingAddress.streetName} ${this.customer.shippingAddress.houseNumber}`,
-                    "addressLine2": `${this.customer.shippingAddress.additionalAddressLine}`,
-                    "postcode": this.customer.shippingAddress.postcode,
-                    "city": this.customer.shippingAddress.city,
-                    "state": this.customer.shippingAddress.municipality,
-                    "country": this.customer.shippingAddress.country
-                }
+                "name": this.customer.fullName
             },
             "cart": {
                 "value": this.grandTotal,
-                "currency": this.currency
+                "currency": this.currency,
+                "billingDetails": {
+                    "addressLine1": `${this.customer.billingAddress.streetName} ${this.customer.billingAddress.houseNumber}`,
+                    "addressLine2": `${this.customer.billingAddress.additionalAddressLine}`,
+                    "city": this.customer.billingAddress.city,
+                    "state": this.customer.billingAddress.municipality,
+                    "zip": this.customer.billingAddress.postcode,
+                    "country": this.customer.billingAddress.country
+                },
+                "shippingDetails": {
+                    "address": {
+                        "addressLine1": `${this.customer.shippingAddress.streetName} ${this.customer.shippingAddress.houseNumber}`,
+                        "addressLine2": `${this.customer.shippingAddress.additionalAddressLine}`,
+                        "city": this.customer.shippingAddress.city,
+                        "state": this.customer.shippingAddress.municipality,
+                        "zip": this.customer.shippingAddress.postcode,
+                        "country": this.customer.shippingAddress.country
+                    }
+                }
             }
         };
-        this.http.post(this.baseUrl + 'api/Checkout/ChargeWithCardToken', payload, requestOptions)
-            .take(1)
-            .subscribe(
-                (result: any) => {
-                    console.log(result.text() as string);
+
+        return new Promise(resolve => {
+            this.http.post(this.baseUrl + 'api/Checkout/CardTokenRequest', payload, requestOptions)
+                .take(1)
+                .subscribe(
+                    (result: Response) => {
+                        let cardTokenId = <string>result.text();
+                        new LogEntry(this.checkoutSummaryService!, `New API returned Card Token ${cardTokenId}`);
+                        if (this.cardToken != undefined) {
+                            this.cardToken.countdown.unsubscribe();
+                        }
+                        this.cardToken = new PaymentToken(cardTokenId, this.checkoutSummaryService, 15 * 60);
+                        this.checkoutSummaryService.updatePaymentToken(this.cardToken);
+                        resolve(this.cardToken);
+                    },
+                    (error: any) => console.error(error)
+                );
+        })
+    }
+
+    public chargeWithCardToken(cardToken: string): Promise<string> {
+        let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+        let requestOptions: RequestOptions = new RequestOptions();
+        requestOptions.headers = headers;
+        let payload = { 
+            "cardToken": cardToken,
+            "customer": {
+                "email": this.customer.email,
+                "name": this.customer.fullName
+            },
+            "cart": {
+                "value": this.grandTotal,
+                "currency": this.currency,
+                "billingDetails": {
+                    "addressLine1": `${this.customer.billingAddress.streetName} ${this.customer.billingAddress.houseNumber}`,
+                    "addressLine2": `${this.customer.billingAddress.additionalAddressLine}`,
+                    "city": this.customer.billingAddress.city,
+                    "state": this.customer.billingAddress.municipality,
+                    "zip": this.customer.billingAddress.postcode,
+                    "country": this.customer.billingAddress.country
                 },
-                (error: any) => console.error(error.text() as string)
-            );
+                "shippingDetails": {
+                    "address": {
+                        "addressLine1": `${this.customer.shippingAddress.streetName} ${this.customer.shippingAddress.houseNumber}`,
+                        "addressLine2": `${this.customer.shippingAddress.additionalAddressLine}`,
+                        "city": this.customer.shippingAddress.city,
+                        "state": this.customer.shippingAddress.municipality,
+                        "zip": this.customer.shippingAddress.postcode,
+                        "country": this.customer.shippingAddress.country
+                    }
+                }
+            }
+        };
+
+        return new Promise(resolve => {
+            this.http.post(this.baseUrl + 'api/Checkout/ChargeWithCardToken', payload, requestOptions)
+                .take(1)
+                .subscribe(
+                (result: Response) => {
+                    let id: string = result.json().item1;
+                    let paymentToken: string = result.json().item2;
+                    this.id = id;
+                    this.paymentToken = paymentToken;
+
+                    localStorage.setItem(this.id, this.paymentToken);
+                    new LogEntry(this.checkoutSummaryService, `Cart saved with ID ${id}`);
+                    resolve(this.id);
+                    },
+                    (error: any) => console.error(error)
+                );
+        })
     }
 }

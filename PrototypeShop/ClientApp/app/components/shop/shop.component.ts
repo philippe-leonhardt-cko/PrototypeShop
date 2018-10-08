@@ -14,7 +14,7 @@ import { Customer } from '../../classes/customer/customer';
 
 export class ShopComponent implements OnInit, OnDestroy {
     private products: Product[] = [];
-    private customer: Customer;
+    private customer: Customer | undefined;
     private subscriptions: Subscription[] = [];
     public productsForm: FormGroup;
 
@@ -58,8 +58,7 @@ export class ShopComponent implements OnInit, OnDestroy {
             "net": product.pricing.net,
             "taxPercent": product.pricing.taxPercent,
             "taxNominal": product.pricing.taxNominal,
-            "tags": product.tags,
-            "vat": product.vat
+            "tags": product.tags
         });
     }
 
@@ -67,12 +66,12 @@ export class ShopComponent implements OnInit, OnDestroy {
         let productToAdd: Product = <Product>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('product')).value;
         let quantity: any = <any>(<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).value;
         quantity = !quantity ? 1 : parseInt(quantity);
-        let productExistsInCart = this.customer.cart.products.find(product => product.id == productToAdd.id) != undefined;
+        let productExistsInCart = this.customer!.cart.products.find(product => product.id == productToAdd.id) != undefined;
         if (productExistsInCart) {
-            this.customer.cart.increaseProductQuantity(productToAdd, quantity);
+            this.customer!.cart.increaseProductQuantity(productToAdd, quantity);
         } else {
             productToAdd.quantity = quantity;
-            this.customer.cart.addProduct(productToAdd);
+            this.customer!.cart.addProduct(productToAdd);
         }
         (<FormControl>(<FormGroup>(<FormArray>this.productsForm.get('products')).controls[i]).get('quantity')).setValue('1');
     }
