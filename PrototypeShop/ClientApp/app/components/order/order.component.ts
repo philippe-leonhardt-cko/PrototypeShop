@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
 
@@ -6,7 +6,7 @@ import { Http, RequestOptions, Headers, Response } from '@angular/http';
     selector: 'order',
     templateUrl: './order.component.html'
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent {
     private payment: Payment;
     private orderIdExists: boolean = true;
     private orderId: string;
@@ -25,17 +25,17 @@ export class OrderComponent implements OnInit {
     };
 
     constructor(private activatedRoute: ActivatedRoute, private http: Http, @Inject('BASE_URL') private baseUrl: string) {
-        this.orderId = this.activatedRoute.snapshot.params['id'];
-    }
-
-    ngOnInit() {
-        let paymentToken = localStorage.getItem(this.orderId);
-        if (paymentToken) {
-            this.getPaymentDetails(paymentToken);
-        } else {
-            this.orderIdExists = false;
-            console.log(this.orderId, this.orderIdExists)
-        }        
+        this.activatedRoute.params.subscribe(
+            (params: any) => {
+                let paymentToken = localStorage.getItem(params['id']);
+                if (paymentToken) {
+                    this.getPaymentDetails(paymentToken);
+                } else {
+                    this.orderIdExists = false;
+                    console.log(this.orderId, this.orderIdExists)
+                }
+            }
+        );
     }
 
     private getVerbosePaymentStatus(statusCode: number): string {

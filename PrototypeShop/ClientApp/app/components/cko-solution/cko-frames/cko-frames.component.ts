@@ -1,4 +1,4 @@
-﻿import { Component, Input, OnDestroy, AfterViewInit, Inject } from '@angular/core';
+﻿import { Component, Input, OnDestroy, AfterViewInit, Inject, NgZone } from '@angular/core';
 import { ICheckoutSolutionComponent } from '../../cko-solution/cko-solution.interface';
 import { CheckoutSummaryService } from '../../../services/checkoutsummary.service';
 import { LogEntry } from '../../../classes/log-entry/log-entry';
@@ -21,7 +21,7 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
 
     public customerAgreesWithGtc: boolean = false;
 
-    constructor(private router: Router) { }
+    constructor(private router: Router, private ngZone: NgZone) { }
 
     ngAfterViewInit() {
         let customerAgreesWithGtcSubscription: Subscription = (<CheckoutSummaryService>this.checkoutSummaryService).customerAgreesWithGtc$.subscribe(
@@ -46,7 +46,7 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
             new LogEntry(checkoutSummaryService!, `Old API returned Card Token ${cardTokenOld}`);
             let cardToken: PaymentToken = await this.customer!.order.requestCardToken();
             let orderId: string = await this.customer!.order.chargeWithCardToken(cardToken.id);
-            this.router.navigate(['', { outlets: { primary: ['order', orderId], contextMenu: null } }]);
+            this.ngZone.run(() => this.router.navigateByUrl(`/order/${orderId}`));
         }
 
         Frames.init({
