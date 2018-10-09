@@ -423,6 +423,13 @@ login .addresses-container {
   position: relative;
   margin-bottom: 15px;
 }
+login .addresses-container:not(.active):hover {
+  background-color: #d8e8ed;
+}
+login .addresses-container.active {
+  background-color: #013a51;
+  color: #fff;
+}
 login .addresses-container .addresses-frame {
   display: flex;
   position: relative;
@@ -466,13 +473,6 @@ login .addresses-container .address {
 }
 login .addresses-container .address.is-ref {
   order: 1;
-}
-login .addresses-container .address:not(.active):hover {
-  background-color: #d8e8ed;
-}
-login .addresses-container .address.active {
-  background-color: #013a51;
-  color: #fff;
 }
 login .addresses-container .address p {
   margin: 0px;

@@ -558,6 +558,15 @@ login {
         position: relative;
         margin-bottom: @nav-item-margin;
 
+        &:not(.active):hover {
+            background-color: @cko-sky-blue;
+        }
+
+        &.active {
+            background-color: @cko-midnight-blue;
+            color: @white;
+        }
+
         & .addresses-frame {
             display: flex;
             position: relative;
@@ -608,15 +617,6 @@ login {
 
             &.is-ref {
                 order: 1;
-            }
-
-            &:not(.active):hover {
-                background-color: @cko-sky-blue;
-            }
-
-            &.active {
-                background-color: @cko-midnight-blue;
-                color: @white;
             }
 
             & p {
