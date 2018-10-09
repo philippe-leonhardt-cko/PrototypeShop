@@ -12,21 +12,21 @@
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['', { outlets: { primary: 'shop', contextMenu: 'shop' }}]">
+                    <a [routerLink]="['/shop']">
                         <div>
                             <span><span class='glyphicon glyphicon-shopping-cart'></span>Shop</span>
                         </div>
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['', { outlets: { primary: 'customer', contextMenu: 'customer' }}]">
+                    <a [routerLink]="['/customer']">
                         <div>
                             <span><span class='glyphicon glyphicon-send'></span>Billing &amp; Shipping</span>
                         </div>
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
-                    <a [routerLink]="['', { outlets: { primary: 'summary', contextMenu: 'summary' }}]">
+                    <a [routerLink]="['/summary']">
                         <div>
                             <span><span class='glyphicon glyphicon-credit-card'></span>Verify &amp; Pay</span>
                         </div>

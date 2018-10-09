@@ -1,17 +1,18 @@
-﻿<div class="component component-{{ customer.order.subTotal > 0 && customerDetailsComplete ? 'success' : 'warning'}}">
-    <div *ngIf="customer.order.subTotal == 0" class="row text-justify">
+﻿<div class="component component-{{ (customer.order.subTotal > 0 && customerDetailsComplete) ? 'success' : 'warning'}}">
+    <div *ngIf="customer.order.subTotal == 0 || !customerDetailsComplete" class="row text-justify">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <p>Oh no! You cannot check out yet.</p>
                 <br />
                 <ul class="list-group">
                     <label>To do:</label>
-                    <li *ngIf="customer.order.subTotal == 0" class="list-group-item"><a [routerLink]="['', {outlets: {primary: 'shop', contextMenu: 'shop'}}]">Continue Shopping</a> and put something in the cart.</li>
+                    <li *ngIf="customer.order.subTotal == 0" class="list-group-item"><a [routerLink]="['/shop']">Continue Shopping</a> and put something in the cart.</li>
+                    <li *ngIf="!customerDetailsComplete" class="list-group-item"><a [routerLink]="['/customer']">Provide Details</a> for Billing &amp; Shipping.</li>
                 </ul>
             </div>
         </div>        
     </div>
-    <div *ngIf="customer.order.subTotal > 0" class="row text-justify">
+    <div *ngIf="customer.order.subTotal > 0 && customerDetailsComplete" class="row text-justify">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <form>

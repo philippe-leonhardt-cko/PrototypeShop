@@ -54,15 +54,61 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forRoot([
-            { path: '', redirectTo: '/shop(contextMenu:shop)', pathMatch: 'full' },
-            { path: 'shop', component: ShopComponent },
-            { path: 'shop', outlet: 'contextMenu', component: CartComponent},
-            { path: 'customer', component: CustomerComponent },
-            { path: 'customer', outlet: 'contextMenu', component: LoginComponent },
-            { path: 'summary', component: SummaryComponent },
-            { path: 'summary', outlet: 'contextMenu', component: CheckoutSolutionComponent },
-            { path: 'order/:id', component: OrderComponent },
-            { path: '**', redirectTo: '/shop(contextMenu:shop)' }
+            {
+                path: '',
+                redirectTo: '/shop',
+                pathMatch: 'full'
+            },
+            {
+                path: 'shop',
+                children: [
+                    {
+                        path: '',
+                        component: ShopComponent
+                    },
+                    {
+                        outlet: 'contextMenu',
+                        path: '',
+                        component: CartComponent
+                    }                    
+                ]
+            },
+            {
+                path: 'customer',
+                children: [
+                    {
+                        path: '',
+                        component: CustomerComponent
+                    },
+                    {
+                        outlet: 'contextMenu',
+                        path: '',
+                        component: LoginComponent
+                    }
+                ]
+            },
+            {
+                path: 'summary',
+                children: [
+                    {
+                        path: '',
+                        component: SummaryComponent
+                    },
+                    {
+                        outlet: 'contextMenu',
+                        path: '',
+                        component: CheckoutSolutionComponent
+                    }
+                ]
+            },
+            {
+                path: 'order/:id',
+                component: OrderComponent
+            },
+            {
+                path: '**',
+                redirectTo: '/shop'
+            }
         ])
     ],
     exports: [SummaryDirective],

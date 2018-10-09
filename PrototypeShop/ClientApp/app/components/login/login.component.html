@@ -48,10 +48,10 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div>
                     <label>Billing to:</label>
-                    <div class="addresses-container" id="billingAddresses">
+                    <div class="addresses-container" [class.active]="customer.order.billingAddress.isTemplateAddress" id="billingAddresses">
                         <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                         <div #billingAddresses class="addresses-frame is-set">
-                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address" [class.active]="customer.order.billingAddress==address" (click)="customer.order.billingAddress=address">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address" (click)="customer.order.billingAddress=address">
                                 <p>{{ address.firstName }} {{ address.lastName }}</p>
                                 <br />
                                 <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
@@ -73,10 +73,10 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div>
                     <label>Shipping to:</label>
-                    <div class="addresses-container" id="shippingAddresses">
+                    <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
                         <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                         <div #shippingAddresses class="addresses-frame is-set">
-                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address" [class.active]="customer.order.shippingAddress==address" (click)="customer.order.shippingAddress=address">
+                            <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address" (click)="customer.order.shippingAddress=address">
                                 <p>{{ address.firstName }} {{ address.lastName }}</p>
                                 <br />
                                 <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
@@ -106,7 +106,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <br />
-                <a *ngIf="customerDetailsComplete" [routerLink]="['', {outlets: {primary: 'summary', contextMenu: 'summary'}}]"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
+                <a *ngIf="customer.order.subTotal > 0 && customerDetailsComplete" [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
             </div>
         </div>
     </div>
