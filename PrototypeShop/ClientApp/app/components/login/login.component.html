@@ -109,7 +109,7 @@
                 <a [routerLink]="['/shop']"><button class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Shop</button></a>
                 <br />
                 <br />
-                <a [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
+                <a [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" [disabled]="customer.order.subTotal == 0 || !customerDetailsComplete">Verify &amp; Pay</button></a>
             </div>
         </div>
     </div>

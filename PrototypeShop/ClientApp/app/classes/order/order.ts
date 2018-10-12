@@ -124,7 +124,7 @@ export class Order {
                 }
             }
         };
-
+        
         return new Promise(resolve => {
             this.http.post(this.baseUrl + 'api/Checkout/ChargeWithCardToken', payload, requestOptions)
                 .take(1)
