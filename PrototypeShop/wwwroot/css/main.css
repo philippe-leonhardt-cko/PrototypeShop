@@ -208,6 +208,7 @@ a:hover {
   box-sizing: unset;
   cursor: pointer;
   will-change: border-width;
+  box-shadow: 0px 0px 0 5px #f2f4f5;
   transition: border-width 50ms ease-in;
 }
 .navbar ul.nav > li:not(.complete):after {
