@@ -436,7 +436,7 @@ a:focus {
 
         &[disabled] {
             &, &:hover {
-                border-color: transparent;
+                border-color: @cko-green;
                 background: none;
                 color: @cko-green;
                 box-shadow: none;
@@ -623,7 +623,8 @@ billing-summary, shipping-summary {
 login {
     & .addresses-container {
         background-color: @white;
-        border: none;
+        border: 1px solid @cko-dove-grey;
+        box-shadow: @cko-boxshadow-grey;
         border-radius: @cko-border-radius;
         overflow: hidden;
         cursor: pointer;
@@ -631,11 +632,11 @@ login {
         margin-bottom: @nav-item-margin;
 
         &:not(.active):hover {
-            background-color: @cko-sky-blue;
+            color: @cko-green;
         }
 
         &.active {
-            background-color: @cko-petrol;
+            background: @cko-background-green;
             color: @white;
         }
 
@@ -659,7 +660,7 @@ login {
             position: absolute;
             top: calc(50% - 20px / 2);
             color: @cko-petrol;
-            background-color: @white;
+            background: none;
             width: 20px;
             height: 20px;
             text-align: center;
@@ -677,7 +678,7 @@ login {
             }
 
             &:hover {
-                background-color: @cko-green;
+                background-color: @white;
             }
         }
 
@@ -703,17 +704,24 @@ login {
     & .list-group-item {
         user-select: none;
         cursor: pointer;
+        border: 1px solid @cko-dove-grey;
+        box-shadow: @cko-boxshadow-grey;
+        margin-bottom: 5px;
 
         &.active {
             z-index: unset;
+            background: @cko-background-green;
+            border-color: @cko-dove-grey;
         }
 
         &:not(.active):hover {
-            background-color: @cko-sky-blue;
+            background: @white;
+            color: @cko-green;
         }
 
         &.active:hover {
-            background-color: @cko-petrol;
+            background: @cko-background-green;
+            border-color: @cko-dove-grey;
         }
     }
 }
