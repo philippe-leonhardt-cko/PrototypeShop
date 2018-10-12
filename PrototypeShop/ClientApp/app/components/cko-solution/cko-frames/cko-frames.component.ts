@@ -1,9 +1,8 @@
-﻿import { Component, Input, OnDestroy, AfterViewInit, Inject, NgZone } from '@angular/core';
+﻿import { Component, Input, NgZone } from '@angular/core';
 import { ICheckoutSolutionComponent } from '../../cko-solution/cko-solution.interface';
 import { CheckoutSummaryService } from '../../../services/checkoutsummary.service';
 import { LogEntry } from '../../../classes/log-entry/log-entry';
 import { Customer } from '../../../classes/customer/customer';
-import { Subscription } from 'rxjs';
 import { Router } from '@angular/router';
 import { PaymentToken } from '../../../classes/payment-token/PaymentToken';
 
@@ -14,8 +13,7 @@ declare var Frames: any;
     templateUrl: './cko-frames.component.html'
 })
 
-export class CheckoutFramesComponent implements ICheckoutSolutionComponent, AfterViewInit, OnDestroy {
-    private subscriptions: Subscription[] = [];
+export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
     @Input() customer: Customer | undefined;
     @Input() checkoutSummaryService: CheckoutSummaryService | undefined;
 
@@ -23,20 +21,9 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
 
     constructor(private router: Router, private ngZone: NgZone) { }
 
-    ngAfterViewInit() {
-        let customerAgreesWithGtcSubscription: Subscription = (<CheckoutSummaryService>this.checkoutSummaryService).customerAgreesWithGtc$.subscribe(
-            (customerAgreesWithGtc: boolean) => {
-                this.customerAgreesWithGtc = customerAgreesWithGtc;
-                if (this.customerAgreesWithGtc) {
-                    this.CheckoutConfigure();
-                }
-            });
-        this.subscriptions.push(customerAgreesWithGtcSubscription);
-    }
+    public init() { this.CheckoutConfigure(); }
 
-    ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe());
-    }
+    public destroy() { }
 
     private CheckoutConfigure() {
         let checkoutSummaryService: CheckoutSummaryService | undefined = this.checkoutSummaryService;
@@ -76,7 +63,7 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent, Afte
                 new LogEntry(checkoutSummaryService!, event);
             }
         });
-        paymentForm.addEventListener('submit', function (event) {
+        payButton.addEventListener('click', function (event) {
             event.preventDefault();
             Frames.submitCard();
         });

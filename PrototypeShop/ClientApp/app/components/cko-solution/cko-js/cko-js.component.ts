@@ -13,20 +13,12 @@ declare var Checkout: any;
 
 export class CheckoutJsComponent implements ICheckoutSolutionComponent {
     @Input() customer: Customer | undefined;
-    private _customerAgreesWithGtc: boolean = false;
-    @Input()
-    set customerAgreesWithGtc(decision: boolean) {
-        this._customerAgreesWithGtc = decision;
-        if (decision) {
-            this.CheckoutConfigure();
-        }
-    }
-    get customerAgreesWithGtc(): boolean {
-        return this._customerAgreesWithGtc;
-    }
     @Input() checkoutSummaryService: CheckoutSummaryService | undefined;
 
     constructor() { }
+
+    public init() { this.CheckoutConfigure() }
+    public destroy() { }
 
     private CheckoutConfigure() {
         let checkoutSummaryService: CheckoutSummaryService = this.checkoutSummaryService!;
