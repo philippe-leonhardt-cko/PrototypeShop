@@ -70,11 +70,11 @@
                     </tr>
                     <tr>
                         <td colspan="4">Shipping</td>
-                        <td>{{ customer.order.shippingFee / 100 | currency:customer.order.currency:true }}</td>
+                        <td>{{ (customer.order.subTotal > 0 ? customer.order.shippingFee : 0) / 100 | currency:customer.order.currency:true }}</td>
                     </tr>
                     <tr>
                         <th colspan="4">Grand Total</th>
-                        <th>{{ customer.order.grandTotal / 100 | currency:customer.order.currency:true }}</th>
+                        <th>{{ (customer.order.subTotal > 0 ? customer.order.grandTotal : 0) / 100 | currency:customer.order.currency:true }}</th>
                     </tr>
                 </tfoot>
             </table>

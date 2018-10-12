@@ -1,4 +1,4 @@
-<div *ngIf="customer.order.cart" class="cart-container component component-{{ customer.order.subTotal > 0 ? 'success' : 'warning' }}">
+<div *ngIf="customer.order.cart" class="cart-container component component-default">
     <table class="table" id="cart">
         <thead>
             <tr>
@@ -28,7 +28,7 @@
                     <table>
                         <tfoot>
                             <tr>
-                                <th colspan="2">{{ product.pricing.gross * product.quantity / 100 | currency:customer.order.cart.currency:true }}</th>
+                                <th colspan="2">{{ product.pricing.gross * product.quantity / 100 | currency:customer.order.currency:true }}</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -38,20 +38,24 @@
         <tfoot class="text-right">
             <tr>
                 <td colspan="4">Subtotal</td>
-                <td>{{ (customer.order.subTotal) / 100 | currency:customer.order.currency:true }}</td>
+                <td>{{ customer.order.subTotal / 100 | currency:customer.order.currency:true }}</td>
             </tr>
             <tr>
                 <td colspan="4">Shipping</td>
-                <td>{{ customer.order.shippingFee / 100 | currency:customer.order.currency:true }}</td>
+                <td>{{ (customer.order.subTotal > 0 ? customer.order.shippingFee : 0) / 100 | currency:customer.order.currency:true }}</td>
             </tr>
             <tr>
                 <th colspan="4">Grand Total</th>
-                <th>{{ customer.order.grandTotal / 100 | currency:customer.order.currency:true }}</th>
+                <th>{{ (customer.order.subTotal > 0 ? customer.order.grandTotal : 0) / 100 | currency:customer.order.currency:true }}</th>
             </tr>
         </tfoot>
     </table>
     <br />
-    <a *ngIf="customer.order.subTotal > 0 && customerDetailsComplete" [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
+    <br />
+    <a [routerLink]="['/customer']"><button class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Billing &amp; Shipping</button></a>
+    <br />
+    <br />
+    <a [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12">Verify &amp; Pay</button></a>
 </div>
 
 
