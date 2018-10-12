@@ -11,37 +11,37 @@
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" [class.complete]="customer.order.subTotal > 0">
                     <a [routerLink]="['/shop']">
                         <div>
-                            <span><span class='glyphicon glyphicon-shopping-cart'></span>Shop</span>
+                            <span>Shop</span>
                         </div>
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" [class.complete]="customerDetailsComplete">
                     <a [routerLink]="['/customer']">
                         <div>
-                            <span><span class='glyphicon glyphicon-send'></span>Billing &amp; Shipping</span>
+                            <span>Billing &amp; Shipping</span>
                         </div>
                     </a>
                 </li>
                 <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/summary']">
                         <div>
-                            <span><span class='glyphicon glyphicon-credit-card'></span>Verify &amp; Pay</span>
+                            <span>Verify &amp; Pay</span>
                         </div>
                     </a>
                 </li>
             </ul>
-            <ul class="nav navbar-nav pull-right">
+            <!--ul class="nav navbar-nav pull-right">
                 <li>
                     <a>
                         <div>
-                            <span><span class='glyphicon glyphicon-user'></span>Login</span>
+                            <span>Login</span>
                         </div>
                     </a>
                 </li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 </div>
