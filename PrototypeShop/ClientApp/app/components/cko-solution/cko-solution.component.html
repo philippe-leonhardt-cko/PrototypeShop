@@ -1,31 +1,50 @@
-﻿<div class="component component-{{ (customer.order.subTotal > 0 && customerDetailsComplete) ? 'success' : 'warning'}}">
+﻿<div class="component component-default">
     <div *ngIf="customer.order.subTotal == 0 || !customerDetailsComplete" class="row text-justify">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <p>Oh no! You cannot check out yet.</p>
-                <br />
                 <ul class="list-group">
                     <label>To do:</label>
                     <li *ngIf="customer.order.subTotal == 0" class="list-group-item"><a [routerLink]="['/shop']">Continue Shopping</a> and put something in the cart.</li>
                     <li *ngIf="!customerDetailsComplete" class="list-group-item"><a [routerLink]="['/customer']">Provide Details</a> for Billing &amp; Shipping.</li>
                 </ul>
             </div>
-        </div>        
+        </div>
     </div>
     <div *ngIf="customer.order.subTotal > 0 && customerDetailsComplete" class="row text-justify">
+        <div id="paymentMethods" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <label>Choose your method of payment:</label>
+                <div class="row">
+                    <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <li *ngFor="let paymentMethod of paymentMethods" class="paymentMethod">
+                            <div title="{{ paymentMethod.name }}" [style.backgroundImage]="'url(' + paymentMethod.img + ')'" (click)="paymentMethod.onClick(paymentMethod)" [class.active]="currentPaymentMethod==paymentMethod"></div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ng-template checkout-solution-host></ng-template>
+        </div>        
+        <div id="gtc" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <form>
                     <div class="checkbox">
                         <label>
                             <input #gtcConsentInput type="checkbox"
                                    [checked]="customerAgreesWithGtc"
-                                   (click)="configureCheckout(gtcConsentInput.checked)" />I have read and agree with the <a href="#" target="_blank">General Terms &amp; Conditions</a>. My Billing &amp; Shipping Details are correct and I want to continue with the payment of {{ customer.order.grandTotal / 100 | currency:customer.order.currency:true }}.
+                                   (click)="enablePayment(gtcConsentInput.checked)" />I have read and agree with the <a href="#" target="_blank">General Terms &amp; Conditions</a>. My Billing &amp; Shipping Details are correct and I want to continue with the payment of <strong>{{ customer.order.grandTotal / 100 | currency:customer.order.currency:true }}</strong>{{ currentPaymentMethod ? ' via '+currentPaymentMethod.name : '' }}.
                         </label>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <ng-template checkout-solution-host></ng-template>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <button class="btn btn-success pull-right" id="ckoPayButton" type="submit" disabled>Pay <span *ngIf="customer.order.subTotal > 0">{{ customer.order.grandTotal / 100 | currency:customer.order.currency:true }}</span> Now</button>
+            </div>
+        </div>
+    </div>
 </div>

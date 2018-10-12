@@ -29,6 +29,7 @@
     <None Remove="ClientApp\app\classes\address\Source.ts" />
     <None Remove="ClientApp\app\classes\cart\cart.ts" />
     <None Remove="ClientApp\app\classes\log-entry\log-entry.ts" />
+    <None Remove="ClientApp\app\classes\payment-method\PaymentMethod.ts" />
     <None Remove="ClientApp\app\components\cart\cart.ts" />
     <None Remove="ClientApp\app\components\cko-solution\cko-frames\cko-frames.component.ts" />
     <None Remove="ClientApp\app\components\cko-solution\cko-js\cko-js.component.ts" />
@@ -57,6 +58,7 @@
     <TypeScriptCompile Include="ClientApp\app\classes\cart\cart.ts" />
     <TypeScriptCompile Include="ClientApp\app\classes\order\order.ts" />
     <TypeScriptCompile Include="ClientApp\app\classes\log-entry\log-entry.ts" />
+    <TypeScriptCompile Include="ClientApp\app\classes\payment-method\PaymentMethod.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-frames\cko-frames.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-js\cko-js.component.ts" />
     <TypeScriptCompile Include="ClientApp\app\components\cko-solution\cko-solution.component.ts" />
