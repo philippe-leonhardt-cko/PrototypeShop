@@ -151,7 +151,6 @@ a:hover {
   width: -webkit-fill-available;
 }
 .navbar {
-  background-color: #153947;
   border-radius: unset;
   border: none;
   min-height: 90px;
@@ -169,14 +168,14 @@ a:hover {
   width: calc(33.33333333%);
   height: 60px;
   margin-bottom: 15px;
-  box-shadow: 0px 1px white;
+  box-shadow: 0px 1px #798395;
 }
 .navbar ul.nav > li > a {
   display: inline-block;
   padding: 0px;
   width: 100%;
   height: inherit;
-  color: #fff;
+  color: #153947;
 }
 .navbar ul.nav > li > a > div {
   padding: 0px 15px;
@@ -205,9 +204,11 @@ a:hover {
   width: 10px;
   border-radius: 15px;
   z-index: 1;
-  border: 8px solid #153947;
+  border: 0px solid transparent;
   box-sizing: unset;
   cursor: pointer;
+  will-change: border-width;
+  transition: border-width 50ms ease-in;
 }
 .navbar ul.nav > li:not(.complete):after {
   background-color: #fd755f;
@@ -216,21 +217,18 @@ a:hover {
   background: linear-gradient(to top, #2aab82, #2db388);
 }
 .navbar ul.nav > li.link-active:after {
-  box-shadow: 0px 0px 0 2px #fff;
+  border-width: 8px;
 }
 .navbar ul.nav > li:not(.link-active) a {
   font-size: 1em;
   will-change: font-size;
   transition: font-size 50ms ease-in;
 }
-.navbar ul.nav > li:not(.link-active):after {
-  box-shadow: 0px 0px 0 2px #153947;
-}
 .navbar ul.nav > li:not(.link-active):hover a {
   font-size: 1.3em;
 }
 .navbar ul.nav > li:not(.link-active):hover:after {
-  box-shadow: 0px 0px 0 2px #fff;
+  border-width: 8px;
 }
 .navbar ul.nav > li.link-active a {
   text-transform: uppercase;

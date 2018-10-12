@@ -228,7 +228,6 @@ a {
 }
 
 .navbar {
-    background-color: @cko-petrol;
     border-radius: unset;
     border: none;
     min-height: 90px;
@@ -247,14 +246,14 @@ a {
             width: calc(100% / 3);
             height: @nav-item;
             margin-bottom: @nav-item-margin;
-            box-shadow: 0px 1px white;
+            box-shadow: 0px 1px @cko-grey;
 
             & > a {
                 display: inline-block;
                 padding: 0px;
                 width: 100%;
                 height: inherit;
-                color: @white;
+                color: @cko-petrol;
 
                 & > div {
                     padding: 0px @nav-item-margin;
@@ -287,9 +286,11 @@ a {
                 width: 10px;
                 border-radius: 15px;
                 z-index: 1;
-                border: 8px solid #153947;
+                border: 0px solid transparent;
                 box-sizing: unset;
                 cursor: pointer;
+                will-change: border-width;
+                transition: border-width 50ms ease-in;
             }
 
             &:not(.complete):after {
@@ -301,7 +302,7 @@ a {
             }
 
             &.link-active:after {
-                box-shadow: 0px 0px 0 2px @white;
+                border-width: 8px;
             }
 
             &:not(.link-active) {
@@ -310,9 +311,6 @@ a {
                     will-change: font-size;
                     transition: font-size 50ms ease-in;
                 }
-                &:after {
-                    box-shadow: 0px 0px 0 2px @cko-petrol;
-                }
 
                 &:hover {
                     & a {
@@ -320,7 +318,7 @@ a {
                     }
 
                     &:after {
-                        box-shadow: 0px 0px 0 2px @white;
+                        border-width: 8px;
                     }
                 }
             }
