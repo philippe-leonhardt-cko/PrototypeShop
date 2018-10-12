@@ -35,8 +35,17 @@ namespace PrototypeShop.Checkout
         [HttpGet("[action]/{id}")]
         public async Task<GetPaymentResponse> GetPaymentDetails(string id)
         {
-            GetPaymentResponse getPaymentResponse = await api.Payments.GetAsync(id);
-            return getPaymentResponse;
+            try
+            {
+                GetPaymentResponse getPaymentResponse = await api.Payments.GetAsync(id);
+                return getPaymentResponse;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception();
+            }
+            
         }
 
         [HttpPost("[action]")]
@@ -52,8 +61,17 @@ namespace PrototypeShop.Checkout
                 BillingAddress = order.Cart.BillingDetails
             };
             cardTokenRequest.BillingAddress.Country = await GetCountryAlpha2Code(cardTokenRequest.BillingAddress.Country);
-            CardTokenResponse cardTokenResponse = await api.Tokens.RequestAsync(cardTokenRequest);
-            return cardTokenResponse.Token;
+            try
+            {
+                CardTokenResponse cardTokenResponse = await api.Tokens.RequestAsync(cardTokenRequest);
+                return cardTokenResponse.Token;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception();
+            }
+            
         }
 
         [HttpPost("[action]")]
@@ -70,14 +88,22 @@ namespace PrototypeShop.Checkout
                 Reference = Guid.NewGuid().ToString(),
                 Customer = new Customer()
                 {
-                Name = order.Customer.Name,
-                Email = order.Customer.Email
+                    Name = order.Customer.Name,
+                    Email = order.Customer.Email
                 },
                 Shipping = order.Cart.ShippingDetails            
             };
             paymentRequest.Shipping.Address.Country = await GetCountryAlpha2Code(paymentRequest.Shipping.Address.Country);
-            PaymentResponse paymentResponse = await api.Payments.RequestAsync(paymentRequest);
-            return (reference: paymentRequest.Reference, paymentId: paymentResponse.Payment.Id);
+            try
+            {
+                PaymentResponse paymentResponse = await api.Payments.RequestAsync(paymentRequest);
+                return (reference: paymentResponse.Payment.Reference, paymentId: paymentResponse.Payment.Id);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception();
+            }
         }
     }
 
