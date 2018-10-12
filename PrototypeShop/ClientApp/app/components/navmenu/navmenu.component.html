@@ -14,7 +14,7 @@
                 <li [routerLinkActive]="['link-active']" [class.complete]="customer.order.subTotal > 0">
                     <a [routerLink]="['/shop']">
                         <div>
-                            <span>Shop</span>
+                            <span>Shop{{ customer.order.subTotal > 0 ? '&ensp;(' + (customer.order.grandTotal / 100 | currency:customer.order.currency:true) + ')' : ''}}</span>
                         </div>
                     </a>
                 </li>

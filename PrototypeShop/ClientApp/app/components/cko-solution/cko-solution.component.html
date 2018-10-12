@@ -15,12 +15,14 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <label>Choose your method of payment:</label>
                 <div class="row">
-                    <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <li *ngFor="let paymentMethod of paymentMethods" class="paymentMethod">
-                            <div title="{{ paymentMethod.name }}" [style.backgroundImage]="'url(' + paymentMethod.img + ')'" (click)="paymentMethod.onClick(paymentMethod)" [class.active]="currentPaymentMethod==paymentMethod"></div>
-                        </li>
-                    </ul>
-                </div>
+                    <div class="row">
+                        <ul class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <li *ngFor="let paymentMethod of paymentMethods" class="paymentMethod">
+                                <div title="{{ paymentMethod.name }}" [style.backgroundImage]="'url(' + paymentMethod.img + ')'" (click)="paymentMethod.onClick(paymentMethod)" [class.active]="currentPaymentMethod==paymentMethod"></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>                
             </div>
         </div>
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
