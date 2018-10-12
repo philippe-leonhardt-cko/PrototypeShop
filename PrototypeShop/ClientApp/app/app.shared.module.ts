@@ -13,7 +13,7 @@ import { BillingSummaryComponent } from './components/customer/billingSummary.co
 import { ShippingSummaryComponent } from './components/customer/shippingSummary.component';
 import { CustomerSummaryComponent } from './components/customer/customerSummary.component';
 import { CartComponent } from './components/cart/cart.component';
-import { CartSummaryComponent } from './components/cart/cartSummary.component';
+import { CartSummaryComponent } from './components/cart-summary/cartSummary.component';
 import { SummaryComponent } from './components/summary/summary.component';
 import { CheckoutSolutionComponent } from './components/cko-solution/cko-solution.component';
 import { CheckoutJsComponent } from './components/cko-solution/cko-js/cko-js.component';

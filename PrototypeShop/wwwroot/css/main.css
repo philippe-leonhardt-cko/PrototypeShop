@@ -460,6 +460,14 @@ billing-summary p,
 shipping-summary p {
   margin: 0px;
 }
+summary #cartSummary {
+  margin-top: calc(30px);
+  background-color: #fff;
+  border-radius: 4px;
+  padding: 15px;
+  border-color: #f8f8f8;
+  box-shadow: rgba(121, 131, 149, 0.2) 0px 1px 3px 0px;
+}
 login .addresses-container {
   background-color: #fff;
   border: 1px solid #f8f8f8;

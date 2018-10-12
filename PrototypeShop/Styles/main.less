@@ -620,6 +620,17 @@ billing-summary, shipping-summary {
     }
 }
 
+summary {
+    & #cartSummary {
+        margin-top: calc(2 * @nav-item-margin);
+        background-color: @white;
+        border-radius: @cko-border-radius;
+        padding: @nav-item-margin;
+        border-color: @cko-dove-grey;
+        box-shadow: @cko-boxshadow-grey;
+    }
+}
+
 login {
     & .addresses-container {
         background-color: @white;
