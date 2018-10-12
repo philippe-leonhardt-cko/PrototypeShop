@@ -34,6 +34,6 @@ export class Customer {
     }
 
     get fullName(): string {
-        return `${this.firstName} ${this.lastName}`;        
+        return `${this.order.billingAddress.firstName} ${this.order.billingAddress.lastName}`;        
     }
 }
