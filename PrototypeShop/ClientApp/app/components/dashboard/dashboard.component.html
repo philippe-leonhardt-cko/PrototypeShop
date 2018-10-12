@@ -24,7 +24,7 @@
             </li>
             <li class="list-group-item">
                 <p>Cart Total</p>
-                <span class="badge" [class.badge-success]="customer.cart.subTotal > 0" [class.badge-danger]="customer.cart.subTotal == 0">{{ customer.cart.grandTotal / 100 | currency:customer.cart.currency:true }}</span>
+                <span class="badge" [class.badge-success]="customer.order.subTotal > 0" [class.badge-danger]="customer.order.subTotal == 0">{{ (customer.order.subTotal > 0 ? customer.order.grandTotal : 0) / 100 | currency:customer.order.currency:true }}</span>
             </li>
             <li class="list-group-item">
                 <p>Payment Token</p>

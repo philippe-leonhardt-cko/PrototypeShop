@@ -25,7 +25,7 @@
                         </div>
                     </a>
                 </li>
-                <li [routerLinkActive]="['link-active']">
+                <li [routerLinkActive]="['link-active']" [class.complete]="customer.order.subTotal > 0 && customerDetailsComplete">
                     <a [routerLink]="['/summary']">
                         <div>
                             <span>Verify &amp; Pay</span>
