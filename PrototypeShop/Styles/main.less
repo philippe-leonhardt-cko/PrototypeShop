@@ -65,10 +65,12 @@ to-do {
 
 .body-content {
     margin-top: 105px;
+    padding-bottom: @nav-item-margin;
     overflow: hidden;
 }
 
 .summary-content {
+    padding-bottom: @nav-item-margin;
     overflow: hidden;
 
     @media (min-width: 992px) {
@@ -232,6 +234,7 @@ a {
     border: none;
     min-height: 90px;
     margin: 0px;
+    background-color: @background;
 
     &-collapse {
         padding: 0px;

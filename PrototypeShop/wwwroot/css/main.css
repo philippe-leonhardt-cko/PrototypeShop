@@ -22,9 +22,11 @@ to-do a:hover {
 }
 .body-content {
   margin-top: 105px;
+  padding-bottom: 15px;
   overflow: hidden;
 }
 .summary-content {
+  padding-bottom: 15px;
   overflow: hidden;
 }
 @media (min-width: 992px) {
@@ -155,6 +157,7 @@ a:hover {
   border: none;
   min-height: 90px;
   margin: 0px;
+  background-color: #f2f4f5;
 }
 .navbar-collapse {
   padding: 0px;
