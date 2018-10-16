@@ -17,7 +17,7 @@
                         <div class="addresses-container" [class.active]="customer.order.billingAddress.isTemplateAddress" id="billingAddresses">
                             <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #billingAddresses class="addresses-frame is-set">
-                                <billing-summary *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address"></billing-summary>
+                                <address *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address"></address>
                             </div>
                             <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>
@@ -141,7 +141,7 @@
                         <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
                             <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #shippingAddresses class="addresses-frame is-set">
-                                <shipping-summary *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address"></shipping-summary>
+                                <address *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address"></address>
                             </div>
                             <div class="address-nav" (click)="showNextAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>

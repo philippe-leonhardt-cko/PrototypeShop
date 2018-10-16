@@ -9,8 +9,6 @@ import { ShopComponent } from './components/shop/shop.component';
 import { NavMenuComponent } from './components/navmenu/navmenu.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CustomerComponent } from './components/customer/customer.component';
-import { BillingSummaryComponent } from './components/customer/billingSummary.component';
-import { ShippingSummaryComponent } from './components/customer/shippingSummary.component';
 import { CustomerSummaryComponent } from './components/customer/customerSummary.component';
 import { CartComponent } from './components/cart/cart.component';
 import { CartSummaryComponent } from './components/cart-summary/cartSummary.component';
@@ -20,6 +18,7 @@ import { CheckoutJsComponent } from './components/cko-solution/cko-js/cko-js.com
 import { CheckoutFramesComponent } from './components/cko-solution/cko-frames/cko-frames.component';
 import { LoginComponent } from './components/login/login.component';
 import { OrderComponent } from './components/order/order.component';
+import { AddressComponent } from './components/address/address.component';
 
 import { CheckoutSolutionDirective } from './directives/checkout-solution.directive';
 import { SummaryDirective } from './directives/summary.directive';
@@ -36,8 +35,7 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
         CartSummaryComponent,
         CustomerComponent,
         LoginComponent,
-        BillingSummaryComponent,
-        ShippingSummaryComponent,
+        AddressComponent,
         CustomerSummaryComponent,
         CheckoutSolutionComponent,
         CheckoutJsComponent,

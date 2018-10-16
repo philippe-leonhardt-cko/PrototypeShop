@@ -2,9 +2,9 @@ import { Component, Input } from '@angular/core';
 import { BaseAddress } from '../../classes/address/BaseAddress';
 
 @Component({
-    selector: 'billing-summary',
-    templateUrl: './billingSummary.component.html'
+    selector: 'address',
+    templateUrl: './address.component.html'
 })
-export class BillingSummaryComponent {
+export class AddressComponent {
     @Input() address: BaseAddress | undefined;
 }

@@ -63,7 +63,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
 
     ngOnDestroy() {
-        this.subscriptions.forEach(subscription => subscription.unsubscribe())
+        this.subscriptions.forEach(subscription => subscription.unsubscribe());
+        this.formsCompleted();
     }
 
     private makeSubscriptions() {
@@ -84,12 +85,10 @@ export class CustomerComponent implements OnInit, OnDestroy {
             (formValues: IAddressFormValues) => {
                 this.customer.email = formValues.email;
                 this.customer.order.billingAddress = formValues.address;
-                this.formsCompleted();
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
             (formValues: IAddressFormValues) => {
                 this.customer.order.shippingAddress = formValues.address;
-                this.formsCompleted();
             });
         this.subscriptions.push(customerSubscription, shippingToggleSubscription, billingFormSubscription, shippingFormSubscription);
     }
