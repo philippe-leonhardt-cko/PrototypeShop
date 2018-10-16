@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace PrototypeShop.Checkout
 {
+
     [Route("api/[controller]")]
     public class CheckoutController : Controller
     {
@@ -77,7 +78,6 @@ namespace PrototypeShop.Checkout
         [HttpPost("[action]")]
         public async Task<(string reference, string paymentId)> ChargeWithCardToken([FromBody] Order order)
         {
-
             PaymentRequest<TokenSource> paymentRequest = new PaymentRequest<TokenSource>
             (
                 source: new TokenSource(order.CardToken),
@@ -91,7 +91,11 @@ namespace PrototypeShop.Checkout
                     Name = order.Customer.Name,
                     Email = order.Customer.Email
                 },
-                Shipping = order.Cart.ShippingDetails            
+                Shipping = order.Cart.ShippingDetails,
+                ThreeDS = new ThreeDSRequest()
+                {
+                    Enabled = false
+                }
             };
             paymentRequest.Shipping.Address.Country = await GetCountryAlpha2Code(paymentRequest.Shipping.Address.Country);
             try
