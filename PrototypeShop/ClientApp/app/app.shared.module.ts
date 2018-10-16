@@ -74,7 +74,7 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
                 ]
             },
             {
-                path: 'customer',
+                path: 'order/billing-and-shipping',
                 children: [
                     {
                         path: '',
@@ -88,7 +88,7 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
                 ]
             },
             {
-                path: 'summary',
+                path: 'order/verify-and-pay',
                 children: [
                     {
                         path: '',

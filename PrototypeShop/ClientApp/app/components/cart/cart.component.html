@@ -52,10 +52,7 @@
     </table>
     <br />
     <br />
-    <a [routerLink]="['/customer']"><button class="btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12">Billing &amp; Shipping</button></a>
-    <br />
-    <br />
-    <a [routerLink]="['/summary']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" [disabled]="customer.order.subTotal == 0 || !customerDetailsComplete">Verify &amp; Pay</button></a>
+    <a [routerLink]="['/order/billing-and-shipping']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" [disabled]="customer.order.subTotal == 0">Buy</button></a>
 </div>
 
 

@@ -12,12 +12,15 @@ import { BaseAddress } from '../../classes/address/BaseAddress';
 export class CustomerComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
 
-    public customer: Customer | undefined;
+    public customer: Customer;
+    public shippingToggle: FormGroup;
     public billingForm: FormGroup;
     public shippingForm: FormGroup;
-    private shippingToBillingAddress: boolean = true;
 
     constructor(private checkoutSummaryService: CheckoutSummaryService, private formBuilder: FormBuilder) {
+        this.shippingToggle = this.formBuilder.group({
+            "shippingToBillingAddress": new FormControl()
+        });
         this.billingForm = this.formBuilder.group({
             "email":    new FormControl("", [Validators.required, Validators.email]),
             "address": this.formBuilder.group({
@@ -68,47 +71,115 @@ export class CustomerComponent implements OnInit, OnDestroy {
             (customer: Customer) => {
                 this.customer = customer;
                 this.fillForms();
-            }
-        );
-        let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
-            (formValues: IFormValues) => {
-                this.customer!.email = formValues.email;
-                this.customer!.order.billingAddress = formValues.address;
-                if (this.shippingToBillingAddress) {
-                    this.customer!.order.shippingAddress = formValues.address;
+            });
+        let shippingToggleSubscription: Subscription = this.shippingToggle.valueChanges.subscribe(
+            (formValues: ISwitchFormValues) => {
+                if (formValues.shippingToBillingAddress) {
+                    this.customer.order.shippingAddress = this.customer.order.billingAddress;
+                } else {
+                    this.customer.order.shippingAddress = new BaseAddress();
                 }
+            });
+        let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
+            (formValues: IAddressFormValues) => {
+                this.customer.email = formValues.email;
+                this.customer.order.billingAddress = formValues.address;
                 this.formsCompleted();
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
-            (formValues: IFormValues) => {
-                this.customer!.order.shippingAddress = formValues.address;
+            (formValues: IAddressFormValues) => {
+                this.customer.order.shippingAddress = formValues.address;
                 this.formsCompleted();
             });
-        let shippingToBillingAddressSubscription: Subscription = this.checkoutSummaryService.shippingToBillingAddress$.subscribe(
-            (shippingToBillingAddress: boolean) => {
-                this.shippingToBillingAddress = shippingToBillingAddress;
-            })
-        this.subscriptions.push(customerSubscription, billingFormSubscription, shippingFormSubscription, shippingToBillingAddressSubscription);
+        this.subscriptions.push(customerSubscription, shippingToggleSubscription, billingFormSubscription, shippingFormSubscription);
     }
 
     private fillForms() {
-        this.billingForm.patchValue({ email: this.customer!.email });
-        this.billingForm.patchValue({ address: this.customer!.order.billingAddress });
-        this.shippingForm.patchValue({ address: this.customer!.order.shippingAddress });
+        this.shippingToggle.patchValue({ shippingToBillingAddress: (this.customer.order.shippingAddress === this.customer.order.billingAddress) });
+        this.billingForm.patchValue({ email: this.customer.email });
+        this.billingForm.patchValue({ address: this.customer.order.billingAddress });
+        this.shippingForm.patchValue({ address: this.customer.order.shippingAddress });
     }
 
     private formsCompleted() {
         let allFormsCompleted: boolean = false;
-        if (this.customer!.order.shippingAddress == this.customer!.order.billingAddress) {
+        if (this.customer.order.shippingAddress == this.customer.order.billingAddress) {
             allFormsCompleted = this.billingForm.valid;
         } else {
             allFormsCompleted = (this.billingForm.valid && this.shippingForm.valid);
         }
         this.checkoutSummaryService.updateCustomerDetailsComplete(allFormsCompleted);
     }
+
+    private previous(addressElement: HTMLDivElement, addresses: NodeListOf<HTMLDivElement>): HTMLDivElement {
+        let previousAddressElement: HTMLDivElement;
+        if (addressElement.previousElementSibling) {
+            previousAddressElement = <HTMLDivElement>addressElement.previousElementSibling;
+        } else {
+            previousAddressElement = <HTMLDivElement>addresses.item(addresses.length - 1);
+        }
+        return previousAddressElement;
+    }
+
+    private next(addressElement: HTMLDivElement, addresses: NodeListOf<HTMLDivElement>): HTMLDivElement {
+        let nextAddressElement: HTMLDivElement;
+        if (addressElement.nextElementSibling) {
+            nextAddressElement = <HTMLDivElement>addressElement.nextElementSibling;
+        } else {
+            nextAddressElement = <HTMLDivElement>addresses.item(0);
+        }
+        return nextAddressElement;
+    }
+
+    private showPreviousAddress(addressesFrame: HTMLDivElement) {
+        this.slideAddresses(addressesFrame, 'previous');
+    }
+
+    private showNextAddress(addressesFrame: HTMLDivElement) {
+        this.slideAddresses(addressesFrame, 'next');
+    }
+
+    private slideAddresses(addressesFrame: HTMLDivElement, direction: string) {
+        let addresses = <NodeListOf<HTMLDivElement>>addressesFrame.querySelectorAll('.address');
+        let currentAddressElement: HTMLDivElement = <HTMLDivElement>addressesFrame.querySelector('.is-ref');
+        currentAddressElement.classList.remove('is-ref');
+
+        let newAddressElement: HTMLDivElement;
+        switch (direction) {
+            case 'previous': {
+                newAddressElement = this.previous(currentAddressElement, addresses);
+                addressesFrame.classList.add('is-reversing');
+                break;
+            }
+            case 'next': {
+                newAddressElement = this.next(currentAddressElement, addresses);
+                addressesFrame.classList.remove('is-reversing');
+                break;
+            }
+            default: {
+                newAddressElement = this.next(currentAddressElement, addresses);
+                break;
+            }
+        }
+        newAddressElement.classList.add('is-ref');
+        newAddressElement.style.order = '1';
+        let range = Array.from({ length: addresses.length - 1 }, (v, k) => k + 2);
+        range.forEach(
+            (i: number) => {
+                newAddressElement = this.next(newAddressElement, addresses);
+                newAddressElement.style.order = i.toString();
+            });
+
+        addressesFrame.classList.remove('is-set');
+        setTimeout(() => addressesFrame.classList.add('is-set'), 50);
+    }
 }
 
-interface IFormValues {
+interface IAddressFormValues {
     email: string;
     address: BaseAddress;
+}
+
+interface ISwitchFormValues {
+    shippingToBillingAddress: boolean;
 }

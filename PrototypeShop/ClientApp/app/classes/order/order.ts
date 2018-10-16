@@ -138,9 +138,9 @@ export class Order {
                     localStorage.setItem(this.id, this.paymentToken);
                     new LogEntry(this.checkoutSummaryService, `Order saved with ID ${id}`);
                     resolve(this.id);
-                    },
-                    (error: any) => console.error(error)
-                );
+                },
+                (error: any) => console.error(error)
+            );
         })
     }
 

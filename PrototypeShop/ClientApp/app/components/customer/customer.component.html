@@ -1,224 +1,285 @@
-<div id="billing" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <p><strong>Billing to:</strong></p>
-        <form *ngIf="!customer.order.billingAddress.isTemplateAddress" [formGroup]="billingForm">
-            <div formGroupName="address">
-                <div class="form-group">
-                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <div class="row">
-                            <label for="firstname">First Name*</label>
-                            <input type="text" class="form-control" placeholder="John"
-                                   formControlName="firstName"
-                                   autocomplete="section-billing given-name" />
-                        </div>
-                    </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                        <div class="row">
-                            <label for="lastname">Last Name*</label>
-                            <input type="text" class="form-control" placeholder="Doe"
-                                   formControlName="lastName"
-                                   autocomplete="section-billing family-name" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <label for="companyname">Company Name</label>
-                            <input type="text" class="form-control" placeholder="Company Name"
-                                   formControlName="companyName"
-                                   autocomplete="section-billing organization" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="row">
-                            <label for="streetname">Street Name*</label>
-                            <input type="text" class="form-control" placeholder="Street Name"
-                                   formControlName="streetName"
-                                   autocomplete="section-billing address-line1" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="row">
-                            <label for="housenumber">House Number*</label>
-                            <input type="text" class="form-control" placeholder="House Number"
-                                   formControlName="houseNumber"
-                                   autocomplete="section-billing address-line2" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <label for="additionalAddressLine">Additional Address Line</label>
-                            <input type="text" class="form-control" placeholder="Additional Address Line"
-                                   formControlName="additionalAddressLine"
-                                   autocomplete="section-billing address-line3" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="row">
-                            <label for="postcode">Postcode*</label>
-                            <input type="text" class="form-control" placeholder="Postcode"
-                                   formControlName="postcode"
-                                   autocomplete="section-billing postal-code" />
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="row">
-                            <label for="city">City*</label>
-                            <input type="text" class="form-control" placeholder="City"
-                                   formControlName="city"
-                                   autocomplete="section-billing address-level2" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                        <div class="row">
-                            <label for="municipality">Municipality*</label>
-                            <input type="text" class="form-control" placeholder="Municipality"
-                                   formControlName="municipality"
-                                   autocomplete="section-billing state" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                        <div class="row">
-                            <label for="country">Country*</label>
-                            <input type="text" class="form-control" placeholder="Country"
-                                   formControlName="country"
-                                   autocomplete="section-billing country-name" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
+<div *ngIf="customer.order.subTotal > 0">
+    <div *ngIf="!customer.isLoggedIn" class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group">
+                <li class="list-group-item list-group-item-info">
+                    <span>Sign in if you would like to use saved addresses.</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div id="billing" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div class="row">
-                        <label for="email">Email*</label>
-                        <input type="email" class="form-control" placeholder="your@email.com"
-                               formControlName="email"
-                               autocomplete="section-billing email" />
+                    <p><strong>Billing to</strong></p>
+                    <div *ngIf="customer.isLoggedIn">
+                        <div class="addresses-container" [class.active]="customer.order.billingAddress.isTemplateAddress" id="billingAddresses">
+                            <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                            <div #billingAddresses class="addresses-frame is-set">
+                                <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address" (click)="customer.order.billingAddress=address">
+                                    <p>{{ address.firstName }} {{ address.lastName }}</p>
+                                    <br />
+                                    <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
+                                    <p>{{ address.streetName }} {{ address.houseNumber }}</p>
+                                    <p>{{ address.additionalAddressLine }}</p>
+                                    <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
+                                    <p>{{ address.country | uppercase }}</p>
+                                </div>
+                            </div>
+                            <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
+                        </div>
+                        <button class="text-center btn btn-default" [class.active]="!customer.order.billingAddress.isTemplateAddress" (click)="customer.order.newBillingAddress()">Use a different address for Billing</button>
                     </div>
+                    <form *ngIf="!customer.order.billingAddress.isTemplateAddress" [formGroup]="billingForm">
+                        <div formGroupName="address">
+                            <div class="form-group">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <div class="row">
+                                        <label for="firstname">First Name*</label>
+                                        <input type="text" class="form-control" placeholder="John"
+                                               formControlName="firstName"
+                                               autocomplete="section-billing given-name" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <div class="row">
+                                        <label for="lastname">Last Name*</label>
+                                        <input type="text" class="form-control" placeholder="Doe"
+                                               formControlName="lastName"
+                                               autocomplete="section-billing family-name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label for="companyname">Company Name</label>
+                                        <input type="text" class="form-control" placeholder="Company Name"
+                                               formControlName="companyName"
+                                               autocomplete="section-billing organization" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="row">
+                                        <label for="streetname">Street Name*</label>
+                                        <input type="text" class="form-control" placeholder="Street Name"
+                                               formControlName="streetName"
+                                               autocomplete="section-billing address-line1" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="row">
+                                        <label for="housenumber">House Number*</label>
+                                        <input type="text" class="form-control" placeholder="House Number"
+                                               formControlName="houseNumber"
+                                               autocomplete="section-billing address-line2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label for="additionalAddressLine">Additional Address Line</label>
+                                        <input type="text" class="form-control" placeholder="Additional Address Line"
+                                               formControlName="additionalAddressLine"
+                                               autocomplete="section-billing address-line3" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="row">
+                                        <label for="postcode">Postcode*</label>
+                                        <input type="text" class="form-control" placeholder="Postcode"
+                                               formControlName="postcode"
+                                               autocomplete="section-billing postal-code" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="row">
+                                        <label for="city">City*</label>
+                                        <input type="text" class="form-control" placeholder="City"
+                                               formControlName="city"
+                                               autocomplete="section-billing address-level2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="row">
+                                        <label for="municipality">Municipality*</label>
+                                        <input type="text" class="form-control" placeholder="Municipality"
+                                               formControlName="municipality"
+                                               autocomplete="section-billing state" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="row">
+                                        <label for="country">Country*</label>
+                                        <input type="text" class="form-control" placeholder="Country"
+                                               formControlName="country"
+                                               autocomplete="section-billing country-name" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="row">
+                                    <label for="email">Email*</label>
+                                    <input type="email" class="form-control" placeholder="your@email.com"
+                                           formControlName="email"
+                                           autocomplete="section-billing email" />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
-        </form>
-        <div *ngIf="customer.order.billingAddress.isTemplateAddress">
-            <billing-summary [email]="customer.email" [billingAddress]="customer.order.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
-        </div>
-    </div>  
-</div>
-<div id="shipping" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <p><strong>Shipping to:</strong></p>
-        <form *ngIf="customer.order.shippingAddress!==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
-            <div formGroupName="address">
-                <div class="form-group">
-                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                        <div class="row">
-                            <label for="firstname">First Name*</label>
-                            <input type="text" class="form-control" placeholder="John"
-                                   formControlName="firstName"
-                                   autocomplete="section-shipping given-name" />
+            <div id="shipping" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <p><strong>Shipping to</strong></p>
+                    <form [formGroup]="shippingToggle"><input type="checkbox" formControlName="shippingToBillingAddress" />&nbsp;Billing Address</form>
+                    <div *ngIf="customer.isLoggedIn">
+                        <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
+                            <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
+                            <div #shippingAddresses class="addresses-frame is-set">
+                                <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address" (click)="customer.order.shippingAddress=address">
+                                    <p>{{ address.firstName }} {{ address.lastName }}</p>
+                                    <br />
+                                    <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
+                                    <p>{{ address.streetName }} {{ address.houseNumber }}</p>
+                                    <p>{{ address.additionalAddressLine }}</p>
+                                    <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
+                                    <p>{{ address.country | uppercase }}</p>
+                                </div>
+                            </div>
+                            <div class="address-nav" (click)="showNextAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>
+                        <button class="text-center btn btn-default" [class.active]="!customer.order.shippingAddress.isTemplateAddress" (click)="customer.order.newShippingAddress()">Use a different address for Shipping</button>
                     </div>
-                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
-                        <div class="row">
-                            <label for="lastname">Last Name*</label>
-                            <input type="text" class="form-control" placeholder="Doe"
-                                   formControlName="lastName"
-                                   autocomplete="section-shipping family-name" />
+                    <form *ngIf="customer.order.shippingAddress!==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
+                        <div formGroupName="address">
+                            <div class="form-group">
+                                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                                    <div class="row">
+                                        <label for="firstname">First Name*</label>
+                                        <input type="text" class="form-control" placeholder="John"
+                                               formControlName="firstName"
+                                               autocomplete="section-shipping given-name" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+                                    <div class="row">
+                                        <label for="lastname">Last Name*</label>
+                                        <input type="text" class="form-control" placeholder="Doe"
+                                               formControlName="lastName"
+                                               autocomplete="section-shipping family-name" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label for="companyname">Company Name</label>
+                                        <input type="text" class="form-control" placeholder="Company Name"
+                                               formControlName="companyName"
+                                               autocomplete="section-shipping organization" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="row">
+                                        <label for="streetname">Street Name*</label>
+                                        <input type="text" class="form-control" placeholder="Street Name"
+                                               formControlName="streetName"
+                                               autocomplete="section-shipping address-line1" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="row">
+                                        <label for="housenumber">House Number*</label>
+                                        <input type="text" class="form-control" placeholder="House Number"
+                                               formControlName="houseNumber"
+                                               autocomplete="section-shipping address-line2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                    <div class="row">
+                                        <label for="additionalAddressLine">Additional Address Line</label>
+                                        <input type="text" class="form-control" placeholder="Additional Address Line"
+                                               formControlName="additionalAddressLine"
+                                               autocomplete="section-shipping address-line3" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                    <div class="row">
+                                        <label for="postcode">Postcode*</label>
+                                        <input type="text" class="form-control" placeholder="Postcode"
+                                               formControlName="postcode"
+                                               autocomplete="section-shipping postal-code" />
+                                    </div>
+                                </div>
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+                                    <div class="row">
+                                        <label for="city">City*</label>
+                                        <input type="text" class="form-control" placeholder="City"
+                                               formControlName="city"
+                                               autocomplete="section-shipping address-level2" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="row">
+                                        <label for="municipality">Municipality*</label>
+                                        <input type="text" class="form-control" placeholder="Municipality"
+                                               formControlName="municipality"
+                                               autocomplete="section-shipping state" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                    <div class="row">
+                                        <label for="country">Country*</label>
+                                        <input type="text" class="form-control" placeholder="Country"
+                                               formControlName="country"
+                                               autocomplete="section-shipping country-name" />
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <label for="companyname">Company Name</label>
-                            <input type="text" class="form-control" placeholder="Company Name"
-                                   formControlName="companyName"
-                                   autocomplete="section-shipping organization" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="row">
-                            <label for="streetname">Street Name*</label>
-                            <input type="text" class="form-control" placeholder="Street Name"
-                                   formControlName="streetName"
-                                   autocomplete="section-shipping address-line1" />
-                        </div>
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="row">
-                            <label for="housenumber">House Number*</label>
-                            <input type="text" class="form-control" placeholder="House Number"
-                                   formControlName="houseNumber"
-                                   autocomplete="section-shipping address-line2" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="row">
-                            <label for="additionalAddressLine">Additional Address Line</label>
-                            <input type="text" class="form-control" placeholder="Additional Address Line"
-                                   formControlName="additionalAddressLine"
-                                   autocomplete="section-shipping address-line3" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                        <div class="row">
-                            <label for="postcode">Postcode*</label>
-                            <input type="text" class="form-control" placeholder="Postcode"
-                                   formControlName="postcode"
-                                   autocomplete="section-shipping postal-code" />
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-                        <div class="row">
-                            <label for="city">City*</label>
-                            <input type="text" class="form-control" placeholder="City"
-                                   formControlName="city"
-                                   autocomplete="section-shipping address-level2" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                        <div class="row">
-                            <label for="municipality">Municipality*</label>
-                            <input type="text" class="form-control" placeholder="Municipality"
-                                   formControlName="municipality"
-                                   autocomplete="section-shipping state" />
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-                        <div class="row">
-                            <label for="country">Country*</label>
-                            <input type="text" class="form-control" placeholder="Country"
-                                   formControlName="country"
-                                   autocomplete="section-shipping country-name" />
-                        </div>
-                    </div>
+                    </form>
+                    <span *ngIf="customer.order.shippingAddress==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
                 </div>
             </div>
-        </form>
-        <div *ngIf="customer.order.shippingAddress.isTemplateAddress">
-            <shipping-summary [shippingAddress]="customer.order.shippingAddress" [billingAddress]="customer.order.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
         </div>
-        <span *ngIf="customer.order.shippingAddress==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" class="badge badge-info">Shipping to Billing Address</span>
+    </div>
+    <br />
+    <br />
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <a [routerLink]="['/shop']"><button class="btn btn-default col-lg-3 col-md-3 col-sm-4 col-xs-6">&larr;&nbsp;Shop</button></a>
+            <a [routerLink]="['/order/verify-and-pay']"><button class="btn btn-success col-lg-3 col-md-3 col-sm-4 col-xs-6 pull-right">Verify&nbsp;&amp;&nbsp;Pay&nbsp;&rarr;</button></a>
+        </div>
     </div>
 </div>
-
+<div *ngIf="customer.order.subTotal == 0">
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+            <img src="../../../../wwwroot/assets/img/empty-cart.png" /><br />
+            <a [routerLink]="['/shop']"><button class="btn btn-default">Continue Shopping</button></a>
+        </div>
+    </div>
+</div>
