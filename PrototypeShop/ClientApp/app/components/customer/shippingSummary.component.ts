@@ -6,7 +6,5 @@ import { BaseAddress } from '../../classes/address/BaseAddress';
     templateUrl: './shippingSummary.component.html'
 })
 export class ShippingSummaryComponent {
-    @Input() shippingAddress: BaseAddress | undefined;
-    @Input() billingAddress: BaseAddress | undefined;
-    @Input() customerDetailsComplete: boolean = false;
+    @Input() address: BaseAddress | undefined;
 }

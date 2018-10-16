@@ -11,12 +11,12 @@
     <br />
     <div class="row">
         <div class="col-lg-6 col-lg-6 col-lg-6 col-lg-6">
-            <label>Billing to:</label>
-            <billing-summary [email]="payment.customer.email" [billingAddress]="payment.source.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></billing-summary>
+            <label>Billing to</label>
+            <billing-summary [address]="payment.source.billingAddress"></billing-summary>
         </div>
         <div *ngIf="payment.shipping" class="col-lg-6 col-lg-6 col-lg-6 col-lg-6">
-            <label>Shipping to:</label>
-            <shipping-summary [shippingAddress]="payment.shipping.address" [billingAddress]="payment.source.billingAddress" [customerDetailsComplete]="customerDetailsComplete"></shipping-summary>
+            <label>Shipping to</label>
+            <shipping-summary [address]="payment.shipping.address"></shipping-summary>
         </div>
     </div>
 </div>

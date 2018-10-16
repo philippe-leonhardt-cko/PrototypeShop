@@ -1,24 +1,20 @@
 <div>
     <p>
-        <span *ngIf="billingAddress.firstName">{{ billingAddress.firstName }}&#32;</span><span *ngIf="!billingAddress.firstName"><span class="badge badge-danger">First Name</span></span><span *ngIf="billingAddress.lastName">{{ billingAddress.lastName }}</span><span *ngIf="!billingAddress.lastName"><span class="badge badge-danger">Last Name</span></span>
+        <span *ngIf="address.firstName">{{ address.firstName }}&#32;</span><span *ngIf="!address.firstName"><span class="badge badge-danger">First Name</span></span><span *ngIf="address.lastName">{{ address.lastName }}</span><span *ngIf="!address.lastName"><span class="badge badge-danger">Last Name</span></span>
     </p>
     <br />
-    <p *ngIf="billingAddress.companyName"><strong>{{ billingAddress.companyName }}</strong></p>
+    <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
     <p>
-        <span *ngIf="billingAddress.streetName">{{ billingAddress.streetName }}&#32;</span><span *ngIf="!billingAddress.streetName"><span class="badge badge-danger">Street Name</span></span><span *ngIf="billingAddress.houseNumber">{{ billingAddress.houseNumber }}</span><span *ngIf="!billingAddress.houseNumber"><span class="badge badge-danger">House Number</span></span>
+        <span *ngIf="address.streetName">{{ address.streetName }}&#32;</span><span *ngIf="!address.streetName"><span class="badge badge-danger">Street Name</span></span><span *ngIf="address.houseNumber">{{ address.houseNumber }}</span><span *ngIf="!address.houseNumber"><span class="badge badge-danger">House Number</span></span>
     </p>
-    <p *ngIf="billingAddress.additionalAddressLine">
-        <span>{{ billingAddress.additionalAddressLine }}</span>
-    </p>
-    <p>
-        <span *ngIf="billingAddress.postcode">{{ billingAddress.postcode }}&#32;</span><span *ngIf="!billingAddress.postcode"><span class="badge badge-danger">Postcode</span></span><span *ngIf="billingAddress.city">{{ billingAddress.city }},&#32;</span><span *ngIf="!billingAddress.city"><span class="badge badge-danger">City</span></span><span *ngIf="billingAddress.municipality">{{ billingAddress.municipality }}</span><span *ngIf="!billingAddress.municipality"><span class="badge badge-danger">Municipality</span></span>
+    <p *ngIf="address.additionalAddressLine">
+        <span>{{ address.additionalAddressLine }}</span>
     </p>
     <p>
-        <span *ngIf="billingAddress.country">{{ billingAddress.country | uppercase }}</span><span *ngIf="!billingAddress.country"><span class="badge badge-danger">Country</span></span>
+        <span *ngIf="address.postcode">{{ address.postcode }}&#32;</span><span *ngIf="!address.postcode"><span class="badge badge-danger">Postcode</span></span><span *ngIf="address.city">{{ address.city }},&#32;</span><span *ngIf="!address.city"><span class="badge badge-danger">City</span></span><span *ngIf="address.municipality">{{ address.municipality }}</span><span *ngIf="!address.municipality"><span class="badge badge-danger">Municipality</span></span>
     </p>
-    <br />
     <p>
-        <span *ngIf="email"><i>{{ email }}</i></span><span *ngIf="!email"><span class="badge badge-danger">Email</span></span>
+        <span *ngIf="address.country">{{ address.country | uppercase }}</span><span *ngIf="!address.country"><span class="badge badge-danger">Country</span></span>
     </p>
 </div>
 

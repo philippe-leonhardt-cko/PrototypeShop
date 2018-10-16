@@ -6,7 +6,5 @@ import { BaseAddress } from '../../classes/address/BaseAddress';
     templateUrl: './billingSummary.component.html'
 })
 export class BillingSummaryComponent {
-    @Input() email: string | undefined;
-    @Input() billingAddress: BaseAddress | undefined;
-    @Input() customerDetailsComplete: boolean = false;
+    @Input() address: BaseAddress | undefined;
 }

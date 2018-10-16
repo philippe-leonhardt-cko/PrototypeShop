@@ -17,15 +17,7 @@
                         <div class="addresses-container" [class.active]="customer.order.billingAddress.isTemplateAddress" id="billingAddresses">
                             <div class="address-nav" (click)="showPreviousAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #billingAddresses class="addresses-frame is-set">
-                                <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address" (click)="customer.order.billingAddress=address">
-                                    <p>{{ address.firstName }} {{ address.lastName }}</p>
-                                    <br />
-                                    <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
-                                    <p>{{ address.streetName }} {{ address.houseNumber }}</p>
-                                    <p>{{ address.additionalAddressLine }}</p>
-                                    <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
-                                    <p>{{ address.country | uppercase }}</p>
-                                </div>
+                                <billing-summary *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.billingAddress!==address"></billing-summary>
                             </div>
                             <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>
@@ -149,15 +141,7 @@
                         <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
                             <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #shippingAddresses class="addresses-frame is-set">
-                                <div *ngFor="let address of customer.addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address" (click)="customer.order.shippingAddress=address">
-                                    <p>{{ address.firstName }} {{ address.lastName }}</p>
-                                    <br />
-                                    <p *ngIf="address.companyName"><strong>{{ address.companyName }}</strong></p>
-                                    <p>{{ address.streetName }} {{ address.houseNumber }}</p>
-                                    <p>{{ address.additionalAddressLine }}</p>
-                                    <p>{{ address.postcode }} {{ address.city }}, {{ address.municipality }}</p>
-                                    <p>{{ address.country | uppercase }}</p>
-                                </div>
+                                <shipping-summary *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="customer.order.shippingAddress!==address"></shipping-summary>
                             </div>
                             <div class="address-nav" (click)="showNextAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>

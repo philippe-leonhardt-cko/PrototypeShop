@@ -5,7 +5,7 @@
                 <ul class="list-group">
                     <label>To do:</label>
                     <li *ngIf="customer.order.subTotal == 0" class="list-group-item"><a [routerLink]="['/shop']">Continue Shopping</a> and put something in the cart.</li>
-                    <li *ngIf="!customerDetailsComplete" class="list-group-item"><a [routerLink]="['/customer']">Provide Details</a> for Billing &amp; Shipping.</li>
+                    <li *ngIf="!customerDetailsComplete" class="list-group-item"><a [routerLink]="['/order/billing-and-shipping']">Provide Details</a> for Billing &amp; Shipping.</li>
                 </ul>
             </div>
         </div>
