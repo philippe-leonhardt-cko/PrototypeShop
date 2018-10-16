@@ -9,17 +9,18 @@ export class Customer {
     public email: string = "";
     public addresses: Array<BaseAddress> = [];
     public order: Order;
-    private checkoutSummaryService: CheckoutSummaryService;
     private _isLoggedIn: boolean = false;
 
 
-    constructor(http: Http, baseUrl: string, checkoutSummaryService: CheckoutSummaryService) {
+    constructor(http: Http, baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
         this.checkoutSummaryService = checkoutSummaryService;
         this.order = new Order(http, baseUrl, this.checkoutSummaryService, this);
     }
 
     public logIn() {
         this._isLoggedIn = true;
+        this.firstName = this.order.billingAddress.firstName;
+        this.lastName = this.order.billingAddress.lastName;
     }
 
     public logOut() {
