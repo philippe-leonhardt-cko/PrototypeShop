@@ -11,37 +11,34 @@
         <div class='clearfix'></div>
         <div class='navbar-collapse collapse'>
             <ul class='nav navbar-nav'>
-                <li [routerLinkActive]="['link-active']" [class.complete]="customer.order.subTotal > 0">
+                <li [routerLinkActive]="['link-active']">
                     <a [routerLink]="['/shop']">
                         <div>
-                            <span>Shop{{ customer.order.subTotal > 0 ? '&ensp;(' + (customer.order.grandTotal / 100 | currency:customer.order.currency:true) + ')' : ''}}</span>
-                        </div>
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']" [class.complete]="customerDetailsComplete">
-                    <a [routerLink]="['/customer']">
-                        <div>
-                            <span>Billing &amp; Shipping</span>
-                        </div>
-                    </a>
-                </li>
-                <li [routerLinkActive]="['link-active']" [class.complete]="customer.order.subTotal > 0 && customerDetailsComplete">
-                    <a [routerLink]="['/summary']">
-                        <div>
-                            <span>Verify &amp; Pay</span>
+                            <span class="cko-logo">
+                                <svg viewBox="0 0 34 34" class="icon-logo">
+                                    <path fill-rule="evenodd" d="M150.933,49l8.923-15.448a1.032,1.032,0,0,0,0-1.036A1.048,1.048,0,0,0,158.948,32H140.507a1.048,1.048,0,0,0-.9.512l-9.463,15.964a1.027,1.027,0,0,0,0,1.052L139.6,65.488a1.047,1.047,0,0,0,.9.512h18.441a1.048,1.048,0,0,0,.905-0.518,1.033,1.033,0,0,0,0-1.037Zm-1.2-2.088-7.415-12.838h14.829ZM140.5,35.1L148.521,49l-8.026,13.9L132.258,49Zm1.818,28.822,7.415-12.838,7.414,12.838H142.313Z" transform="translate(-128 -32)"></path>
+                                </svg>
+                            </span><span>Shop</span>
                         </div>
                     </a>
                 </li>
             </ul>
-            <!--ul class="nav navbar-nav pull-right">
-                <li>
+            <ul class="nav navbar-nav pull-right">
+                <li (click)="toggleSideBar()">
                     <a>
                         <div>
-                            <span>Login</span>
+                            <span class="glyphicon glyphicon-user"></span><br /><span>{{ customer.isLoggedIn ? customer.firstName + '\'s Account' : 'My Account' }}</span>
                         </div>
                     </a>
                 </li>
-            </ul>-->
+                <li (click)="toggleSideBar()">
+                    <a>
+                        <div>
+                            <span class="glyphicon glyphicon-shopping-cart"></span><br /><span>{{ (customer.order.subTotal > 0 ? customer.order.grandTotal / 100 : 0) | currency:customer.order.currency:true}} </span>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

@@ -15,6 +15,7 @@ export class CheckoutSummaryService {
     private paymentTokenCountdownSource = new Subject<number>();
     private customerDetailsCompleteSource = new ReplaySubject<boolean>();
     private customerAgreesWithGtcSource = new ReplaySubject<boolean>();
+    private sideBarSource = new ReplaySubject<boolean>();
 
     // Observables
     public log$ = this.logSource.asObservable();
@@ -25,6 +26,7 @@ export class CheckoutSummaryService {
     public paymentTokenCountdown$ = this.paymentTokenCountdownSource.asObservable();
     public customerDetailsComplete$ = this.customerDetailsCompleteSource.asObservable();
     public customerAgreesWithGtc$ = this.customerAgreesWithGtcSource.asObservable();
+    public sideBar$ = this.sideBarSource.asObservable();
 
     // Methods
     public log(timestamp: Timestamp<any>, message: string) {
@@ -51,5 +53,8 @@ export class CheckoutSummaryService {
     }
     public updateCustomerAgreesWithGtc(consentGiven: boolean) {
         this.customerAgreesWithGtcSource.next(consentGiven);
+    }
+    public toggleSideBar(isOpen: boolean) {
+        this.sideBarSource.next(isOpen);
     }
 }

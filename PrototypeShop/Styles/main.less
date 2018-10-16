@@ -17,6 +17,8 @@
 @cko-green: #2db388;
 @cko-green-gradient: #2aab82;
 @cko-green-highlight: #2fbd90;
+@cko-blue: #299fcb;
+@cko-blue-highlight: #8fdffd;
 @cko-petrol: #153947;
 
 @cko-background-green: linear-gradient(to top, @cko-green-gradient, @cko-green);
@@ -64,26 +66,53 @@ to-do {
 }
 
 .body-content {
-    margin-top: 105px;
+    padding-left: @nav-item-margin;
+    padding-right: @nav-item-margin;
+    margin-top: 75px;
     padding-bottom: @nav-item-margin;
     overflow: hidden;
+    transition: width 200ms ease-out;
+    will-change: width;
+
+    &.side-bar {
+        &-open {
+            width: calc(100% / 3 * 2);
+        }
+
+        &-closed {
+            width: 100%;
+        }
+    }
 }
 
-.summary-content {
+.side-bar {
     padding-bottom: @nav-item-margin;
     overflow: hidden;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    transition: transform 200ms ease-out;
+    will-change: transform;
+
+    &.side-bar {
+        &-open {
+            transform: translateX(0%);
+        }
+        
+        &-closed {
+            transform: translateX(100%);
+        }
+    }
 
     @media (min-width: 992px) {
-        margin-top: 105px;
+        margin-top: 75px;
     }
 
     @media (max-width: 992px) {
-        margin-top: @nav-item-margin * 2;
-
         &:before {
             content: '';
             display: block;
-            height: @nav-item-margin * 3;
+            height: @nav-item-margin;
             border-top: 2px dotted @cko-petrol;
         }
     }
@@ -93,6 +122,10 @@ input {
     &::-webkit-inner-spin-button {
         opacity: 1;
     }
+}
+
+button .glyphicon {
+    top: -1px;
 }
 
 #ckoFramesContainer {
@@ -106,9 +139,8 @@ input {
 .list-group-item {
     background: none;
 
-    .to-do & {
-        border: none;
-        padding: 10px 15px 10px 0px;
+    &-info {
+        background: @cko-blue-highlight;
     }
 }
 
@@ -229,12 +261,25 @@ a {
     width: -webkit-fill-available;
 }
 
+.cko-logo {
+    line-height: @nav-item;
+
+    & svg {
+        height: 80%;
+        width: auto;
+        vertical-align: middle;
+    }
+
+    & path {
+        fill: @cko-green;
+    }
+}
+
 .navbar {
     border-radius: unset;
     border: none;
-    min-height: 90px;
     margin: 0px;
-    background-color: @background;
+    background-color: @cko-petrol;
 
     &-collapse {
         padding: 0px;
@@ -243,34 +288,31 @@ a {
 
     & ul.nav {
         text-align: center;
-        width: 100%;
 
         & > li {
-            width: calc(100% / 3);
             height: @nav-item;
-            margin-bottom: @nav-item-margin;
-            box-shadow: 0px 1px @cko-grey;
+            overflow: hidden;
+            cursor: pointer;
 
             & > a {
-                display: inline-block;
+                display: table-row;
                 padding: 0px;
                 width: 100%;
                 height: inherit;
-                color: @cko-petrol;
+                color: @white;
 
                 & > div {
                     padding: 0px @nav-item-margin;
-                    display: inline-block;
+                    display: table-cell;
+                    vertical-align: middle;
                     min-width: @nav-item;
                     height: @nav-item;
                     text-align: center;
                     white-space: nowrap;
-                    overflow: hidden;
                     text-overflow: ellipsis;
 
                     & span {
-                        display: block;
-                        line-height: @nav-item;
+                        display: inline-block;
                     }
                 }
 
@@ -279,57 +321,7 @@ a {
                 }
             }
 
-            &:after {
-                content: '';
-                position: absolute;
-                top: 100%;
-                left: 50%;
-                transform: translateX(-50%) translateY(-50%);
-                height: 10px;
-                width: 10px;
-                border-radius: 15px;
-                z-index: 1;
-                border: 0px solid transparent;
-                box-sizing: unset;
-                cursor: pointer;
-                will-change: border-width;
-                box-shadow: 0px 0px 0 5px @background;
-                transition: border-width 50ms ease-in;
-            }
-
-            &:not(.complete):after {
-                background-color: @cko-coral;
-            }
-
-            &.complete:after {
-                background: linear-gradient(to top, #2aab82, #2db388);
-            }
-
-            &.link-active:after {
-                border-width: 8px;
-            }
-
-            &:not(.link-active) {
-                & a {
-                    font-size: 1em;
-                    will-change: font-size;
-                    transition: font-size 50ms ease-in;
-                }
-
-                &:hover {
-                    & a {
-                        font-size: 1.3em;
-                    }
-
-                    &:after {
-                        border-width: 8px;
-                    }
-                }
-            }
-
             &.link-active a {
-                text-transform: uppercase;
-                font-size: 1.3em;
             }
         }
     }
@@ -633,7 +625,7 @@ summary {
     }
 }
 
-login {
+login, customer {
     & .addresses-container {
         background-color: @white;
         border: 1px solid @cko-dove-grey;
@@ -645,12 +637,13 @@ login {
         margin-bottom: @nav-item-margin;
 
         &:not(.active):hover {
-            color: @cko-green;
+            color: @cko-petrol;
+            background-color: @cko-blue-highlight;
         }
 
         &.active {
-            background: @cko-background-green;
-            color: @white;
+            background-color: @cko-blue-highlight;
+            color: @cko-petrol;
         }
 
         & .addresses-frame {
@@ -723,18 +716,20 @@ login {
 
         &.active {
             z-index: unset;
-            background: @cko-background-green;
+            background-color: @cko-blue-highlight;
             border-color: @cko-dove-grey;
+            color: @cko-petrol;
         }
 
         &:not(.active):hover {
-            background: @white;
-            color: @cko-green;
+            background: @cko-blue-highlight;
+            color: @cko-petrol;
         }
 
         &.active:hover {
-            background: @cko-background-green;
+            background-color: @cko-blue-highlight;
             border-color: @cko-dove-grey;
+            color: @cko-petrol;
         }
     }
 }

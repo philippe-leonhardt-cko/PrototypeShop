@@ -15,7 +15,6 @@ export class AppComponent implements OnDestroy {
         'Frames',
         'Checkout.js'
     ];
-    private cartIsVisible: boolean = false;
 
     private subscriptions: Subscription[] = [];
     private log: any[] = [];
@@ -23,6 +22,7 @@ export class AppComponent implements OnDestroy {
     private paymentTokenId: string | undefined = undefined;
     private paymentTokenCountdown: number = 0;
     private customerDetailsComplete: boolean = false;
+    private sideBarOpen: boolean = true;
 
     constructor(private http: Http, @Inject('BASE_URL') private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
         this.customer = new Customer(this.http, this.baseUrl, this.checkoutSummaryService);
@@ -55,10 +55,10 @@ export class AppComponent implements OnDestroy {
             (customerDetailsComplete: boolean) => {
                 this.customerDetailsComplete = customerDetailsComplete;
             });
-        this.subscriptions.push(logSubscription, customerSubscription, paymentTokenSubscription, paymentTokenCountdownSubscription, customerDetailsCompleteSubscription);
-    }
-
-    private toggleCart() {
-        this.cartIsVisible = !this.cartIsVisible;
+        let sideBarOpenSubscription: Subscription = this.checkoutSummaryService.sideBar$.subscribe(
+            (sideBarOpen: boolean) => {
+                this.sideBarOpen = sideBarOpen;
+            });
+        this.subscriptions.push(logSubscription, customerSubscription, paymentTokenSubscription, paymentTokenCountdownSubscription, customerDetailsCompleteSubscription, sideBarOpenSubscription);
     }
 }

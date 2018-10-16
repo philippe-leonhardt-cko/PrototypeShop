@@ -5,10 +5,10 @@
         </div>
     </div>
     <div class="row" style="height:100%">
-        <div class="body-content col-lg-8 col-lg-push-4 col-md-7 col-md-push-5 col-sm-12 col-xs-12">
+        <div class="body-content side-bar-{{ sideBarOpen ? 'open' : 'closed' }}">
             <router-outlet></router-outlet>
         </div>
-        <div class="summary-content col-lg-4 col-lg-pull-8 col-md-5 col-md-pull-7 col-sm-12 col-xs-12">
+        <div class="side-bar side-bar-{{ sideBarOpen ? 'open' : 'closed' }} col-lg-4 col-md-5 col-sm-12 col-xs-12">
             <router-outlet name="contextMenu"></router-outlet>
         </div>
     </div>
