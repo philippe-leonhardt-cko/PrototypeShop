@@ -17,8 +17,10 @@
 @cko-green: #2db388;
 @cko-green-gradient: #2aab82;
 @cko-green-highlight: #2fbd90;
+@cko-green-pastel: fade(@cko-green-highlight, 25%);
 @cko-blue: #299fcb;
 @cko-blue-highlight: #8fdffd;
+@cko-blue-pastel: fade(@cko-blue-highlight, 25%);
 @cko-petrol: #153947;
 
 @cko-background-green: linear-gradient(to top, @cko-green-gradient, @cko-green);
@@ -139,8 +141,18 @@ button .glyphicon {
 .list-group-item {
     background: none;
 
+    & a {
+        cursor: pointer;
+    }
+
     &-info {
-        background: @cko-blue-highlight;
+        border-color: transparent;
+        color: @cko-blue;
+        background-color: @cko-blue-pastel;
+
+        & a {
+            color: @cko-blue;
+        }
     }
 }
 
@@ -215,14 +227,18 @@ shop {
                 display: flex;
 
                 & input {
-                    width: 20%;
+                    width: 30%;
                     height: unset;
                     border-radius: @cko-border-radius 0px 0px @cko-border-radius;
-                    text-align: right;
+                    text-align: center;
+                    padding-top: 0px;
+                    padding-bottom: 0px;
+                    padding-left: 5px;
+                    padding-right: 0px;
                 }
 
                 & button {
-                    width: 80%;
+                    width: 70%;
                     border-radius: 0px @cko-border-radius @cko-border-radius 0px;
                 }
             }
@@ -239,7 +255,7 @@ shop {
             white-space: nowrap;
         }
 
-        &:hover span {
+        &:hover .product-description span {
             white-space: normal;
         }
     }
@@ -336,8 +352,126 @@ a:focus {
 
 }
 
+switch {
+    position: relative;
+    top: 2px;
+
+    & .switch {
+        position: relative;
+        display: inline-block;
+        vertical-align: top;
+        width: 220px;
+        height: 18px;
+        background-color: none;
+        cursor: pointer;
+        overflow: visible;
+        font-size: 12px;
+
+        &-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            padding: 0px;
+            margin: 0px;
+            display: none;
+        }
+
+        &-label {
+            top: -50%;
+            transform: translateY(50%);
+            display: block;
+            position: relative;
+            display: block;
+            height: inherit;
+            font-weight: normal;
+            background: #ccc;
+            overflow: hidden;
+            border-radius: 10px;
+            transition: 0.15s ease-out;
+            transition-property: opacity background;
+            color: #2d2d2d;
+
+            &::before, &::after {
+                position: absolute;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                top: 50%;
+                transform: translateY(-50%);
+                line-height: 1;
+                transition: inherit;
+                display: inline-block;
+            }
+
+            &::before {
+                content: attr(data-off);
+                right: 11px;
+                color: #fff;
+            }
+
+            &::after {
+                content: attr(data-on);
+                left: 11px;
+                color: #fff;
+                opacity: 1;
+            }
+        }
+
+        &-handle {
+            position: absolute;
+            top: 50%;
+            height: 18px;
+            transform: translateX(-100%) translateY(-50%);
+            left: 100%;
+            width: fit-content;
+            padding-left: 11px;
+            padding-right: 11px;
+            background-color: #153947;
+            color: #fff;
+            border-radius: 10px;
+            will-change: transform left;
+            transition: transform 150ms ease-out, left 150ms ease-out;
+
+            &::after {
+                content: attr(data-off);
+                display: block;
+                top: 50%;
+                position: relative;
+                transform: translateY(-50%);
+            }
+        }
+
+        &.checked {
+            & .switch {
+                &-label {
+                    &::before {
+                        opacity: 1;
+                    }
+
+                    &::after {
+                        opacity: 0;
+                    }
+                }
+
+                &-handle {
+                    background-color: #8fdffd;
+                    color: #153947;
+                    left: 0px;
+                    transform: translateX(0%) translateY(-50%);
+
+                    &::after {
+                        content: attr(data-on)
+                    }
+                }
+            }
+        }
+    }
+}
+
 .badge {
     font-weight: normal;
+    padding: 3px 11px;
 
     &-button {
         cursor: pointer;
@@ -359,7 +493,7 @@ a:focus {
     }
 
     &-info {
-        background-color: @cko-sky-blue;
+        background-color: @cko-blue-highlight;
         color: @cko-petrol;
 
         &.badge-button:hover {
@@ -590,12 +724,6 @@ order {
     }
 }
 
-.list-group-item {
-    &.active {
-        background-color: @cko-petrol;
-    }
-}
-
 cart .form-group {
     width: 4em;
     margin: 0px;
@@ -625,7 +753,28 @@ summary {
     }
 }
 
-login, customer {
+customer {
+    #addresses {
+        & .btn {
+            box-shadow: @cko-boxshadow-grey !important;
+            border: 1px solid @cko-dove-grey !important;
+            color: @cko-petrol !important;
+
+            &:focus {
+                outline: none;
+            }
+
+            &:hover, &:active {
+                background-color: @cko-blue-highlight;
+            }
+
+
+            &.active {
+                background-color: @cko-blue-highlight;
+            }
+        }
+    }
+
     & .addresses-container {
         background-color: @white;
         border: 1px solid @cko-dove-grey;
@@ -704,32 +853,6 @@ login, customer {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-        }
-    }
-
-    & .list-group-item {
-        user-select: none;
-        cursor: pointer;
-        border: 1px solid @cko-dove-grey;
-        box-shadow: @cko-boxshadow-grey;
-        margin-bottom: 5px;
-
-        &.active {
-            z-index: unset;
-            background-color: @cko-blue-highlight;
-            border-color: @cko-dove-grey;
-            color: @cko-petrol;
-        }
-
-        &:not(.active):hover {
-            background: @cko-blue-highlight;
-            color: @cko-petrol;
-        }
-
-        &.active:hover {
-            background-color: @cko-blue-highlight;
-            border-color: @cko-dove-grey;
-            color: @cko-petrol;
         }
     }
 }

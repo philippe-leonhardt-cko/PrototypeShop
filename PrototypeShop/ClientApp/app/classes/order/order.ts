@@ -18,6 +18,7 @@ export class Order {
     public grandTotal: number = 0;
     public billingAddress: BaseAddress = new BaseAddress();
     public shippingAddress: BaseAddress = this.billingAddress;
+    public shippingToBillingAddress: boolean = true;
 
     constructor(private http: Http, private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService, private customer: Customer) {
         this.calculateTotals();
@@ -161,12 +162,14 @@ export class Order {
         }        
     }
 
-    public shippingToBillingAddress(isDesired: boolean) {
+    public setShippingToBillingAddress(isDesired: boolean) {
         this.checkoutSummaryService.updateShippingToBillingAddress(isDesired);
         if (isDesired) {
             this.shippingAddress = this.billingAddress;
+            this.shippingToBillingAddress = true;
         } else {
             this.shippingAddress = new BaseAddress();
+            this.shippingToBillingAddress = false;
         }
     }
 }

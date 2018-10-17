@@ -1,15 +1,15 @@
-<div *ngIf="customer.order.subTotal > 0">
+<div *ngIf="customer.order.subTotal > 0 || true">
     <div *ngIf="!customer.isLoggedIn" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <ul class="list-group">
                 <li class="list-group-item list-group-item-info">
-                    <span>Sign in if you would like to use saved addresses.</span>
+                    <span><a>Sign in</a> if you would like to use saved addresses.</span>
                 </li>
             </ul>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="addresses" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div id="billing" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <p><strong>Billing to</strong></p>
@@ -21,7 +21,9 @@
                             </div>
                             <div class="address-nav" (click)="showNextAddress(billingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>
-                        <button class="text-center btn btn-default" [class.active]="customer.order.billingAddress!==currentTemplateBillingAddress" (click)="customer.order.setBillingAddress(null)">Use a different address for Billing</button>
+                        <button class="text-center btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12" [class.active]="customer.order.billingAddress!==currentTemplateBillingAddress" (click)="customer.order.setBillingAddress(null)">Use a different address for Billing</button>
+                        <br />
+                        <br />
                     </div>
                     <form *ngIf="customer.order.billingAddress!==currentTemplateBillingAddress" [formGroup]="billingForm">
                         <div formGroupName="address">
@@ -135,19 +137,20 @@
             </div>
             <div id="shipping" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <p><strong>Shipping to</strong></p>
-                    <form [formGroup]="shippingToggle"><input type="checkbox" formControlName="shippingToBillingAddress" [checked]="customer.order.shippingAddress==customer.order.billingAddress"/>&nbsp;Billing Address</form>
+                    <form [formGroup]="shippingToggle"><p><strong>Shipping to</strong>&nbsp;<switch formControlName="shippingToBillingAddress" [label]="'My Switch'"></switch></p></form>
                     <div *ngIf="customer.isLoggedIn && customer.order.shippingAddress!==customer.order.billingAddress">
-                        <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
+                        <div class="addresses-container" [class.active]="customer.order.shippingAddress==currentTemplateShippingAddress" id="shippingAddresses" (click)="customer.order.shippingAddress=currentTemplateShippingAddress">
                             <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #shippingAddresses class="addresses-frame is-set">
                                 <address *ngFor="let address of customer.addresses" [address]="address" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 address" [class.is-ref]="address.isPrimaryShippingAddress"></address>
                             </div>
                             <div class="address-nav" (click)="showNextAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-right"></span></div>
                         </div>
-                        <button class="text-center btn btn-default" [class.active]="!customer.order.shippingAddress.isTemplateAddress" (click)="customer.order.setShippingAddress(null)">Use a different address for Shipping</button>
+                        <button class="text-center btn btn-default col-lg-12 col-md-12 col-sm-12 col-xs-12" [class.active]="customer.order.shippingAddress!==currentTemplateShippingAddress" (click)="customer.order.setShippingAddress(null)">Use a different address for Shipping</button>
+                        <br />
+                        <br />
                     </div>
-                    <form *ngIf="customer.order.shippingAddress!==customer.order.billingAddress && !customer.order.shippingAddress.isTemplateAddress" [formGroup]="shippingForm">
+                    <form *ngIf="customer.order.shippingAddress!==currentTemplateShippingAddress && !customer.order.shippingToBillingAddress" [formGroup]="shippingForm">
                         <div formGroupName="address">
                             <div class="form-group">
                                 <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">

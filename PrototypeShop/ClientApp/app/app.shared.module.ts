@@ -24,6 +24,7 @@ import { CheckoutSolutionDirective } from './directives/checkout-solution.direct
 import { SummaryDirective } from './directives/summary.directive';
 
 import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
+import { SwitchComponent } from './components/switch/switch.component';
 
 @NgModule({
     declarations: [
@@ -35,6 +36,7 @@ import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
         CartSummaryComponent,
         CustomerComponent,
         LoginComponent,
+        SwitchComponent,
         AddressComponent,
         CustomerSummaryComponent,
         CheckoutSolutionComponent,

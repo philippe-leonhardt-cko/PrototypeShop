@@ -78,8 +78,16 @@ button .glyphicon {
 .list-group-item {
   background: none;
 }
+.list-group-item a {
+  cursor: pointer;
+}
 .list-group-item-info {
-  background: #8fdffd;
+  border-color: transparent;
+  color: #299fcb;
+  background-color: rgba(143, 223, 253, 0.25);
+}
+.list-group-item-info a {
+  color: #299fcb;
 }
 .panel {
   box-shadow: none;
@@ -139,13 +147,17 @@ shop .product-adder .form-inline {
   display: flex;
 }
 shop .product-adder .form-inline input {
-  width: 20%;
+  width: 30%;
   height: unset;
   border-radius: 4px 0px 0px 4px;
-  text-align: right;
+  text-align: center;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 5px;
+  padding-right: 0px;
 }
 shop .product-adder .form-inline button {
-  width: 80%;
+  width: 70%;
   border-radius: 0px 4px 4px 0px;
 }
 shop .product-description {
@@ -157,7 +169,7 @@ shop .product span {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-shop .product:hover span {
+shop .product:hover .product-description span {
   white-space: normal;
 }
 a {
@@ -230,8 +242,107 @@ a:focus {
 .cart-total {
   font-size: 1.1em;
 }
+switch {
+  position: relative;
+  top: 2px;
+}
+switch .switch {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  width: 220px;
+  height: 18px;
+  background-color: none;
+  cursor: pointer;
+  overflow: visible;
+  font-size: 12px;
+}
+switch .switch-input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  padding: 0px;
+  margin: 0px;
+  display: none;
+}
+switch .switch-label {
+  top: -50%;
+  transform: translateY(50%);
+  position: relative;
+  display: block;
+  height: inherit;
+  font-weight: normal;
+  background: #ccc;
+  overflow: hidden;
+  border-radius: 10px;
+  transition: 0.15s ease-out;
+  transition-property: opacity background;
+  color: #2d2d2d;
+}
+switch .switch-label::before,
+switch .switch-label::after {
+  position: absolute;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  top: 50%;
+  transform: translateY(-50%);
+  line-height: 1;
+  transition: inherit;
+  display: inline-block;
+}
+switch .switch-label::before {
+  content: attr(data-off);
+  right: 11px;
+  color: #fff;
+}
+switch .switch-label::after {
+  content: attr(data-on);
+  left: 11px;
+  color: #fff;
+  opacity: 1;
+}
+switch .switch-handle {
+  position: absolute;
+  top: 50%;
+  height: 18px;
+  transform: translateX(-100%) translateY(-50%);
+  left: 100%;
+  width: fit-content;
+  padding-left: 11px;
+  padding-right: 11px;
+  background-color: #153947;
+  color: #fff;
+  border-radius: 10px;
+  will-change: transform left;
+  transition: transform 150ms ease-out, left 150ms ease-out;
+}
+switch .switch-handle::after {
+  content: attr(data-off);
+  display: block;
+  top: 50%;
+  position: relative;
+  transform: translateY(-50%);
+}
+switch .switch.checked .switch-label::before {
+  opacity: 1;
+}
+switch .switch.checked .switch-label::after {
+  opacity: 0;
+}
+switch .switch.checked .switch-handle {
+  background-color: #8fdffd;
+  color: #153947;
+  left: 0px;
+  transform: translateX(0%) translateY(-50%);
+}
+switch .switch.checked .switch-handle::after {
+  content: attr(data-on);
+}
 .badge {
   font-weight: normal;
+  padding: 3px 11px;
 }
 .badge-button {
   cursor: pointer;
@@ -249,7 +360,7 @@ a:focus {
   background-color: #ebebeb;
 }
 .badge-info {
-  background-color: #d8e8ed;
+  background-color: #8fdffd;
   color: #153947;
 }
 .badge-info.badge-button:hover {
@@ -431,9 +542,6 @@ cart-summary table#cart > tfoot > tr:last-child > th {
 order > div.summary-card-collapsed {
   display: none;
 }
-.list-group-item.active {
-  background-color: #153947;
-}
 cart .form-group {
   width: 4em;
   margin: 0px;
@@ -456,7 +564,21 @@ summary #cartSummary {
   border-color: #f8f8f8;
   box-shadow: rgba(121, 131, 149, 0.2) 0px 1px 3px 0px;
 }
-login .addresses-container,
+customer #addresses .btn {
+  box-shadow: rgba(121, 131, 149, 0.2) 0px 1px 3px 0px !important;
+  border: 1px solid #f8f8f8 !important;
+  color: #153947 !important;
+}
+customer #addresses .btn:focus {
+  outline: none;
+}
+customer #addresses .btn:hover,
+customer #addresses .btn:active {
+  background-color: #8fdffd;
+}
+customer #addresses .btn.active {
+  background-color: #8fdffd;
+}
 customer .addresses-container {
   background-color: #fff;
   border: 1px solid #f8f8f8;
@@ -467,33 +589,27 @@ customer .addresses-container {
   position: relative;
   margin-bottom: 15px;
 }
-login .addresses-container:not(.active):hover,
 customer .addresses-container:not(.active):hover {
   color: #153947;
   background-color: #8fdffd;
 }
-login .addresses-container.active,
 customer .addresses-container.active {
   background-color: #8fdffd;
   color: #153947;
 }
-login .addresses-container .addresses-frame,
 customer .addresses-container .addresses-frame {
   display: flex;
   position: relative;
   left: -100%;
   transform: translateX(100%);
 }
-login .addresses-container .addresses-frame.is-reversing,
 customer .addresses-container .addresses-frame.is-reversing {
   transform: translateX(-100%);
 }
-login .addresses-container .addresses-frame.is-set,
 customer .addresses-container .addresses-frame.is-set {
   transform: none;
   transition: transform 500ms cubic-bezier(0.23, 1, 0.32, 1);
 }
-login .addresses-container .address-nav,
 customer .addresses-container .address-nav {
   position: absolute;
   top: calc(40%);
@@ -507,61 +623,29 @@ customer .addresses-container .address-nav {
   z-index: 1;
   font-size: 0.8em;
 }
-login .addresses-container .address-nav:first-child,
 customer .addresses-container .address-nav:first-child {
   left: 10px;
 }
-login .addresses-container .address-nav:last-child,
 customer .addresses-container .address-nav:last-child {
   right: 10px;
 }
-login .addresses-container .address-nav:hover,
 customer .addresses-container .address-nav:hover {
   background-color: #fff;
 }
-login .addresses-container .address,
 customer .addresses-container .address {
   padding: 10px 40px;
   flex: 1 0 100%;
   order: 2;
   vertical-align: middle;
 }
-login .addresses-container .address.is-ref,
 customer .addresses-container .address.is-ref {
   order: 1;
 }
-login .addresses-container .address p,
 customer .addresses-container .address p {
   margin: 0px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-login .list-group-item,
-customer .list-group-item {
-  user-select: none;
-  cursor: pointer;
-  border: 1px solid #f8f8f8;
-  box-shadow: rgba(121, 131, 149, 0.2) 0px 1px 3px 0px;
-  margin-bottom: 5px;
-}
-login .list-group-item.active,
-customer .list-group-item.active {
-  z-index: unset;
-  background-color: #8fdffd;
-  border-color: #f8f8f8;
-  color: #153947;
-}
-login .list-group-item:not(.active):hover,
-customer .list-group-item:not(.active):hover {
-  background: #8fdffd;
-  color: #153947;
-}
-login .list-group-item.active:hover,
-customer .list-group-item.active:hover {
-  background-color: #8fdffd;
-  border-color: #f8f8f8;
-  color: #153947;
 }
 @media (min-width: 768px) {
   customer #billing,
