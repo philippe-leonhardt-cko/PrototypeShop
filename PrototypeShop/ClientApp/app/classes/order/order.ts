@@ -7,16 +7,17 @@ import { Cart } from '../cart/cart';
 import { BaseAddress } from '../address/BaseAddress';
 
 export class Order {
+    private cardToken: PaymentToken | undefined;
+    private paymentToken: any | undefined;
+
     public id: string;
     public cart: Cart = new Cart(this.http, this.baseUrl, this);
     public currency: string = 'GBP';
     public subTotal: number = 0;
-    public grandTotal: number = 0;
     public shippingFee: number = 295;
+    public grandTotal: number = 0;
     public billingAddress: BaseAddress = new BaseAddress();
     public shippingAddress: BaseAddress = this.billingAddress;
-    private cardToken: PaymentToken | undefined;
-    private paymentToken: any | undefined;
 
     constructor(private http: Http, private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService, private customer: Customer) {
         this.calculateTotals();
@@ -144,12 +145,20 @@ export class Order {
         })
     }
 
-    public newBillingAddress() {
-        this.billingAddress = new BaseAddress();
+    public setBillingAddress(address: BaseAddress | null) {
+        if (address) {
+            this.billingAddress = address;
+        } else {
+            this.billingAddress = new BaseAddress();
+        }
     }
 
-    public newShippingAddress() {
-        this.shippingAddress = new BaseAddress();
+    public setShippingAddress(address: BaseAddress | null) {
+        if (address) {
+            this.shippingAddress = address;
+        } else {
+            this.shippingAddress = new BaseAddress();
+        }        
     }
 
     public shippingToBillingAddress(isDesired: boolean) {

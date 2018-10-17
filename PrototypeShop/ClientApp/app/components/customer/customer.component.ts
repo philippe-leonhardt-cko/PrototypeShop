@@ -11,6 +11,8 @@ import { BaseAddress } from '../../classes/address/BaseAddress';
 })
 export class CustomerComponent implements OnInit, OnDestroy {
     private subscriptions: Subscription[] = [];
+    private currentTemplateBillingAddress: BaseAddress;
+    private currentTemplateShippingAddress: BaseAddress;
 
     public customer: Customer;
     public shippingToggle: FormGroup;
@@ -71,6 +73,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
         let customerSubscription: Subscription = this.checkoutSummaryService.customer$.subscribe(
             (customer: Customer) => {
                 this.customer = customer;
+                this.currentTemplateBillingAddress = <BaseAddress>customer.addresses.filter(address => address.isPrimaryBillingAddress).pop();
+                this.currentTemplateShippingAddress = <BaseAddress>customer.addresses.filter(address => address.isPrimaryShippingAddress).pop();
                 this.fillForms();
             });
         let shippingToggleSubscription: Subscription = this.shippingToggle.valueChanges.subscribe(
@@ -85,6 +89,9 @@ export class CustomerComponent implements OnInit, OnDestroy {
             (formValues: IAddressFormValues) => {
                 this.customer.email = formValues.email;
                 this.customer.order.billingAddress = formValues.address;
+                if (this.shippingToggle.get('shippingToBillingAddress')!.value) {
+                    this.customer.order.shippingAddress = this.customer.order.billingAddress;
+                }
             });
         let shippingFormSubscription: Subscription = this.shippingForm.valueChanges.subscribe(
             (formValues: IAddressFormValues) => {
