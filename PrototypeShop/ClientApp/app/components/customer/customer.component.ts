@@ -79,11 +79,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
             });
         let shippingToggleSubscription: Subscription = this.shippingToggle.valueChanges.subscribe(
             (formValues: ISwitchFormValues) => {
-                if (formValues.shippingToBillingAddress) {
-                    this.customer.order.shippingAddress = this.customer.order.billingAddress;
-                } else {
-                    this.customer.order.shippingAddress = new BaseAddress();
-                }
+                this.customer.order.shippingToBillingAddress(formValues.shippingToBillingAddress);
             });
         let billingFormSubscription: Subscription = this.billingForm.valueChanges.subscribe(
             (formValues: IAddressFormValues) => {

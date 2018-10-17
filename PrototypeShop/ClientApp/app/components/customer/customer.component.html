@@ -136,8 +136,8 @@
             <div id="shipping" class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <p><strong>Shipping to</strong></p>
-                    <form [formGroup]="shippingToggle"><input type="checkbox" formControlName="shippingToBillingAddress" />&nbsp;Billing Address</form>
-                    <div *ngIf="customer.isLoggedIn">
+                    <form [formGroup]="shippingToggle"><input type="checkbox" formControlName="shippingToBillingAddress" [checked]="customer.order.shippingAddress==customer.order.billingAddress"/>&nbsp;Billing Address</form>
+                    <div *ngIf="customer.isLoggedIn && customer.order.shippingAddress!==customer.order.billingAddress">
                         <div class="addresses-container" [class.active]="customer.order.shippingAddress.isTemplateAddress" id="shippingAddresses">
                             <div class="address-nav" (click)="showPreviousAddress(shippingAddresses)"><span class="glyphicon glyphicon-chevron-left"></span></div>
                             <div #shippingAddresses class="addresses-frame is-set">

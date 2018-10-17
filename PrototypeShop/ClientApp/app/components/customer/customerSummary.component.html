@@ -7,8 +7,8 @@
     </div>
     <div id="shipping" class="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-left">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <p><strong>Shipping to</strong></p>
-            <address [address]="customer.order.shippingAddress"></address>
+            <p><strong>Shipping to<span *ngIf="customer.order.shippingAddress==customer.order.billingAddress">&nbsp;<span class="badge badge-info">Billing Address</span></span></strong></p>
+            <address *ngIf="customer.order.shippingAddress!==customer.order.billingAddress" [address]="customer.order.shippingAddress"></address>
         </div>
     </div>
 </div>
