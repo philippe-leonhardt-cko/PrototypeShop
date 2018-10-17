@@ -17,10 +17,26 @@ export class Customer {
         this.order = new Order(http, baseUrl, this.checkoutSummaryService, this);
     }
 
-    public logIn() {
+    public logIn(customerData: Customer) {
         this._isLoggedIn = true;
-        this.firstName = this.order.billingAddress.firstName;
-        this.lastName = this.order.billingAddress.lastName;
+        this.email = customerData.email;
+        this.addresses = customerData.addresses.sort(
+            (a, b) => {
+                let nameA = a.firstName!.toUpperCase();
+                let nameB = b.firstName!.toUpperCase();
+                if (nameA < nameB) {
+                    return -1;
+                } else if (nameA > nameB) {
+                    return 1;
+                }
+                return 0;
+            });
+        let primaryBillingAddress = <BaseAddress>customerData.addresses.find((address: BaseAddress) => <boolean>address.isPrimaryBillingAddress);
+        this.order.billingAddress = primaryBillingAddress;
+        let primaryShippingAddress = <BaseAddress>customerData.addresses.find((address: BaseAddress) => <boolean>address.isPrimaryShippingAddress);
+        this.order.shippingAddress = primaryShippingAddress;
+        this.firstName = customerData.firstName;
+        this.lastName = customerData.lastName;
     }
 
     public logOut() {
