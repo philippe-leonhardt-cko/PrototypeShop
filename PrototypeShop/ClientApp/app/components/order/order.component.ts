@@ -27,13 +27,14 @@ export class OrderComponent {
     constructor(private activatedRoute: ActivatedRoute, private http: Http, @Inject('BASE_URL') private baseUrl: string) {
         this.activatedRoute.params.subscribe(
             (params: any) => {
-                let paymentToken = localStorage.getItem(params['id']);
+                /*let paymentToken = localStorage.getItem(params['id']);
                 if (paymentToken) {
                     this.getPaymentDetails(paymentToken);
                 } else {
                     this.orderIdExists = false;
                     console.log(this.orderId, this.orderIdExists)
-                }
+                }*/
+                this.getPaymentDetails(params['id']);
             }
         );
     }

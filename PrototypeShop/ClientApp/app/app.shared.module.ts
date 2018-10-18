@@ -25,6 +25,7 @@ import { SummaryDirective } from './directives/summary.directive';
 
 import { SecondsToTimePipe } from './pipes/SecondsToTime.pipe';
 import { SwitchComponent } from './components/switch/switch.component';
+import { ProductComponent } from './components/product/product.component';
 
 @NgModule({
     declarations: [
@@ -37,6 +38,7 @@ import { SwitchComponent } from './components/switch/switch.component';
         CustomerComponent,
         LoginComponent,
         SwitchComponent,
+        ProductComponent,
         AddressComponent,
         CustomerSummaryComponent,
         CheckoutSolutionComponent,
@@ -100,6 +102,10 @@ import { SwitchComponent } from './components/switch/switch.component';
                         component: CheckoutSolutionComponent
                     }
                 ]
+            },
+            {
+                path: 'product/:id',
+                component: ProductComponent
             },
             {
                 path: 'order/:id',
