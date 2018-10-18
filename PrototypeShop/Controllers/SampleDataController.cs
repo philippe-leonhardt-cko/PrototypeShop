@@ -35,6 +35,18 @@ namespace PrototypeShop.Controllers
             },
             new Product()
             {
+                Id = "100.100.024",
+                Name = "Microscope XL",
+                Pricing = new Pricing()
+                {
+                    Gross = 34999,
+                    TaxPercent = 19
+                },
+                Description = "See down to the molecular level. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis tincidunt purus sed ligula euismod ornare porta et ex. Suspendisse at tellus facilisis, porttitor turpis nec, iaculis tortor. Cras in facilisis mauris, sit amet ullamcorper massa.",
+                Tags = new List<string>{ "#Excell" }
+            },
+            new Product()
+            {
                 Id = "300.250.011",
                 Name = "Wooden Puzzle",
                 Pricing = new Pricing()
