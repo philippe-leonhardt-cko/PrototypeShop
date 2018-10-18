@@ -182,7 +182,7 @@ shop {
     margin-right: -@nav-item-margin;
 
     & .product {
-        margin-bottom: @nav-item-margin;
+        margin-bottom: @nav-item-margin * 2;
         padding: @nav-item-margin;
         border: solid 1px @cko-dove-grey;
         box-shadow: @cko-boxshadow-grey;
@@ -484,11 +484,11 @@ switch {
     }
 
     &-default {
-        background-color: @cko-dove-grey;
-        color: @cko-petrol;
+        background-color: @cko-petrol;
+        color: @white;
 
         &.badge-button:hover {
-            background-color: darken(@cko-dove-grey, 5%);
+            background-color: lighten(@cko-petrol, 5%);
         }
     }
 
@@ -661,6 +661,10 @@ cart {
 
         & > tbody {
             & > tr {
+                & .product-id {
+                    color: @cko-storm-blue;
+                }
+
                 & img {
                     border-radius: @cko-border-radius;
                     min-width: 10%;

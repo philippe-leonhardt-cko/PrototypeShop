@@ -111,7 +111,7 @@ shop {
   margin-right: -15px;
 }
 shop .product {
-  margin-bottom: 15px;
+  margin-bottom: 30px;
   padding: 15px;
   border: solid 1px #f8f8f8;
   box-shadow: rgba(121, 131, 149, 0.2) 0px 1px 3px 0px;
@@ -353,11 +353,11 @@ switch .switch.checked .switch-handle::after {
   box-shadow: inset 0 3px 5px rgba(121, 131, 149, 0.2) 0px 1px 3px 0px;
 }
 .badge-default {
-  background-color: #f8f8f8;
-  color: #153947;
+  background-color: #153947;
+  color: #fff;
 }
 .badge-default.badge-button:hover {
-  background-color: #ebebeb;
+  background-color: #1b495b;
 }
 .badge-info {
   background-color: #8fdffd;
@@ -501,6 +501,10 @@ cart-summary table#cart .glyphicon-remove-circle {
 cart table#cart .glyphicon-remove-circle:hover,
 cart-summary table#cart .glyphicon-remove-circle:hover {
   color: #fc4a2d;
+}
+cart table#cart > tbody > tr .product-id,
+cart-summary table#cart > tbody > tr .product-id {
+  color: #aab3c2;
 }
 cart table#cart > tbody > tr img,
 cart-summary table#cart > tbody > tr img {
