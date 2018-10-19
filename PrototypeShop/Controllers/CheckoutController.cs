@@ -86,7 +86,7 @@ namespace PrototypeShop.Checkout
             )
             {
                 Reference = Guid.NewGuid().ToString(),
-                Customer = new Customer()
+                Customer = new CustomerRequest()
                 {
                     Name = order.Customer.Name,
                     Email = order.Customer.Email
@@ -122,7 +122,7 @@ namespace PrototypeShop.Checkout
     public class Order
     {
         public Cart Cart { get; set; }
-        public Customer Customer { get; set; }
+        public CustomerRequest Customer { get; set; }
         public string CardToken { get; set; }
     }
 
