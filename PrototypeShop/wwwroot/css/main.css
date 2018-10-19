@@ -357,7 +357,8 @@ switch .switch.checked .switch-handle::after {
   color: #fff;
 }
 .badge-default.badge-button:hover {
-  background-color: #1b495b;
+  background-color: #8fdffd;
+  color: #153947;
 }
 .badge-info {
   background-color: #8fdffd;
@@ -543,8 +544,21 @@ cart-summary table#cart > tfoot > tr:last-child > th {
   text-align: right;
   vertical-align: middle;
 }
+cart .empty-cart img {
+  max-width: 300px;
+}
 order > div.summary-card-collapsed {
   display: none;
+}
+order .monospace {
+  font-family: monospace;
+  font-weight: bold;
+}
+order .summary p {
+  margin: calc(30px) 0px;
+}
+order .addresses {
+  padding-top: calc(30px);
 }
 cart .form-group {
   width: 4em;

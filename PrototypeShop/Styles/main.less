@@ -488,7 +488,8 @@ switch {
         color: @white;
 
         &.badge-button:hover {
-            background-color: lighten(@cko-petrol, 5%);
+            background-color: @cko-blue-highlight;
+            color: @cko-petrol;
         }
     }
 
@@ -718,6 +719,10 @@ cart {
             }
         }
     }
+
+    & .empty-cart img {
+        max-width: 300px;
+    }
 }
 
 order {
@@ -725,6 +730,19 @@ order {
         &.summary-card-collapsed {
             display: none;
         }
+    }
+
+    .monospace {
+        font-family: monospace;
+        font-weight: bold;
+    }
+
+    .summary p {
+        margin: calc(@nav-item-margin * 2) 0px;
+    }
+
+    .addresses {
+        padding-top: calc(@nav-item-margin * 2);
     }
 }
 

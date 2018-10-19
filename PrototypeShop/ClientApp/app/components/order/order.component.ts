@@ -1,6 +1,8 @@
 import { Component, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Http, RequestOptions, Headers, Response } from '@angular/http';
+import { BaseAddress } from '../../classes/address/BaseAddress';
+import { CheckoutSummaryService } from '../../services/checkoutsummary.service';
 
 @Component({
     selector: 'order',
@@ -24,9 +26,10 @@ export class OrderComponent {
         9: 'Unknown'
     };
 
-    constructor(private activatedRoute: ActivatedRoute, private http: Http, @Inject('BASE_URL') private baseUrl: string) {
+    constructor(private activatedRoute: ActivatedRoute, private http: Http, @Inject('BASE_URL') private baseUrl: string, private checkoutSummaryService: CheckoutSummaryService) {
+        this.checkoutSummaryService.toggleSideBar(false);
         this.activatedRoute.params.subscribe(
-            (params: any) => {
+            async (params: any) => {
                 /*let paymentToken = localStorage.getItem(params['id']);
                 if (paymentToken) {
                     this.getPaymentDetails(paymentToken);
@@ -34,7 +37,13 @@ export class OrderComponent {
                     this.orderIdExists = false;
                     console.log(this.orderId, this.orderIdExists)
                 }*/
-                this.getPaymentDetails(params['id']);
+                this.orderId = params['id'];
+                let payment: Payment = await this.getPaymentDetails(this.orderId);
+                payment.source.billingAddress = await this.getShopAddress(payment.source.billingAddress);
+                payment.status = this.getVerbosePaymentStatus(<number>payment.status);
+                payment.shipping.address = await this.getShopAddress(payment.shipping.address);
+                this.payment = payment;
+                console.log(this.payment);
             }
         );
     }
@@ -51,6 +60,23 @@ export class OrderComponent {
         }
     }
 
+    private async getShopAddress(address: BaseAddress): Promise<any> {
+        let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
+        let requestOptions: RequestOptions = new RequestOptions();
+        requestOptions.headers = headers;
+
+        return new Promise(resolve => {
+            this.http.get(`${this.baseUrl}api/Shop/CountryName/${address.country}`, requestOptions)
+                .take(1)
+                .subscribe(
+                (response: Response) => {
+                    address.country = <string>response.text();
+                    resolve(address);
+                },
+                (error: any) => console.error(error))
+        })
+    }
+
     private async getPaymentDetails(paymentToken: string): Promise<any> {
         let headers: Headers = new Headers({ 'Content-Type': 'application/json' });
         let requestOptions: RequestOptions = new RequestOptions();
@@ -61,11 +87,12 @@ export class OrderComponent {
                 .take(1)
                 .subscribe(
                 (response: Response) => {
-                    this.payment = <Payment>response.json();
-                    this.payment.status = this.getVerbosePaymentStatus(<number>this.payment.status);
-                    console.log(this.payment);
+                    resolve(<Payment>response.json());
                 },
-                (error: any) => console.error(error))
+                (error: any) => {
+                    console.error(error);
+                    this.orderIdExists = false;
+                })
         })
     }
 }
@@ -76,10 +103,16 @@ class Payment {
     requestedOn: string;
     status: number | string;
     source: Source;
+    shipping: Shipping;
+}
+
+class Shipping {
+    address: BaseAddress;
+    phone: object;
 }
 
 class Source {
-    billingAddress: GetBillingAddress;
+    billingAddress: BaseAddress;
     scheme: string;
     last4: string;
 }

@@ -1,58 +1,68 @@
 <div *ngIf="customer.order.cart" class="cart-container component component-default">
-    <table class="table" id="cart">
-        <thead>
-            <tr>
-                <th colspan="4"></th>
-                <th class="text-right">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of customer.order.cart.products; let i = index" title="{{ product.name }} ({{ product.id }})">
-                <td class="text-center" style="vertical-align:middle">
-                    <span (click)="customer.order.cart.discardProduct(product)" class="glyphicon glyphicon-remove-circle"></span>
-                </td>
-                <td style="vertical-align:middle" class="text-left">
-                    <span class="product-name">{{ product.name }}</span><br /><span class="product-id">{{ product.id }}</span>
-                </td>
-                <td class="text-center" style="vertical-align:middle">
-                    <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" />
-                </td>
-                <td class="text-right" style="vertical-align:middle">
-                    <input #box type="number" class="form-control" value="{{ product.quantity }}" min="1"
-                           (blur)="customer.order.cart.updateProductCount(product, box.value)"
-                           (click)="customer.order.cart.updateProductCount(product, box.value)"
-                           (keyup.enter)="customer.order.cart.updateProductCount(product, box.value)"
-                           (keypress)="keyPress($event)" />
-                </td>
-                <td class="text-right product-total-pricing" style="vertical-align:middle">
-                    <table>
-                        <tfoot>
-                            <tr>
-                                <th colspan="2">{{ product.pricing.gross * product.quantity / 100 | currency:customer.order.currency:true }}</th>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot class="text-right">
-            <tr>
-                <td colspan="4">Subtotal</td>
-                <td>{{ customer.order.subTotal / 100 | currency:customer.order.currency:true }}</td>
-            </tr>
-            <tr>
-                <td colspan="4">Shipping</td>
-                <td>{{ (customer.order.subTotal > 0 ? customer.order.shippingFee : 0) / 100 | currency:customer.order.currency:true }}</td>
-            </tr>
-            <tr>
-                <th colspan="4">Grand Total</th>
-                <th>{{ (customer.order.subTotal > 0 ? customer.order.grandTotal : 0) / 100 | currency:customer.order.currency:true }}</th>
-            </tr>
-        </tfoot>
-    </table>
-    <br />
-    <br />
-    <a [routerLink]="['/order/billing-and-shipping']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" [disabled]="customer.order.subTotal == 0">Buy</button></a>
+    <div *ngIf="customer.order.subTotal > 0">
+        <table class="table" id="cart">
+            <thead>
+                <tr>
+                    <th colspan="4"></th>
+                    <th class="text-right">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let product of customer.order.cart.products; let i = index" title="{{ product.name }} ({{ product.id }})">
+                    <td class="text-center" style="vertical-align:middle">
+                        <span (click)="customer.order.cart.discardProduct(product)" class="glyphicon glyphicon-remove-circle"></span>
+                    </td>
+                    <td style="vertical-align:middle" class="text-left">
+                        <span class="product-name">{{ product.name }}</span><br /><span class="product-id">{{ product.id }}</span>
+                    </td>
+                    <td class="text-center" style="vertical-align:middle">
+                        <img src="/assets/img/{{ product.id }}.jpg" title="{{ product.name }} ({{ product.id }})" alt="{{ product.name }} ({{ product.id }})" />
+                    </td>
+                    <td class="text-right" style="vertical-align:middle">
+                        <input #box type="number" class="form-control" value="{{ product.quantity }}" min="1"
+                               (blur)="customer.order.cart.updateProductCount(product, box.value)"
+                               (click)="customer.order.cart.updateProductCount(product, box.value)"
+                               (keyup.enter)="customer.order.cart.updateProductCount(product, box.value)"
+                               (keypress)="keyPress($event)" />
+                    </td>
+                    <td class="text-right product-total-pricing" style="vertical-align:middle">
+                        <table>
+                            <tfoot>
+                                <tr>
+                                    <th colspan="2">{{ product.pricing.gross * product.quantity / 100 | currency:customer.order.currency:true }}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </td>
+                </tr>
+            </tbody>
+            <tfoot class="text-right">
+                <tr>
+                    <td colspan="4">Subtotal</td>
+                    <td>{{ customer.order.subTotal / 100 | currency:customer.order.currency:true }}</td>
+                </tr>
+                <tr>
+                    <td colspan="4">Shipping</td>
+                    <td>{{ (customer.order.subTotal > 0 ? customer.order.shippingFee : 0) / 100 | currency:customer.order.currency:true }}</td>
+                </tr>
+                <tr>
+                    <th colspan="4">Grand Total</th>
+                    <th>{{ (customer.order.subTotal > 0 ? customer.order.grandTotal : 0) / 100 | currency:customer.order.currency:true }}</th>
+                </tr>
+            </tfoot>
+        </table>
+        <br />
+        <br />
+        <a [routerLink]="['/order/billing-and-shipping']"><button class="btn btn-success col-lg-12 col-md-12 col-sm-12 col-xs-12" [disabled]="customer.order.subTotal == 0">Buy</button></a>
+    </div>
+    <div class="empty-cart" *ngIf="customer.order.subTotal == 0">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center">
+                <img src="../../../../wwwroot/assets/img/empty-cart.png" /><br />
+                <a [routerLink]="['/shop']"><button class="btn btn-default">Continue Shopping</button></a>
+            </div>
+        </div>
+    </div>
 </div>
 
 
