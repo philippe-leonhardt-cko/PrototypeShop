@@ -11,7 +11,7 @@ namespace PrototypeShop.Controllers
         {
             new Product()
             {
-                Id = "100.100.023",
+                Id = "100-100-023",
                 Name = "Microscope",
                 Pricing = new Pricing()
                 {
@@ -23,7 +23,7 @@ namespace PrototypeShop.Controllers
             },
             new Product()
             {
-                Id = "200.090.070",
+                Id = "200-090-070",
                 Name = "Pocket Knife",
                 Pricing = new Pricing()
                 {
@@ -35,7 +35,7 @@ namespace PrototypeShop.Controllers
             },
             new Product()
             {
-                Id = "100.100.024",
+                Id = "100-100-024",
                 Name = "Microscope XL",
                 Pricing = new Pricing()
                 {
@@ -47,7 +47,7 @@ namespace PrototypeShop.Controllers
             },
             new Product()
             {
-                Id = "300.250.011",
+                Id = "300-250-011",
                 Name = "Wooden Puzzle",
                 Pricing = new Pricing()
                 {
