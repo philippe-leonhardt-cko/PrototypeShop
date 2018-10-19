@@ -2,14 +2,11 @@
     isPrimaryBillingAddress: boolean = false;
     isPrimaryShippingAddress: boolean = false;
     isTemplateAddress: boolean = false;
-    firstName: string = "";
-    lastName: string = "";
-    companyName: string = "";
-    streetName: string = "";
-    houseNumber: string = "";
-    additionalAddressLine: string = "";
-    postcode: string = "";
+
+    addressLine1: string = "";
+    addressLine2: string = "";
+    zip: string = "";
     city: string = "";
-    municipality: string = "";
+    state: string = "";
     country: string = "";
 }

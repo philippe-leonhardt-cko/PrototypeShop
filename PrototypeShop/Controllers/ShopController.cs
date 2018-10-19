@@ -1,67 +1,58 @@
 using System;
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Threading.Tasks;
+using Checkout.Common;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace PrototypeShop.Controllers
 {
     [Route("api/[controller]")]
     public class ShopController : Controller
     {
-        private static ICustomer Philippe = new Customer()
+        private static Customer Philippe = new Customer()
         {
             Id = "Test123",
             Email = "philippe.leonhardt@checkout.com",
             FirstName = "Philippe",
             LastName = "Leonhardt",
-            Addresses = new List<IAddress>
+            Addresses = new List<ShopAddress>
             {
-                new Address()
+                new ShopAddress()
                 {
                     IsPrimaryBillingAddress = true,
                     IsPrimaryShippingAddress = false,
                     IsTemplateAddress = true,
-                    FirstName = "Philippe",
-                    LastName = "Leonhardt",
-                    CompanyName = "Checkout GmbH",
-                    StreetName = "Rudi-Dutschke-Straﬂe",
-                    HouseNumber = "26",
-                    AdditionalAddressLine = null,
-                    Postcode = "10969",
+                    AddressLine1 = "Philippe Leonhardt",
+                    AddressLine2 = "Rudi-Dutschke-Straﬂe 26",
+                    Zip = "10969",
                     City = "Berlin",
-                    Municipality = "Berlin",
+                    State = "Berlin",
                     Country = "Germany"
                 },
-                new Address()
+                new ShopAddress()
                 {
                     IsPrimaryBillingAddress = false,
                     IsPrimaryShippingAddress = true,
                     IsTemplateAddress = true,
-                    FirstName = "Harry",
-                    LastName = "Potter",
-                    CompanyName = null,
-                    StreetName = "Privet Drive",
-                    HouseNumber = "4",
-                    AdditionalAddressLine = "The cupboard under the stairs",
-                    Postcode = "RG12 9FG",
+                    AddressLine1 = "Harry Potter",
+                    AddressLine2 = "Privet Drive 4",
+                    Zip = "RG12 9FG",
                     City = "Little Whinging",
-                    Municipality = "Surrey",
+                    State = "Surrey",
                     Country = "United Kingdom"
                 },
-                new Address()
+                new ShopAddress()
                 {
                     IsPrimaryBillingAddress = false,
                     IsPrimaryShippingAddress = false,
                     IsTemplateAddress = true,
-                    FirstName = "Bruce",
-                    LastName = "Wayne",
-                    CompanyName = "Wayne Enterprises",
-                    StreetName = "Wayne Plaza",
-                    HouseNumber = "1",
-                    AdditionalAddressLine = "",
-                    Postcode = "60007",
+                    AddressLine1 = "Bruce Wayne",
+                    AddressLine2 = "Wayne Plaza 1",
+                    Zip = "60007",
                     City = "Gotham City",
-                    Municipality = "Illinois",
+                    State = "Illinois",
                     Country = "USA"
                 }
             }
@@ -81,6 +72,32 @@ namespace PrototypeShop.Controllers
             authenticationResponse.Customer = Philippe; //DEBUG
             return authenticationResponse;
         }
+
+        [HttpGet("[action]/{name}")]
+        public async Task<string> CountryAlpha2Code(string name)
+        {
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage res = await client.GetAsync($"https://restcountries.eu/rest/v2/name/{name}"))
+            using (HttpContent content = res.Content)
+            {
+                string data = await content.ReadAsStringAsync();
+                List<Country> countries = JsonConvert.DeserializeObject<List<Country>>(data);
+                return countries[0].Alpha2Code;
+            }
+        }
+
+        [HttpGet("[action]/{code}")]
+        public async Task<string> CountryName(string code)
+        {
+            using (HttpClient client = new HttpClient())
+            using (HttpResponseMessage res = await client.GetAsync($"https://restcountries.eu/rest/v2/alpha/{code}"))
+            using (HttpContent content = res.Content)
+            {
+                string data = await content.ReadAsStringAsync();
+                Country country = JsonConvert.DeserializeObject<Country>(data);
+                return country.Name;
+            }
+        }
     }
 
     public class AuthenticationRequest
@@ -92,58 +109,28 @@ namespace PrototypeShop.Controllers
     public class AuthenticationResponse
     {
         public bool Authorized { get; set; }
-        public ICustomer Customer { get; set; }
+        public Customer Customer { get; set; }
     }
 
-    public class Customer : ICustomer
+    public class Customer
     {
         public string Id { get; set; }
         public string Email { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public List<IAddress> Addresses { get; set; }
+        public List<ShopAddress> Addresses { get; set; }
     }
 
-    public class Address : IAddress
+    public class ShopAddress : Address
     {
         public bool IsPrimaryBillingAddress { get; set; }
         public bool IsPrimaryShippingAddress { get; set; }
         public bool IsTemplateAddress { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string CompanyName { get; set; }
-        public string StreetName { get; set; }
-        public string HouseNumber { get; set; }
-        public string AdditionalAddressLine { get; set; }
-        public string Postcode { get; set; }
-        public string City { get; set; }
-        public string Municipality { get; set; } 
-        public string Country { get; set; }
     }
 
-    public interface ICustomer
+    public class Country
     {
-        string Id { get; set; }
-        string Email { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        List<IAddress> Addresses { get; set; }
-    }
-
-    public interface IAddress
-    {
-        bool IsPrimaryBillingAddress { get; set; }
-        bool IsPrimaryShippingAddress { get; set; }
-        bool IsTemplateAddress { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        string CompanyName { get; set; }
-        string StreetName { get; set; }
-        string HouseNumber { get; set; }
-        string AdditionalAddressLine { get; set; }
-        string Postcode { get; set; }
-        string City { get; set; }
-        string Municipality { get; set; }
-        string Country { get; set; }
+        public string Name { get; set; }
+        public string Alpha2Code { get; set; }
     }
 }

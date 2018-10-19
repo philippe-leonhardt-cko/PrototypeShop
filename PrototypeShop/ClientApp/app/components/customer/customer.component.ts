@@ -29,15 +29,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 "isPrimaryBillingAddress": false,
                 "isPrimaryShippingAddress": false,
                 "isTemplateAddress": false,
-                "firstName": new FormControl("", Validators.required),
-                "lastName": new FormControl("", Validators.required),
-                "companyName": new FormControl(""),
-                "streetName": new FormControl("", Validators.required),
-                "houseNumber": new FormControl("", Validators.required),
-                "additionalAddressLine": new FormControl(""),
-                "postcode": new FormControl("", Validators.required),
+                "addressLine1": new FormControl("", Validators.required),
+                "addressLine2": new FormControl(""),
+                "zip": new FormControl("", Validators.required),
                 "city": new FormControl("", Validators.required),
-                "municipality": new FormControl("", Validators.required),
+                "state": new FormControl("", Validators.required),
                 "country": new FormControl("", Validators.required)
             })          
         });
@@ -46,15 +42,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
                 "isPrimaryBillingAddress": false,
                 "isPrimaryShippingAddress": false,
                 "isTemplateAddress": false,
-                "firstName": new FormControl("", Validators.required),
-                "lastName": new FormControl("", Validators.required),
-                "companyName": new FormControl(""),
-                "streetName": new FormControl("", Validators.required),
-                "houseNumber": new FormControl("", Validators.required),
-                "additionalAddressLine": new FormControl(""),
-                "postcode": new FormControl("", Validators.required),
+                "addressLine1": new FormControl("", Validators.required),
+                "addressLine2": new FormControl(""),
+                "zip": new FormControl("", Validators.required),
                 "city": new FormControl("", Validators.required),
-                "municipality": new FormControl("", Validators.required),
+                "state": new FormControl("", Validators.required),
                 "country": new FormControl("", Validators.required)
             })
         });

@@ -39,7 +39,7 @@ export class Customer {
     }
 
     get fullName(): string {
-        return `${this.order.billingAddress.firstName} ${this.order.billingAddress.lastName}`;        
+        return `${this.firstName} ${this.lastName}`;        
     }
 
     private clearCustomer() {
@@ -52,8 +52,8 @@ export class Customer {
     private sortAddressesAlphabetically(addresses: Array<BaseAddress>): Array<BaseAddress> {
         return addresses.sort(
             (a, b) => {
-                let nameA = a.firstName!.toUpperCase();
-                let nameB = b.firstName!.toUpperCase();
+                let nameA = a.addressLine1!.toUpperCase();
+                let nameB = b.addressLine1!.toUpperCase();
                 if (nameA < nameB) {
                     return -1;
                 } else if (nameA > nameB) {

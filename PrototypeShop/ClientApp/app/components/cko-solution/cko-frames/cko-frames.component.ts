@@ -5,6 +5,7 @@ import { LogEntry } from '../../../classes/log-entry/log-entry';
 import { Customer } from '../../../classes/customer/customer';
 import { Router } from '@angular/router';
 import { PaymentToken } from '../../../classes/payment-token/PaymentToken';
+import { BaseAddress } from '../../../classes/address/BaseAddress';
 
 declare var Frames: any;
 
@@ -35,17 +36,16 @@ export class CheckoutFramesComponent implements ICheckoutSolutionComponent {
             let orderId: string = await this.customer!.order.chargeWithCardToken(cardToken.id);
             this.ngZone.run(() => this.router.navigateByUrl(`/order/${orderId}`));
         }
+        const baseAddress = async (address: BaseAddress): Promise<BaseAddress> => {
+            console.log(address.country);
+            return await address;
+        }
 
         Frames.init({
             publicKey: 'pk_test_3f148aa9-347a-450d-b940-0a8645b324e7',
             containerSelector: '#ckoFramesContainer',
-            customerName: this.customer!.fullName,
-            billingDetails: {
-                addressLine1: `${this.customer!.order.billingAddress.streetName} ${this.customer!.order.billingAddress.houseNumber}`,
-                postcode: this.customer!.order.billingAddress.postcode,
-                //country: this.customer.billingAddress.country,
-                city: this.customer!.order.billingAddress.city
-            },
+            customerName: this.customer!.order.billingAddress.addressLine1,
+            billingDetails: baseAddress(this.customer!.order.billingAddress),
             cardValidationChanged: function () {
                 payButton.disabled = !Frames.isCardValid();
             },

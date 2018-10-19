@@ -53,23 +53,9 @@ export class Order {
             "cart": {
                 "value": this.grandTotal,
                 "currency": this.currency,
-                "billingDetails": {
-                    "addressLine1": `${this.billingAddress.streetName} ${this.billingAddress.houseNumber}`,
-                    "addressLine2": `${this.billingAddress.additionalAddressLine}`,
-                    "city": this.billingAddress.city,
-                    "state": this.billingAddress.municipality,
-                    "zip": this.billingAddress.postcode,
-                    "country": this.billingAddress.country
-                },
+                "billingDetails": this.billingAddress,
                 "shippingDetails": {
-                    "address": {
-                        "addressLine1": `${this.shippingAddress.streetName} ${this.shippingAddress.houseNumber}`,
-                        "addressLine2": `${this.shippingAddress.additionalAddressLine}`,
-                        "city": this.shippingAddress.city,
-                        "state": this.shippingAddress.municipality,
-                        "zip": this.shippingAddress.postcode,
-                        "country": this.shippingAddress.country
-                    }
+                    "address": this.shippingAddress
                 }
             }
         };
@@ -106,23 +92,9 @@ export class Order {
             "cart": {
                 "value": this.grandTotal,
                 "currency": this.currency,
-                "billingDetails": {
-                    "addressLine1": `${this.billingAddress.streetName} ${this.billingAddress.houseNumber}`,
-                    "addressLine2": `${this.billingAddress.additionalAddressLine}`,
-                    "city": this.billingAddress.city,
-                    "state": this.billingAddress.municipality,
-                    "zip": this.billingAddress.postcode,
-                    "country": this.billingAddress.country
-                },
+                "billingDetails": this.billingAddress,
                 "shippingDetails": {
-                    "address": {
-                        "addressLine1": `${this.shippingAddress.streetName} ${this.shippingAddress.houseNumber}`,
-                        "addressLine2": `${this.shippingAddress.additionalAddressLine}`,
-                        "city": this.shippingAddress.city,
-                        "state": this.shippingAddress.municipality,
-                        "zip": this.shippingAddress.postcode,
-                        "country": this.shippingAddress.country
-                    }
+                    "address": this.shippingAddress
                 }
             }
         };
