@@ -999,32 +999,44 @@ customer, customer-summary {
 
 #paymentMethods {
     & .paymentMethod {
-        list-style: none;
-        display: inline-block;
-        margin: @nav-item-margin;
+        height: 60px;
+        border-width: 1px;
+        border-style: solid;
+        border-radius: 4px;
+        cursor: pointer;
+        will-change: border-color;
+        transition: filter 100ms ease-out, border-color 100ms ease-out;
+        display: flex;
+        margin: 15px;
 
         & div {
-            height: @nav-item;
-            width: @nav-item;
-            background-size: 90%;
+            width: 60px;
+            height: inherit;
+            background-size: 70%;
             background-position: center;
-            background-color: #fff;
             background-repeat: no-repeat;
-            border-width: 1px;
-            border-style: solid;
-            border-color: #ddd6d0;
-            border-radius: @cko-border-radius;
-            filter: grayscale(100%);
-            cursor: pointer;
-            will-change: filter, border-color;
-            transition: filter 100ms ease-out, border-color 100ms ease-out;
+            display: inline-block;
+            will-change: filter;
+            transition: filter 100ms ease-out,
+        }
 
-            &.active {
-                filter: grayscale(0%);
-                border-color: @cko-petrol;
+        & span {
+            line-height: 60px;
+            padding: 0px 15px;
+        }
+
+        &.active {
+            border-color: @cko-petrol;
+        }
+
+        &:not(.active) {
+            border-color: #ddd6d0;
+
+            & div {
+                filter: grayscale(100%);
             }
 
-            &:hover {
+            &:hover div {
                 filter: grayscale(0%);
             }
         }

@@ -780,31 +780,40 @@ cart-summary > .component {
   margin-bottom: 15px;
 }
 #paymentMethods .paymentMethod {
-  list-style: none;
-  display: inline-block;
+  height: 60px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 4px;
+  cursor: pointer;
+  will-change: border-color;
+  transition: filter 100ms ease-out, border-color 100ms ease-out;
+  display: flex;
   margin: 15px;
 }
 #paymentMethods .paymentMethod div {
-  height: 60px;
   width: 60px;
-  background-size: 90%;
+  height: inherit;
+  background-size: 70%;
   background-position: center;
-  background-color: #fff;
   background-repeat: no-repeat;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #ddd6d0;
-  border-radius: 4px;
-  filter: grayscale(100%);
-  cursor: pointer;
-  will-change: filter, border-color;
-  transition: filter 100ms ease-out, border-color 100ms ease-out;
+  display: inline-block;
+  will-change: filter;
+  transition: filter 100ms ease-out;
 }
-#paymentMethods .paymentMethod div.active {
-  filter: grayscale(0%);
+#paymentMethods .paymentMethod span {
+  line-height: 60px;
+  padding: 0px 15px;
+}
+#paymentMethods .paymentMethod.active {
   border-color: #153947;
 }
-#paymentMethods .paymentMethod div:hover {
+#paymentMethods .paymentMethod:not(.active) {
+  border-color: #ddd6d0;
+}
+#paymentMethods .paymentMethod:not(.active) div {
+  filter: grayscale(100%);
+}
+#paymentMethods .paymentMethod:not(.active):hover div {
   filter: grayscale(0%);
 }
 dashboard .dashboard-container {

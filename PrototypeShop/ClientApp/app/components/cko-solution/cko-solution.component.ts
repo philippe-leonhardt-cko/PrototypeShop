@@ -22,14 +22,15 @@ export class CheckoutSolutionComponent implements OnDestroy {
     private currentSolution: Type<any> = this.solutions['frames'];
     private paymentMethods: PaymentMethod[] = [
         new PaymentMethod('Credit Card', 'https://freeiconshop.com/wp-content/uploads/edd/creditcard-outline-filled.png', (paymentMethod: PaymentMethod) => { this.currentPaymentMethod = paymentMethod; this.makeCardPayment(); }),
-        new PaymentMethod('giropay', 'https://icepay.de/app/uploads/sites/9/2014/10/21.png', (paymentMethod: PaymentMethod) => { this.currentPaymentMethod = paymentMethod; })
-        //new PaymentMethod('iDeal', 'https://camo.githubusercontent.com/18117a75367811cae4a6eb94946b7d10cd27da11/68747470733a2f2f7777772e696465616c2e6e6c2f696d672f73746174697363682f6d6f6269656c2f694445414c5f353132783531322e676966', () => { }),
+        new PaymentMethod('giropay', 'https://icepay.de/app/uploads/sites/9/2014/10/21.png', (paymentMethod: PaymentMethod) => { this.currentPaymentMethod = paymentMethod; this.makeAlternativePayment(); }),
+        new PaymentMethod('iDeal', 'https://camo.githubusercontent.com/18117a75367811cae4a6eb94946b7d10cd27da11/68747470733a2f2f7777772e696465616c2e6e6c2f696d672f73746174697363682f6d6f6269656c2f694445414c5f353132783531322e676966', (paymentMethod: PaymentMethod) => { this.currentPaymentMethod = paymentMethod; this.makeAlternativePayment(); })
         //new PaymentMethod('PayPal', 'https://trak-4.com/wp-content/uploads/2018/08/Paypal.jpg?w=640', () => { })
     ];
     private currentPaymentMethod: PaymentMethod;
     private customer: Customer | undefined;
     private customerDetailsComplete: boolean = false;
     @ViewChild(CheckoutSolutionDirective) checkoutSolutionHost: CheckoutSolutionDirective;
+    private checkoutSolutionInstance: ICheckoutSolutionComponent;
 
     constructor(private componentFactoryResolver: ComponentFactoryResolver, private checkoutSummaryService: CheckoutSummaryService) {
         this.makeSubscriptions();
@@ -62,10 +63,15 @@ export class CheckoutSolutionComponent implements OnDestroy {
         viewContainerRef.clear();
 
         let checkoutSolutionRef: ComponentRef<ICheckoutSolutionComponent> = viewContainerRef.createComponent(componentFactory);
-        let checkoutSolutionInstance: ICheckoutSolutionComponent = (<ICheckoutSolutionComponent>checkoutSolutionRef.instance);
-        checkoutSolutionInstance.customer = this.customer;
-        checkoutSolutionInstance.checkoutSummaryService = this.checkoutSummaryService;
-        checkoutSolutionInstance.init();
+        this.checkoutSolutionInstance = (<ICheckoutSolutionComponent>checkoutSolutionRef.instance);
+        this.checkoutSolutionInstance.customer = this.customer;
+        this.checkoutSolutionInstance.checkoutSummaryService = this.checkoutSummaryService;
+        this.checkoutSolutionInstance.init();
+    }
+
+    private makeAlternativePayment() {
+        let viewContainerRef: ViewContainerRef = this.checkoutSolutionHost.viewContainerRef;
+        viewContainerRef.clear();
     }
 
     private enablePayment(consentToGtcGiven: boolean) {
